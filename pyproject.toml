@@ -1,15 +1,25 @@
 [project]
-name = "forma-specification"
-version = "0.0.0"
+name = "forma-backend"
+version = "0.1.0.dev0"
 requires-python = ">=3.12"
-description = "FORMA Phase A contract and design verification only"
+description = "FORMA modular backend"
 
 [tool.ruff]
 line-length = 100
 [tool.ruff.lint]
 select = ["F"]
 [tool.mypy]
-files = ["docs/contracts/models.py"]
+files = ["src", "docs/contracts/models.py"]
 strict = true
 [tool.pytest.ini_options]
-testpaths = ["tests/contracts"]
+testpaths = ["tests/contracts", "tests/unit"]
+
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+forma_backend = ["py.typed"]

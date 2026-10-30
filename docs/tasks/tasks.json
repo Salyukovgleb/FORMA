@@ -4,7 +4,7 @@
     "title": "Аудит репозитория, инвентаризация существующего кода и ограничений",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [],
     "owner": "backend-developer",
     "estimate": "0.5–2 developer days",
@@ -27,7 +27,7 @@
     "title": "Утверждение MVP scope, user stories, use case map, NFR",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-001"
     ],
@@ -52,7 +52,7 @@
     "title": "ADR: архитектура и границы модулей",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-002"
     ],
@@ -77,7 +77,7 @@
     "title": "ER-модель, словарь данных, миграционная стратегия",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-003"
     ],
@@ -102,7 +102,7 @@
     "title": "Исчерпывающий API registry + схемы ошибок и прав",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-004"
     ],
@@ -127,7 +127,7 @@
     "title": "Архитектура хранения, обработки фоновых заданий, PDF и DOCX",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-003",
       "BE-004",
@@ -154,7 +154,7 @@
     "title": "Security threat model, стратегия тестирования, CI и эксплуатация",
     "epic": "EPIC-00",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-005",
       "BE-006"
@@ -180,7 +180,7 @@
     "title": "Структура Python-проекта, форматирование, типизация, lint",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "planned",
+    "status": "in_review",
     "depends_on": [
       "BE-007"
     ],
@@ -1323,7 +1323,7 @@
     "title": "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures",
     "epic": "EPIC-06",
     "priority": "P0",
-    "status": "planned",
+    "status": "ready",
     "depends_on": [
       "BE-007"
     ],

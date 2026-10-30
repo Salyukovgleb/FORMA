@@ -7,3 +7,6 @@
 - Проектная документация фазы A: архитектура, ADR, PostgreSQL, API, задачи и runbooks.
 - Исполняемые Pydantic DTO, OpenAPI generator и validation tooling.
 - Продуктовые API, миграции и pipeline документов пока planned.
+
+- M0 принят пользователем и merged через PR #1.
+- BE-008: устанавливаемый typed Python package, lock verification, isolated import tests.

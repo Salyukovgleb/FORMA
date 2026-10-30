@@ -125,3 +125,9 @@ tests/contracts/test_specification.py
 src/, alembic/, runtime Compose и product tests создаются в фазе B; пустые placeholders
 не добавлены. [Технические источники](REFERENCES.md). Все документы draft до review;
 контрактные tests не означают, что planned endpoints работают.
+
+## Переход к фазе B — 2026-10-30
+
+Пользователь принял документацию. PR #1 merged, commit `149419f`; M0 закрыт.
+BE-001…007 done. BE-008 выполняется первой; затем BE-010 по зависимостям.
+Предыдущие формулировки об ожидании M0 описывают состояние до принятия.

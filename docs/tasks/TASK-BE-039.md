@@ -3,7 +3,7 @@ id: "BE-039"
 title: "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures"
 epic: "EPIC-06"
 priority: "P0"
-status: "planned"
+status: "ready"
 depends_on: ["BE-007"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"

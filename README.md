@@ -1,6 +1,6 @@
 # FORMA
 
-Backend научного редактора: LaTeX, PDF, редактируемый DOCX, ZIP. Сейчас **фаза A**:
+Backend научного редактора: LaTeX, PDF, редактируемый DOCX, ZIP. M0 принят и слит; начата **фаза B, BE-008**. Сохранены:
 проектная документация и проверяемые контракты; продуктовый сервер ещё не реализован.
 
 [Документация](docs/README.md) · [Architectural Review](docs/ARCHITECTURAL_REVIEW.md) ·
@@ -17,6 +17,7 @@ Backend научного редактора: LaTeX, PDF, редактируем�
 ```sh
 python3.12 -m venv .venv
 .venv/bin/python -m pip install --require-hashes -r requirements-dev.lock
+.venv/bin/python -m pip install --no-build-isolation --no-deps .
 make ci-local
 ```
 
@@ -24,7 +25,7 @@ make ci-local
 |---|---|
 | make contracts | Перегенерирует OpenAPI, API docs и примеры из DTO/registry |
 | make lint | Ruff format/check для contracts/scripts/tests |
-| make typecheck | Strict MyPy для всех Pydantic DTO; application src ещё нет |
+| make typecheck | Strict MyPy для src/ и Pydantic DTO |
 | make test | Проверки контрактов, examples, ссылок и DAG |
 | make openapi-check | Полная suite спецификации |
 | make schema-check | DDL, fixtures всех таблиц, отрицательные integrity сценарии |
@@ -37,3 +38,5 @@ make ci-local
 make dev-up/migrate/test-integration/test-security пока отсутствуют: они будут добавлены
 с реальным приложением в BE-009/011/013. Наличие schema.sql не означает выполненную миграцию.
 Не использовать `docker compose down -v` для устранения неполадок.
+
+BE-008 добавляет устанавливаемый typed package forma_backend; `make lock-check` проверяет версии среды против lock. HTTP application пока отсутствует.
