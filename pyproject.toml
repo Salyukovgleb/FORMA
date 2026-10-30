@@ -3,6 +3,7 @@ name = "forma-backend"
 version = "0.1.0.dev0"
 requires-python = ">=3.12"
 description = "FORMA modular backend"
+dependencies = ["pydantic==2.12.3"]
 
 [tool.ruff]
 line-length = 100

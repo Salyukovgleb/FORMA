@@ -180,7 +180,7 @@
     "title": "Структура Python-проекта, форматирование, типизация, lint",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-007"
     ],
@@ -231,7 +231,7 @@
     "title": "Конфигурация окружений, secrets, logging, correlation IDs",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "planned",
+    "status": "in_review",
     "depends_on": [
       "BE-008"
     ],

@@ -3,7 +3,7 @@ id: "BE-010"
 title: "Конфигурация окружений, secrets, logging, correlation IDs"
 epic: "EPIC-01"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-008"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-Конфигурация окружений, secrets, logging, correlation IDs. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M0.
+Конфигурация окружений, secrets, logging, correlation IDs. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M1.
 
 ## Outcome
 
@@ -86,3 +86,12 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Prod с пустым secret не стартует. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / evidence
+
+BE-008 merged. Добавлены core/config.py (typed environment validation, SecretStr,
+redacted startup errors) и core/logging.py (allowlisted JSON events, ContextVar IDs).
+Тесты сначала упали на отсутствующем core; после реализации `make ci-local`: 26 passed,
+Ruff, strict MyPy (5 files), lock и design PostgreSQL checks green.
+HTTP middleware будет в BE-012; raw сообщения/exception text намеренно не логируются.
+API/DB contract не меняется. Дополнительных runtime libraries кроме уже принятого Pydantic нет.
