@@ -10,3 +10,5 @@
 
 - M0 принят пользователем и merged через PR #1.
 - BE-008: устанавливаемый typed Python package, lock verification, isolated import tests.
+
+- BE-010: validated environment, protected secret representation, JSON event logging and isolated correlation context.

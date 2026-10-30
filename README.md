@@ -40,3 +40,5 @@ make dev-up/migrate/test-integration/test-security пока отсутствую
 Не использовать `docker compose down -v` для устранения неполадок.
 
 BE-008 добавляет устанавливаемый typed package forma_backend; `make lock-check` проверяет версии среды против lock. HTTP application пока отсутствует.
+
+BE-010: load_settings() валидирует окружение, не загружает .env автоматически. Заменить CHANGE_ME secrets; production требует HTTPS origins и Secure cookie. Логи forma используют whitelist и ContextVar request IDs; HTTP middleware ещё planned.

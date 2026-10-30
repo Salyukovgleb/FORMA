@@ -3,7 +3,7 @@ id: "BE-008"
 title: "Структура Python-проекта, форматирование, типизация, lint"
 epic: "EPIC-01"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-007"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -95,3 +95,5 @@ API/DB impact отсутствует. Сначала import test получил 
 после реализации проверяются installed distribution metadata и typed marker из temp directory.
 Отрицательный тест подменяет pin Pydantic на 0.0.0 и требует отказ проверки lock.
 Задача in_review до CI и merge своего PR.
+
+Merged PR #2: `17f6917`; head `ab78556`, [CI success](https://github.com/Salyukovgleb/FORMA/actions/runs/41083987291). 13 tests, lint/types/lock/schema green.
