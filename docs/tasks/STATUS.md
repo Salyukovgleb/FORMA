@@ -4,13 +4,13 @@
 
 | ID | Статус | Зависимости | Ветка | Коммит | CI | Доказательство |
 |---|---|---|---|---|---|---|
-| [BE-001](TASK-BE-001.md) | in_review | — | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
-| [BE-002](TASK-BE-002.md) | in_review | BE-001 | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
-| [BE-003](TASK-BE-003.md) | in_review | BE-002 | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
-| [BE-004](TASK-BE-004.md) | in_review | BE-003 | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
-| [BE-005](TASK-BE-005.md) | in_review | BE-004 | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
-| [BE-006](TASK-BE-006.md) | in_review | BE-003, BE-004, BE-005 | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
-| [BE-007](TASK-BE-007.md) | in_review | BE-005, BE-006 | docs/BE-001-phase-a-design | — | не заявлен | [Phase A](../evidence/phase-a.md) |
+| [BE-001](TASK-BE-001.md) | in_review | — | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
+| [BE-002](TASK-BE-002.md) | in_review | BE-001 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
+| [BE-003](TASK-BE-003.md) | in_review | BE-002 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
+| [BE-004](TASK-BE-004.md) | in_review | BE-003 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
+| [BE-005](TASK-BE-005.md) | in_review | BE-004 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
+| [BE-006](TASK-BE-006.md) | in_review | BE-003, BE-004, BE-005 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
+| [BE-007](TASK-BE-007.md) | in_review | BE-005, BE-006 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
 | [BE-008](TASK-BE-008.md) | planned | BE-007 | — | — | не заявлен | planned |
 | [BE-009](TASK-BE-009.md) | planned | BE-008, BE-010 | — | — | не заявлен | planned |
 | [BE-010](TASK-BE-010.md) | planned | BE-008 | — | — | не заявлен | planned |

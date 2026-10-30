@@ -34,3 +34,6 @@ fixtures, restore rehearsal и account recovery policy. Они имеют кон
 
 M0 specification review подготовлен. Документы остаются draft, BE-001…007 in_review до
 PR/review/merge. Следующий implementation gate — BE-008 после закрытия M0; фазу B здесь не начинать.
+
+GitHub main фактически не защищена (`protected=false`); настройка required checks и review
+остаётся обязанностью администратора до implementation merges. PR #1 открыт; self-merge не выполнен.

@@ -24,3 +24,16 @@
 
 CI workflow проверяет эти же команды и PostgreSQL 16.6 в service container. Результат
 GitHub Actions фиксируется отдельно после push; локальный green не заменяет remote evidence.
+
+## Git / CI
+
+- Specification commit: `97f0cc1a2d368f2985b936f65df0b9729a128cb2`.
+- Branch: `docs/BE-001-phase-a-design`, push выполнен.
+- [PR #1](https://github.com/Salyukovgleb/FORMA/pull/1), открыт, не merged.
+- [CI run 41083065202](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202):
+  completed / success для указанного SHA; `gh run watch --exit-status` вернул 0.
+- GitHub API: main `protected=false` на момент проверки. Настройка защиты не изменялась.
+- BE-001…007 остаются in_review; локальный и remote green не заменяют review/merge.
+
+Последующий bookkeeping commit обновляет только evidence/status; его CI нужно отдельно
+проверять по текущему PR head. Не приписывать результат предыдущего SHA новому коммиту.
