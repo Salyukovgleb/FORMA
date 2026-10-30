@@ -1,0 +1,1719 @@
+[
+  {
+    "id": "BE-001",
+    "title": "Аудит репозитория, инвентаризация существующего кода и ограничений",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-001-POS",
+      "BE-001-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-002",
+    "title": "Утверждение MVP scope, user stories, use case map, NFR",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [
+      "BE-001"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-002-POS",
+      "BE-002-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-003",
+    "title": "ADR: архитектура и границы модулей",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [
+      "BE-002"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-003-POS",
+      "BE-003-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-004",
+    "title": "ER-модель, словарь данных, миграционная стратегия",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [
+      "BE-003"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-004-POS",
+      "BE-004-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-005",
+    "title": "Исчерпывающий API registry + схемы ошибок и прав",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [
+      "BE-004"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-005-POS",
+      "BE-005-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-006",
+    "title": "Архитектура хранения, обработки фоновых заданий, PDF и DOCX",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [
+      "BE-003",
+      "BE-004",
+      "BE-005"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-006-POS",
+      "BE-006-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-007",
+    "title": "Security threat model, стратегия тестирования, CI и эксплуатация",
+    "epic": "EPIC-00",
+    "priority": "P0",
+    "status": "in_review",
+    "depends_on": [
+      "BE-005",
+      "BE-006"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-007-POS",
+      "BE-007-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-008",
+    "title": "Структура Python-проекта, форматирование, типизация, lint",
+    "epic": "EPIC-01",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-007"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-008-POS",
+      "BE-008-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-009",
+    "title": "Docker Compose: API, PostgreSQL, worker; persistent volumes; healthchecks",
+    "epic": "EPIC-01",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-008",
+      "BE-010"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-009-POS",
+      "BE-009-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-010",
+    "title": "Конфигурация окружений, secrets, logging, correlation IDs",
+    "epic": "EPIC-01",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-008"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-010-POS",
+      "BE-010-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-011",
+    "title": "SQLAlchemy/Alembic и первая миграция + smoke-test",
+    "epic": "EPIC-01",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-009"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-011-POS",
+      "BE-011-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-012",
+    "title": "FastAPI app factory, единые ошибки, health/ready, OpenAPI",
+    "epic": "EPIC-01",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-010",
+      "BE-011"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [
+      "GET /health/live",
+      "GET /health/ready"
+    ],
+    "database": [],
+    "tests": [
+      "BE-012-POS",
+      "BE-012-NEG",
+      "UNIT-API-001",
+      "API-001",
+      "INT-API-001",
+      "SEC-API-001",
+      "UNIT-API-002",
+      "API-002",
+      "INT-API-002",
+      "SEC-API-002"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-013",
+    "title": "GitHub Actions: lint, types, unit/integration, migration, build",
+    "epic": "EPIC-01",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-009",
+      "BE-011",
+      "BE-012"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-013-POS",
+      "BE-013-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-014",
+    "title": "Модель users, безопасная регистрация, хеширование паролей",
+    "epic": "EPIC-02",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-011",
+      "BE-012",
+      "BE-013"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-AUTH-001",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "POST /api/v1/auth/register"
+    ],
+    "database": [
+      "auth_sessions",
+      "rate_limit_buckets",
+      "used_refresh_tokens",
+      "users"
+    ],
+    "tests": [
+      "BE-014-POS",
+      "BE-014-NEG",
+      "UNIT-API-003",
+      "API-003",
+      "INT-API-003",
+      "SEC-API-003"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-015",
+    "title": "Login, refresh rotation, logout, session revocation",
+    "epic": "EPIC-02",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-014"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-AUTH-001",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "POST /api/v1/auth/login",
+      "POST /api/v1/auth/refresh",
+      "POST /api/v1/auth/logout",
+      "POST /api/v1/auth/logout-all",
+      "GET /api/v1/auth/sessions",
+      "DELETE /api/v1/auth/sessions/{session_id}"
+    ],
+    "database": [
+      "auth_sessions",
+      "rate_limit_buckets",
+      "used_refresh_tokens",
+      "users"
+    ],
+    "tests": [
+      "BE-015-POS",
+      "BE-015-NEG",
+      "UNIT-API-004",
+      "API-004",
+      "INT-API-004",
+      "SEC-API-004",
+      "UNIT-API-005",
+      "API-005",
+      "INT-API-005",
+      "SEC-API-005",
+      "UNIT-API-006",
+      "API-006",
+      "INT-API-006",
+      "SEC-API-006",
+      "UNIT-API-007",
+      "API-007",
+      "INT-API-007",
+      "SEC-API-007",
+      "UNIT-API-011",
+      "API-011",
+      "INT-API-011",
+      "SEC-API-011",
+      "UNIT-API-012",
+      "API-012",
+      "INT-API-012",
+      "SEC-API-012"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-016",
+    "title": "Profile read/update и смена пароля",
+    "epic": "EPIC-02",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-015"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-AUTH-001",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "GET /api/v1/users/me",
+      "PATCH /api/v1/users/me",
+      "POST /api/v1/users/me/change-password"
+    ],
+    "database": [
+      "auth_sessions",
+      "rate_limit_buckets",
+      "used_refresh_tokens",
+      "users"
+    ],
+    "tests": [
+      "BE-016-POS",
+      "BE-016-NEG",
+      "UNIT-API-008",
+      "API-008",
+      "INT-API-008",
+      "SEC-API-008",
+      "UNIT-API-009",
+      "API-009",
+      "INT-API-009",
+      "SEC-API-009",
+      "UNIT-API-010",
+      "API-010",
+      "INT-API-010",
+      "SEC-API-010"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-017",
+    "title": "Role policy owner/editor/viewer, object-level authorization",
+    "epic": "EPIC-02",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-015"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-AUTH-001",
+      "FR-ACL-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-017-POS",
+      "BE-017-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-018",
+    "title": "ACL tests, session expiry/replay tests, rate limiting on auth",
+    "epic": "EPIC-02",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-016",
+      "BE-017"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-AUTH-001",
+      "FR-ACL-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-018-POS",
+      "BE-018-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-019",
+    "title": "Таблица projects, репозиторий, создание проекта",
+    "epic": "EPIC-03",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-017",
+      "BE-018",
+      "BE-024"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-PRJ-001",
+      "FR-PRJ-002",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "POST /api/v1/projects"
+    ],
+    "database": [
+      "project_members",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-019-POS",
+      "BE-019-NEG",
+      "UNIT-API-014",
+      "API-014",
+      "INT-API-014",
+      "SEC-API-014"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-020",
+    "title": "Список, поиск, детали, редактирование, удаление",
+    "epic": "EPIC-03",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-019"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-PRJ-001",
+      "FR-PRJ-002",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "GET /api/v1/projects",
+      "GET /api/v1/projects/{project_id}",
+      "PATCH /api/v1/projects/{project_id}",
+      "DELETE /api/v1/projects/{project_id}",
+      "POST /api/v1/projects/{project_id}/restore"
+    ],
+    "database": [
+      "project_members",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-020-POS",
+      "BE-020-NEG",
+      "UNIT-API-013",
+      "API-013",
+      "INT-API-013",
+      "SEC-API-013",
+      "UNIT-API-015",
+      "API-015",
+      "INT-API-015",
+      "SEC-API-015",
+      "UNIT-API-016",
+      "API-016",
+      "INT-API-016",
+      "SEC-API-016",
+      "UNIT-API-017",
+      "API-017",
+      "INT-API-017",
+      "SEC-API-017",
+      "UNIT-API-018",
+      "API-018",
+      "INT-API-018",
+      "SEC-API-018"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-021",
+    "title": "Встроенные шаблоны и создание проекта из шаблона",
+    "epic": "EPIC-03",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-019",
+      "BE-025",
+      "BE-027"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-PRJ-001",
+      "FR-PRJ-002",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "GET /api/v1/templates",
+      "GET /api/v1/templates/{template_id}"
+    ],
+    "database": [
+      "project_members",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-021-POS",
+      "BE-021-NEG",
+      "UNIT-API-045",
+      "API-045",
+      "INT-API-045",
+      "SEC-API-045",
+      "UNIT-API-046",
+      "API-046",
+      "INT-API-046",
+      "SEC-API-046"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-022",
+    "title": "Настройки проекта и проверка `main_file_id`",
+    "epic": "EPIC-03",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-020",
+      "BE-025"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-PRJ-001",
+      "FR-PRJ-002",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "GET /api/v1/projects/{project_id}/settings",
+      "PATCH /api/v1/projects/{project_id}/settings"
+    ],
+    "database": [
+      "project_members",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-022-POS",
+      "BE-022-NEG",
+      "UNIT-API-019",
+      "API-019",
+      "INT-API-019",
+      "SEC-API-019",
+      "UNIT-API-020",
+      "API-020",
+      "INT-API-020",
+      "SEC-API-020"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-023",
+    "title": "Участники, роли, запрет потери owner, permission tests",
+    "epic": "EPIC-03",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-019",
+      "BE-017"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-PRJ-001",
+      "FR-PRJ-002",
+      "FR-ACL-001"
+    ],
+    "api": [
+      "GET /api/v1/projects/{project_id}/members",
+      "POST /api/v1/projects/{project_id}/members",
+      "PATCH /api/v1/projects/{project_id}/members/{user_id}",
+      "DELETE /api/v1/projects/{project_id}/members/{user_id}"
+    ],
+    "database": [
+      "project_members",
+      "projects",
+      "users"
+    ],
+    "tests": [
+      "BE-023-POS",
+      "BE-023-NEG",
+      "UNIT-API-034",
+      "API-034",
+      "INT-API-034",
+      "SEC-API-034",
+      "UNIT-API-035",
+      "API-035",
+      "INT-API-035",
+      "SEC-API-035",
+      "UNIT-API-036",
+      "API-036",
+      "INT-API-036",
+      "SEC-API-036",
+      "UNIT-API-037",
+      "API-037",
+      "INT-API-037",
+      "SEC-API-037"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-024",
+    "title": "Локальный FileStorage adapter + тесты безопасности путей",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-008",
+      "BE-010",
+      "BE-013"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-024-POS",
+      "BE-024-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-025",
+    "title": "Модель дерева, папки/файлы, ограничение допустимых расширений",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-019",
+      "BE-024"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [
+      "GET /api/v1/projects/{project_id}/tree",
+      "POST /api/v1/projects/{project_id}/folders",
+      "POST /api/v1/projects/{project_id}/files",
+      "GET /api/v1/projects/{project_id}/nodes/{node_id}"
+    ],
+    "database": [
+      "file_revisions",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-025-POS",
+      "BE-025-NEG",
+      "UNIT-API-021",
+      "API-021",
+      "INT-API-021",
+      "SEC-API-021",
+      "UNIT-API-022",
+      "API-022",
+      "INT-API-022",
+      "SEC-API-022",
+      "UNIT-API-023",
+      "API-023",
+      "INT-API-023",
+      "SEC-API-023",
+      "UNIT-API-025",
+      "API-025",
+      "INT-API-025",
+      "SEC-API-025"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-026",
+    "title": "Upload/download, content hashes, storage quotas, cleanup",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-025"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [
+      "POST /api/v1/projects/{project_id}/uploads",
+      "GET /api/v1/projects/{project_id}/files/{file_id}/download"
+    ],
+    "database": [
+      "file_revisions",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-026-POS",
+      "BE-026-NEG",
+      "UNIT-API-024",
+      "API-024",
+      "INT-API-024",
+      "SEC-API-024",
+      "UNIT-API-030",
+      "API-030",
+      "INT-API-030",
+      "SEC-API-030"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-027",
+    "title": "Read/save content, optimistic locking, revision increments",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-025",
+      "BE-026"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [
+      "GET /api/v1/projects/{project_id}/files/{file_id}/content",
+      "PUT /api/v1/projects/{project_id}/files/{file_id}/content"
+    ],
+    "database": [
+      "file_revisions",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-027-POS",
+      "BE-027-NEG",
+      "UNIT-API-026",
+      "API-026",
+      "INT-API-026",
+      "SEC-API-026",
+      "UNIT-API-027",
+      "API-027",
+      "INT-API-027",
+      "SEC-API-027"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-028",
+    "title": "Move/rename/delete, atomicity и невозможность циклов дерева",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-027"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [
+      "PATCH /api/v1/projects/{project_id}/nodes/{node_id}",
+      "DELETE /api/v1/projects/{project_id}/nodes/{node_id}"
+    ],
+    "database": [
+      "file_revisions",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-028-POS",
+      "BE-028-NEG",
+      "UNIT-API-028",
+      "API-028",
+      "INT-API-028",
+      "SEC-API-028",
+      "UNIT-API-029",
+      "API-029",
+      "INT-API-029",
+      "SEC-API-029"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-029",
+    "title": "Неизменяемые revisions: список, чтение, восстановление",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-027",
+      "BE-028"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [
+      "GET /api/v1/projects/{project_id}/files/{file_id}/revisions",
+      "GET /api/v1/projects/{project_id}/files/{file_id}/revisions/{revision}",
+      "POST /api/v1/projects/{project_id}/files/{file_id}/revisions/{revision}/restore"
+    ],
+    "database": [
+      "file_revisions",
+      "project_nodes",
+      "projects"
+    ],
+    "tests": [
+      "BE-029-POS",
+      "BE-029-NEG",
+      "UNIT-API-031",
+      "API-031",
+      "INT-API-031",
+      "SEC-API-031",
+      "UNIT-API-032",
+      "API-032",
+      "INT-API-032",
+      "SEC-API-032",
+      "UNIT-API-033",
+      "API-033",
+      "INT-API-033",
+      "SEC-API-033"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-030",
+    "title": "Интеграционные тесты файлов на конкурентность и отказоустойчивость",
+    "epic": "EPIC-04",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-026",
+      "BE-028",
+      "BE-029"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "FR-FILE-001",
+      "FR-FILE-002",
+      "NFR-CONC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-030-POS",
+      "BE-030-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-031",
+    "title": "Таблица jobs, состояния, lease, retry policy, атомарный claim",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-011",
+      "BE-013"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-031-POS",
+      "BE-031-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-032",
+    "title": "Worker process, heartbeats, stale jobs, cancellation",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-031"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-032-POS",
+      "BE-032-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-033",
+    "title": "Immutable project snapshot и staging на каждый job",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-030",
+      "BE-031",
+      "BE-022"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-033-POS",
+      "BE-033-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-034",
+    "title": "Security sandbox для недоверенного LaTeX; подтверждающие тесты",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-009",
+      "BE-032",
+      "BE-033"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-034-POS",
+      "BE-034-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-035",
+    "title": "PDF compilation adapter и сохранение артефактов",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-034"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-035-POS",
+      "BE-035-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-036",
+    "title": "Parsing LaTeX logs с error/warning/file/line по возможности",
+    "epic": "EPIC-05",
+    "priority": "P1",
+    "status": "planned",
+    "depends_on": [
+      "BE-035"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-036-POS",
+      "BE-036-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-037",
+    "title": "Compile API, job status/list/logs/cancel, download",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-023",
+      "BE-032",
+      "BE-033",
+      "BE-035",
+      "BE-036"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [
+      "POST /api/v1/projects/{project_id}/compilations",
+      "GET /api/v1/projects/{project_id}/jobs",
+      "GET /api/v1/projects/{project_id}/jobs/{job_id}",
+      "GET /api/v1/projects/{project_id}/jobs/{job_id}/logs",
+      "POST /api/v1/projects/{project_id}/jobs/{job_id}/cancel",
+      "GET /api/v1/projects/{project_id}/artifacts/{artifact_id}/download"
+    ],
+    "database": [
+      "document_jobs",
+      "job_artifacts",
+      "job_log_entries",
+      "project_snapshots",
+      "projects",
+      "snapshot_entries"
+    ],
+    "tests": [
+      "BE-037-POS",
+      "BE-037-NEG",
+      "UNIT-API-038",
+      "API-038",
+      "INT-API-038",
+      "SEC-API-038",
+      "UNIT-API-040",
+      "API-040",
+      "INT-API-040",
+      "SEC-API-040",
+      "UNIT-API-041",
+      "API-041",
+      "INT-API-041",
+      "SEC-API-041",
+      "UNIT-API-042",
+      "API-042",
+      "INT-API-042",
+      "SEC-API-042",
+      "UNIT-API-043",
+      "API-043",
+      "INT-API-043",
+      "SEC-API-043",
+      "UNIT-API-044",
+      "API-044",
+      "INT-API-044",
+      "SEC-API-044"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-038",
+    "title": "End-to-end тесты сборки, таймаутов, безопасности, конкурентности",
+    "epic": "EPIC-05",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-037"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "FR-DOC-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-038-POS",
+      "BE-038-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-039",
+    "title": "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-007"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-039-POS",
+      "BE-039-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-040",
+    "title": "Pandoc conversion adapter, `reference.docx` и русскоязычные стили",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-034",
+      "BE-039"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-040-POS",
+      "BE-040-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-041",
+    "title": "Формулы, таблицы, изображения, ссылки, предупреждения о потерях",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-040"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-041-POS",
+      "BE-041-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-042",
+    "title": "Проверки DOCX как OOXML/ZIP, валидность содержимого и media",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-041"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-042-POS",
+      "BE-042-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-043",
+    "title": "ZIP export исходников, исключения, защита от zip slip",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-033",
+      "BE-034"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-043-POS",
+      "BE-043-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-044",
+    "title": "Export API, download, quotas, deterministic job results",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-037",
+      "BE-042",
+      "BE-043"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [
+      "POST /api/v1/projects/{project_id}/exports"
+    ],
+    "database": [
+      "document_jobs",
+      "project_snapshots",
+      "projects",
+      "snapshot_entries"
+    ],
+    "tests": [
+      "BE-044-POS",
+      "BE-044-NEG",
+      "UNIT-API-039",
+      "API-039",
+      "INT-API-039",
+      "SEC-API-039"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-045",
+    "title": "Golden-file / structural regression tests PDF и Word на fixtures",
+    "epic": "EPIC-06",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-038",
+      "BE-044"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "FR-DOC-002",
+      "FR-DOC-003"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-045-POS",
+      "BE-045-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0004-isolated-document-processing"
+    ]
+  },
+  {
+    "id": "BE-046",
+    "title": "Audit critical actions и безопасные структурированные логи",
+    "epic": "EPIC-07",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-018",
+      "BE-023",
+      "BE-030",
+      "BE-037"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-046-POS",
+      "BE-046-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-047",
+    "title": "Backup/restore runbook: согласованные DB+files snapshots",
+    "epic": "EPIC-07",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-030",
+      "BE-032",
+      "BE-046"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-047-POS",
+      "BE-047-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-048",
+    "title": "Нагрузочный и concurrency smoke-test, профилирование hot paths",
+    "epic": "EPIC-07",
+    "priority": "P1",
+    "status": "planned",
+    "depends_on": [
+      "BE-038",
+      "BE-044"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-048-POS",
+      "BE-048-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-049",
+    "title": "Security review: IDOR, path traversal, ZIP, sandbox, auth",
+    "epic": "EPIC-07",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-018",
+      "BE-030",
+      "BE-038",
+      "BE-042",
+      "BE-043",
+      "BE-046"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-049-POS",
+      "BE-049-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-050",
+    "title": "Полная OpenAPI contract verification и проверка всех doc links",
+    "epic": "EPIC-07",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-044",
+      "BE-045",
+      "BE-049"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-050-POS",
+      "BE-050-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-051",
+    "title": "Clean install из README, миграции, пример проекта, PDF/DOCX E2E",
+    "epic": "EPIC-07",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-013",
+      "BE-021",
+      "BE-045",
+      "BE-047",
+      "BE-048",
+      "BE-050"
+    ],
+    "owner": "backend-developer",
+    "estimate": "2–4 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-051-POS",
+      "BE-051-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  },
+  {
+    "id": "BE-052",
+    "title": "Release candidate, acceptance checklist, changelog и tag",
+    "epic": "EPIC-07",
+    "priority": "P0",
+    "status": "planned",
+    "depends_on": [
+      "BE-051"
+    ],
+    "owner": "backend-developer",
+    "estimate": "0.5–2 developer days",
+    "requirements": [
+      "NFR-OPS-001",
+      "NFR-SEC-001"
+    ],
+    "api": [],
+    "database": [],
+    "tests": [
+      "BE-052-POS",
+      "BE-052-NEG"
+    ],
+    "adr": [
+      "0001-modular-monolith",
+      "0002-local-filesystem-storage"
+    ]
+  }
+]

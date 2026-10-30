@@ -1,0 +1,22 @@
+erDiagram
+ users ||--o{ auth_sessions : has
+ auth_sessions ||--o{ used_refresh_tokens : rotates
+ users ||--o{ projects : owns
+ users ||--o{ project_members : joins
+ projects ||--o{ project_members : grants
+ projects ||--o{ project_nodes : contains
+ project_nodes o|--o{ project_nodes : parents
+ project_nodes o|--o| projects : main_file
+ project_nodes ||--o{ file_revisions : versions
+ users ||--o{ file_revisions : authors
+ projects ||--o{ project_snapshots : freezes
+ project_snapshots ||--o{ snapshot_entries : contains
+ file_revisions o|--o{ snapshot_entries : pins
+ project_snapshots ||--o{ document_jobs : input
+ projects ||--o{ document_jobs : queues
+ users ||--o{ document_jobs : requests
+ document_jobs ||--o{ job_artifacts : produces
+ document_jobs ||--o{ job_log_entries : logs
+ projects o|--o{ audit_events : audits
+ users o|--o{ audit_events : acts
+ rate_limit_buckets { string scope PK }

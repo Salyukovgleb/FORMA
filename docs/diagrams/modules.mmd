@@ -1,0 +1,13 @@
+flowchart TD
+ HTTP --> Application
+ Application --> Identity
+ Application --> Access
+ Application --> Projects
+ Application --> Files
+ Application --> Documents
+ Documents --> Jobs
+ Application --> Audit
+ Application --> UoW
+ UoW --> Adapters
+ Adapters --> PostgreSQL
+ Adapters --> LocalVolume

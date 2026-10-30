@@ -1,0 +1,5 @@
+flowchart LR
+ User[Пользователь] --> Frontend[Отдельный frontend]
+ Frontend --> Backend[FORMA backend]
+ Operator[Оператор] --> Backend
+ Backend --> Backup[Локальный согласованный backup на отдельном диске]

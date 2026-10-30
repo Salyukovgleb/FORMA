@@ -1,0 +1,21 @@
+name: Backend task
+description: Track a task from the FORMA dependency map
+title: "BE-XXX: "
+body:
+  - type: input
+    id: task
+    attributes:
+      label: Task card
+      description: Link to docs/tasks/TASK-BE-XXX.md
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome and acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and evidence

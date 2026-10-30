@@ -1,0 +1,15 @@
+[project]
+name = "forma-specification"
+version = "0.0.0"
+requires-python = ">=3.12"
+description = "FORMA Phase A contract and design verification only"
+
+[tool.ruff]
+line-length = 100
+[tool.ruff.lint]
+select = ["F"]
+[tool.mypy]
+files = ["docs/contracts/models.py"]
+strict = true
+[tool.pytest.ini_options]
+testpaths = ["tests/contracts"]

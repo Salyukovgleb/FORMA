@@ -1,0 +1,15 @@
+sequenceDiagram
+ participant C as Client
+ participant A as API
+ participant D as PostgreSQL
+ participant W as Worker
+ participant S as Sandbox
+ C->>A: POST exports docx|zip
+ A->>D: ACL + quota + snapshot + job in transaction
+ A-->>C: 202 job_id
+ W->>D: claim snapshot
+ W->>S: source manifest + reference version
+ S->>S: Pandoc / source ZIP + validation
+ S-->>W: editable DOCX or source ZIP + warnings
+ W->>D: fenced artifact and terminal state
+ C->>A: poll / download with current ACL

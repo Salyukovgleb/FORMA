@@ -1,0 +1,13 @@
+stateDiagram-v2
+ [*] --> queued
+ queued --> running: claim
+ queued --> cancelled: cancel
+ running --> succeeded: fenced publication
+ running --> failed: terminal error
+ running --> cancelled: kill confirmed
+ running --> retry_wait: transient error / reaped lease
+ retry_wait --> running: next_run_at
+ retry_wait --> cancelled: cancel
+ succeeded --> [*]
+ failed --> [*]
+ cancelled --> [*]
