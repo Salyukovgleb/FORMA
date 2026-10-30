@@ -4,14 +4,14 @@
 
 | ID | Статус | Зависимости | Ветка | Коммит | CI | Доказательство |
 |---|---|---|---|---|---|---|
-| [BE-001](TASK-BE-001.md) | in_review | — | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-002](TASK-BE-002.md) | in_review | BE-001 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-003](TASK-BE-003.md) | in_review | BE-002 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-004](TASK-BE-004.md) | in_review | BE-003 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-005](TASK-BE-005.md) | in_review | BE-004 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-006](TASK-BE-006.md) | in_review | BE-003, BE-004, BE-005 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-007](TASK-BE-007.md) | in_review | BE-005, BE-006 | docs/BE-001-phase-a-design | 97f0cc1 | [success для 97f0cc1](https://github.com/Salyukovgleb/FORMA/actions/runs/41083065202) | [Phase A](../evidence/phase-a.md) |
-| [BE-008](TASK-BE-008.md) | planned | BE-007 | — | — | не заявлен | planned |
+| [BE-001](TASK-BE-001.md) | done | — | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-002](TASK-BE-002.md) | done | BE-001 | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-003](TASK-BE-003.md) | done | BE-002 | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-004](TASK-BE-004.md) | done | BE-003 | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-005](TASK-BE-005.md) | done | BE-004 | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-006](TASK-BE-006.md) | done | BE-003, BE-004, BE-005 | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-007](TASK-BE-007.md) | done | BE-005, BE-006 | docs/BE-001-phase-a-design | 149419f (merge PR #1) | [success head 8dd7717](https://github.com/Salyukovgleb/FORMA/actions/runs/41083302406) | [Phase A](../evidence/phase-a.md) |
+| [BE-008](TASK-BE-008.md) | in_review | BE-007 | — | — | не заявлен | planned |
 | [BE-009](TASK-BE-009.md) | planned | BE-008, BE-010 | — | — | не заявлен | planned |
 | [BE-010](TASK-BE-010.md) | planned | BE-008 | — | — | не заявлен | planned |
 | [BE-011](TASK-BE-011.md) | planned | BE-009 | — | — | не заявлен | planned |
@@ -42,7 +42,7 @@
 | [BE-036](TASK-BE-036.md) | planned | BE-035 | — | — | не заявлен | planned |
 | [BE-037](TASK-BE-037.md) | planned | BE-023, BE-032, BE-033, BE-035, BE-036 | — | — | не заявлен | planned |
 | [BE-038](TASK-BE-038.md) | planned | BE-037 | — | — | не заявлен | planned |
-| [BE-039](TASK-BE-039.md) | planned | BE-007 | — | — | не заявлен | planned |
+| [BE-039](TASK-BE-039.md) | ready | BE-007 | — | — | не заявлен | planned |
 | [BE-040](TASK-BE-040.md) | planned | BE-034, BE-039 | — | — | не заявлен | planned |
 | [BE-041](TASK-BE-041.md) | planned | BE-040 | — | — | не заявлен | planned |
 | [BE-042](TASK-BE-042.md) | planned | BE-041 | — | — | не заявлен | planned |

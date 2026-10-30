@@ -3,7 +3,7 @@ id: "BE-006"
 title: "Архитектура хранения, обработки фоновых заданий, PDF и DOCX"
 epic: "EPIC-00"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-003", "BE-004", "BE-005"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -16,7 +16,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 # BE-006 — Архитектура хранения, обработки фоновых заданий, PDF и DOCX
 
-Владелец: backend-developer. Документ: draft. Обновлено: 2026-10-30.
+Владелец: backend-developer. Документ: approved. Обновлено: 2026-10-30.
 
 ## Context
 
@@ -86,3 +86,5 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 ## Risks
 
 GC не удаляет publishing/pinned blobs. Изменение Outcome требует пересмотра зависимых карточек.
+
+Принято пользователем 2026-10-30; PR #1 merged в main: `149419f6644bf9da3a27e16c078d4239b6ad4220`. CI head `8dd7717` success. M0 закрыт.

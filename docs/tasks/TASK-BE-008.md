@@ -3,7 +3,7 @@ id: "BE-008"
 title: "Структура Python-проекта, форматирование, типизация, lint"
 epic: "EPIC-01"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-007"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-Структура Python-проекта, форматирование, типизация, lint. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M0.
+Структура Python-проекта, форматирование, типизация, lint. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M1.
 
 ## Outcome
 
@@ -86,3 +86,12 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Неверная версия dependency ломает lock check. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan и фактическое исполнение
+
+BE-007 закрыта после merge PR #1. Добавить устанавливаемый src package, py.typed,
+setuptools build metadata, проверку installed versions по lock и isolated-import test.
+API/DB impact отсутствует. Сначала import test получил ModuleNotFoundError;
+после реализации проверяются installed distribution metadata и typed marker из temp directory.
+Отрицательный тест подменяет pin Pydantic на 0.0.0 и требует отказ проверки lock.
+Задача in_review до CI и merge своего PR.

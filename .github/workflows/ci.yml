@@ -1,4 +1,4 @@
-name: Phase A specification
+name: Backend checks
 on:
   pull_request:
   push:
@@ -34,5 +34,6 @@ jobs:
           cache-dependency-path: requirements-dev.lock
       - run: python -m venv .venv
       - run: .venv/bin/python -m pip install --require-hashes -r requirements-dev.lock
+      - run: .venv/bin/python -m pip install --no-build-isolation --no-deps .
       - run: make ci-local
       - run: git diff --exit-code
