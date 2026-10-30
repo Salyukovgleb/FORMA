@@ -1,0 +1,1115 @@
+[
+  {
+    "acl": "public",
+    "effect": "Без I/O; проверка event loop.",
+    "group": "system",
+    "id": "API-001",
+    "method": "GET",
+    "operation_id": "liveness",
+    "path": "/health/live",
+    "request": null,
+    "response": "Health",
+    "status": 200,
+    "tables": [],
+    "task": "BE-012",
+    "tests": [
+      "UNIT-API-001",
+      "API-001",
+      "INT-API-001",
+      "SEC-API-001"
+    ]
+  },
+  {
+    "acl": "public",
+    "effect": "SELECT 1 и пробная запись/удаление отдельного health-файла; timeout 2s, иначе 503.",
+    "group": "system",
+    "id": "API-002",
+    "method": "GET",
+    "operation_id": "readiness",
+    "path": "/health/ready",
+    "request": null,
+    "response": "Health",
+    "status": 200,
+    "tables": [],
+    "task": "BE-012",
+    "tests": [
+      "UNIT-API-002",
+      "API-002",
+      "INT-API-002",
+      "SEC-API-002"
+    ]
+  },
+  {
+    "acl": "public",
+    "effect": "Нормализовать email; hash пароля; INSERT user; дубликат 409 EMAIL_TAKEN. Сессия не создаётся.",
+    "group": "identity",
+    "id": "API-003",
+    "method": "POST",
+    "operation_id": "register_user",
+    "path": "/api/v1/auth/register",
+    "request": "Register",
+    "response": "Profile",
+    "status": 201,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-014",
+    "tests": [
+      "UNIT-API-003",
+      "API-003",
+      "INT-API-003",
+      "SEC-API-003"
+    ]
+  },
+  {
+    "acl": "public",
+    "effect": "Проверить пароль; INSERT session; установить refresh cookie и вернуть access/CSRF.",
+    "group": "identity",
+    "id": "API-004",
+    "method": "POST",
+    "operation_id": "login",
+    "path": "/api/v1/auth/login",
+    "request": "Login",
+    "response": "Token",
+    "status": 200,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-015",
+    "tests": [
+      "UNIT-API-004",
+      "API-004",
+      "INT-API-004",
+      "SEC-API-004"
+    ]
+  },
+  {
+    "acl": "refresh",
+    "effect": "Lock session; использованный hash в used_refresh_tokens; заменить refresh/CSRF hashes. Replay отзывает session.",
+    "group": "identity",
+    "id": "API-005",
+    "method": "POST",
+    "operation_id": "rotate_session",
+    "path": "/api/v1/auth/refresh",
+    "request": null,
+    "response": "Token",
+    "status": 200,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-015",
+    "tests": [
+      "UNIT-API-005",
+      "API-005",
+      "INT-API-005",
+      "SEC-API-005"
+    ]
+  },
+  {
+    "acl": "refresh",
+    "effect": "Отозвать текущую session и очистить cookie; повторный отзыв 204, невалидный token 401.",
+    "group": "identity",
+    "id": "API-006",
+    "method": "POST",
+    "operation_id": "logout",
+    "path": "/api/v1/auth/logout",
+    "request": null,
+    "response": null,
+    "status": 204,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-015",
+    "tests": [
+      "UNIT-API-006",
+      "API-006",
+      "INT-API-006",
+      "SEC-API-006"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Отозвать все session пользователя; очистить cookie.",
+    "group": "identity",
+    "id": "API-007",
+    "method": "POST",
+    "operation_id": "logout_all",
+    "path": "/api/v1/auth/logout-all",
+    "request": null,
+    "response": null,
+    "status": 204,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-015",
+    "tests": [
+      "UNIT-API-007",
+      "API-007",
+      "INT-API-007",
+      "SEC-API-007"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "SELECT текущего пользователя.",
+    "group": "identity",
+    "id": "API-008",
+    "method": "GET",
+    "operation_id": "read_profile",
+    "path": "/api/v1/users/me",
+    "request": null,
+    "response": "Profile",
+    "status": 200,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-016",
+    "tests": [
+      "UNIT-API-008",
+      "API-008",
+      "INT-API-008",
+      "SEC-API-008"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Lock user; изменить display_name. Email неизменяем в MVP.",
+    "group": "identity",
+    "id": "API-009",
+    "method": "PATCH",
+    "operation_id": "update_profile",
+    "path": "/api/v1/users/me",
+    "request": "ProfilePatch",
+    "response": "Profile",
+    "status": 200,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-016",
+    "tests": [
+      "UNIT-API-009",
+      "API-009",
+      "INT-API-009",
+      "SEC-API-009"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Проверить current_password; lock user; обновить hash; отозвать все сессии включая текущую.",
+    "group": "identity",
+    "id": "API-010",
+    "method": "POST",
+    "operation_id": "change_password",
+    "path": "/api/v1/users/me/change-password",
+    "request": "PasswordChange",
+    "response": null,
+    "status": 204,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-016",
+    "tests": [
+      "UNIT-API-010",
+      "API-010",
+      "INT-API-010",
+      "SEC-API-010"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Только собственные неотозванные сессии.",
+    "group": "identity",
+    "id": "API-011",
+    "method": "GET",
+    "operation_id": "list_sessions",
+    "path": "/api/v1/auth/sessions",
+    "request": null,
+    "response": "Page_Session_",
+    "status": 200,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-015",
+    "tests": [
+      "UNIT-API-011",
+      "API-011",
+      "INT-API-011",
+      "SEC-API-011"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Lock session своего пользователя; чужая/отсутствующая 404; повторный отзыв 204.",
+    "group": "identity",
+    "id": "API-012",
+    "method": "DELETE",
+    "operation_id": "revoke_session",
+    "path": "/api/v1/auth/sessions/{session_id}",
+    "request": null,
+    "response": null,
+    "status": 204,
+    "tables": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
+    "task": "BE-015",
+    "tests": [
+      "UNIT-API-012",
+      "API-012",
+      "INT-API-012",
+      "SEC-API-012"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Доступные active проекты; status=deleted показывает только собственные удалённые.",
+    "group": "projects",
+    "id": "API-013",
+    "method": "GET",
+    "operation_id": "list_projects",
+    "path": "/api/v1/projects",
+    "request": null,
+    "response": "Page_Project_",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-020",
+    "tests": [
+      "UNIT-API-013",
+      "API-013",
+      "INT-API-013",
+      "SEC-API-013"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Lock user для квоты; project + snapshot шаблона/пустое дерево; audit в одной транзакции.",
+    "group": "projects",
+    "id": "API-014",
+    "method": "POST",
+    "operation_id": "create_project",
+    "path": "/api/v1/projects",
+    "request": "ProjectCreate",
+    "response": "Project",
+    "status": 201,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-019",
+    "tests": [
+      "UNIT-API-014",
+      "API-014",
+      "INT-API-014",
+      "SEC-API-014"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "SELECT проекта и вычисленной роли; deleted доступен только owner.",
+    "group": "projects",
+    "id": "API-015",
+    "method": "GET",
+    "operation_id": "read_project",
+    "path": "/api/v1/projects/{project_id}",
+    "request": null,
+    "response": "Project",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-020",
+    "tests": [
+      "UNIT-API-015",
+      "API-015",
+      "INT-API-015",
+      "SEC-API-015"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Lock project; expected_revision; title/description; увеличить revision.",
+    "group": "projects",
+    "id": "API-016",
+    "method": "PATCH",
+    "operation_id": "update_project",
+    "path": "/api/v1/projects/{project_id}",
+    "request": "ProjectPatch",
+    "response": "Project",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-020",
+    "tests": [
+      "UNIT-API-016",
+      "API-016",
+      "INT-API-016",
+      "SEC-API-016"
+    ]
+  },
+  {
+    "acl": "owner",
+    "effect": "Сверить confirm_title и expected_revision; soft delete; запросить отмену jobs; retention 7 суток.",
+    "group": "projects",
+    "id": "API-017",
+    "method": "DELETE",
+    "operation_id": "delete_project",
+    "path": "/api/v1/projects/{project_id}",
+    "request": "DeleteProject",
+    "response": null,
+    "status": 204,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-020",
+    "tests": [
+      "UNIT-API-017",
+      "API-017",
+      "INT-API-017",
+      "SEC-API-017"
+    ]
+  },
+  {
+    "acl": "owner",
+    "effect": "До 7 суток восстановить deleted проект с проверкой revision; далее 410; активный 409.",
+    "group": "projects",
+    "id": "API-018",
+    "method": "POST",
+    "operation_id": "restore_project",
+    "path": "/api/v1/projects/{project_id}/restore",
+    "request": "RestoreProject",
+    "response": "Project",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-020",
+    "tests": [
+      "UNIT-API-018",
+      "API-018",
+      "INT-API-018",
+      "SEC-API-018"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "SELECT main_file_id, engine и project revision.",
+    "group": "projects",
+    "id": "API-019",
+    "method": "GET",
+    "operation_id": "read_settings",
+    "path": "/api/v1/projects/{project_id}/settings",
+    "request": null,
+    "response": "Settings",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-022",
+    "tests": [
+      "UNIT-API-019",
+      "API-019",
+      "INT-API-019",
+      "SEC-API-019"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Lock project; ожидаемая revision; main должен быть live .tex того же проекта; увеличить revision.",
+    "group": "projects",
+    "id": "API-020",
+    "method": "PATCH",
+    "operation_id": "update_settings",
+    "path": "/api/v1/projects/{project_id}/settings",
+    "request": "SettingsPatch",
+    "response": "Settings",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-022",
+    "tests": [
+      "UNIT-API-020",
+      "API-020",
+      "INT-API-020",
+      "SEC-API-020"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Один consistent SELECT; плоское дерево до 2000 live узлов и revision проекта.",
+    "group": "project-files",
+    "id": "API-021",
+    "method": "GET",
+    "operation_id": "read_tree",
+    "path": "/api/v1/projects/{project_id}/tree",
+    "request": null,
+    "response": "Tree",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-025",
+    "tests": [
+      "UNIT-API-021",
+      "API-021",
+      "INT-API-021",
+      "SEC-API-021"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Lock project; проверить parent и имя; collision 409; увеличить project revision.",
+    "group": "project-files",
+    "id": "API-022",
+    "method": "POST",
+    "operation_id": "create_folder",
+    "path": "/api/v1/projects/{project_id}/folders",
+    "request": "FolderCreate",
+    "response": "Node",
+    "status": 201,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-025",
+    "tests": [
+      "UNIT-API-022",
+      "API-022",
+      "INT-API-022",
+      "SEC-API-022"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Опубликовать immutable blob; lock project; INSERT node и revision 1; увеличить project revision.",
+    "group": "project-files",
+    "id": "API-023",
+    "method": "POST",
+    "operation_id": "create_file",
+    "path": "/api/v1/projects/{project_id}/files",
+    "request": "FileCreate",
+    "response": "Node",
+    "status": 201,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-025",
+    "tests": [
+      "UNIT-API-023",
+      "API-023",
+      "INT-API-023",
+      "SEC-API-023"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Потоковый staging до 20 MiB; whitelist MIME/extension; lock owner и project; quota; node/revision 1; без overwrite.",
+    "group": "project-files",
+    "id": "API-024",
+    "method": "POST",
+    "operation_id": "upload_file",
+    "path": "/api/v1/projects/{project_id}/uploads",
+    "request": "Upload",
+    "response": "Node",
+    "status": 201,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-026",
+    "tests": [
+      "UNIT-API-024",
+      "API-024",
+      "INT-API-024",
+      "SEC-API-024"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Live node из указанного проекта; join текущей revision для размера/hash.",
+    "group": "project-files",
+    "id": "API-025",
+    "method": "GET",
+    "operation_id": "read_node",
+    "path": "/api/v1/projects/{project_id}/nodes/{node_id}",
+    "request": null,
+    "response": "Node",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-025",
+    "tests": [
+      "UNIT-API-025",
+      "API-025",
+      "INT-API-025",
+      "SEC-API-025"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Только UTF-8 text до 1 MiB; binary даёт 415.",
+    "group": "project-files",
+    "id": "API-026",
+    "method": "GET",
+    "operation_id": "read_content",
+    "path": "/api/v1/projects/{project_id}/files/{file_id}/content",
+    "request": null,
+    "response": "Content",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-027",
+    "tests": [
+      "UNIT-API-026",
+      "API-026",
+      "INT-API-026",
+      "SEC-API-026"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Blob перед commit; lock owner/project/node; expected_revision; INSERT immutable revision N+1; увеличить project revision; stale 409.",
+    "group": "project-files",
+    "id": "API-027",
+    "method": "PUT",
+    "operation_id": "save_file_content",
+    "path": "/api/v1/projects/{project_id}/files/{file_id}/content",
+    "request": "SaveContent",
+    "response": "Content",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-027",
+    "tests": [
+      "UNIT-API-027",
+      "API-027",
+      "INT-API-027",
+      "SEC-API-027"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Lock project; expected_revision; запрет цикла/коллизии; обновить paths поддерева и node revisions; file revision не меняется.",
+    "group": "project-files",
+    "id": "API-028",
+    "method": "PATCH",
+    "operation_id": "move_project_node",
+    "path": "/api/v1/projects/{project_id}/nodes/{node_id}",
+    "request": "NodePatch",
+    "response": "Node",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-028",
+    "tests": [
+      "UNIT-API-028",
+      "API-028",
+      "INT-API-028",
+      "SEC-API-028"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Lock project; query expected_revision; recursive=false по умолчанию, непустая папка 409; main в поддереве 409; soft delete.",
+    "group": "project-files",
+    "id": "API-029",
+    "method": "DELETE",
+    "operation_id": "delete_node",
+    "path": "/api/v1/projects/{project_id}/nodes/{node_id}",
+    "request": null,
+    "response": null,
+    "status": 204,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-028",
+    "tests": [
+      "UNIT-API-029",
+      "API-029",
+      "INT-API-029",
+      "SEC-API-029"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Поток текущего immutable blob; только live file и действующий ACL.",
+    "group": "project-files",
+    "id": "API-030",
+    "method": "GET",
+    "operation_id": "download_file",
+    "path": "/api/v1/projects/{project_id}/files/{file_id}/download",
+    "request": null,
+    "response": "Binary",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-026",
+    "tests": [
+      "UNIT-API-030",
+      "API-030",
+      "INT-API-030",
+      "SEC-API-030"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Пагинация revision DESC; только live file.",
+    "group": "project-files",
+    "id": "API-031",
+    "method": "GET",
+    "operation_id": "list_revisions",
+    "path": "/api/v1/projects/{project_id}/files/{file_id}/revisions",
+    "request": null,
+    "response": "Page_FileRevision_",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-029",
+    "tests": [
+      "UNIT-API-031",
+      "API-031",
+      "INT-API-031",
+      "SEC-API-031"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Поток bytes выбранной retained revision; текст UTF-8; удалённая retention версия 404.",
+    "group": "project-files",
+    "id": "API-032",
+    "method": "GET",
+    "operation_id": "read_revision",
+    "path": "/api/v1/projects/{project_id}/files/{file_id}/revisions/{revision}",
+    "request": null,
+    "response": "Binary",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-029",
+    "tests": [
+      "UNIT-API-032",
+      "API-032",
+      "INT-API-032",
+      "SEC-API-032"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Только text file; expected_revision относится к content revision; копия старого blob становится новой N+1; binary 415.",
+    "group": "project-files",
+    "id": "API-033",
+    "method": "POST",
+    "operation_id": "restore_file_revision",
+    "path": "/api/v1/projects/{project_id}/files/{file_id}/revisions/{revision}/restore",
+    "request": "RestoreRevision",
+    "response": "Content",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_nodes",
+      "file_revisions"
+    ],
+    "task": "BE-029",
+    "tests": [
+      "UNIT-API-033",
+      "API-033",
+      "INT-API-033",
+      "SEC-API-033"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Owner из projects плюс editor/viewer из project_members; максимум 50.",
+    "group": "access",
+    "id": "API-034",
+    "method": "GET",
+    "operation_id": "list_members",
+    "path": "/api/v1/projects/{project_id}/members",
+    "request": null,
+    "response": "Members",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "users"
+    ],
+    "task": "BE-023",
+    "tests": [
+      "UNIT-API-034",
+      "API-034",
+      "INT-API-034",
+      "SEC-API-034"
+    ]
+  },
+  {
+    "acl": "owner",
+    "effect": "Lock project; найти active user по normalized email; неизвестный 404 USER_NOT_FOUND; owner/duplicate 409.",
+    "group": "access",
+    "id": "API-035",
+    "method": "POST",
+    "operation_id": "grant_project_access",
+    "path": "/api/v1/projects/{project_id}/members",
+    "request": "MemberAdd",
+    "response": "Member",
+    "status": 201,
+    "tables": [
+      "projects",
+      "project_members",
+      "users"
+    ],
+    "task": "BE-023",
+    "tests": [
+      "UNIT-API-035",
+      "API-035",
+      "INT-API-035",
+      "SEC-API-035"
+    ]
+  },
+  {
+    "acl": "owner",
+    "effect": "Lock project; role editor/viewer; owner неизменяем, попытка 409 OWNER_IMMUTABLE.",
+    "group": "access",
+    "id": "API-036",
+    "method": "PATCH",
+    "operation_id": "change_member_role",
+    "path": "/api/v1/projects/{project_id}/members/{user_id}",
+    "request": "MemberPatch",
+    "response": "Member",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "users"
+    ],
+    "task": "BE-023",
+    "tests": [
+      "UNIT-API-036",
+      "API-036",
+      "INT-API-036",
+      "SEC-API-036"
+    ]
+  },
+  {
+    "acl": "owner_or_self",
+    "effect": "Owner может удалить участника; editor/viewer только себя; owner выйти не может; повторный вызов после потери ACL 404.",
+    "group": "access",
+    "id": "API-037",
+    "method": "DELETE",
+    "operation_id": "remove_member",
+    "path": "/api/v1/projects/{project_id}/members/{user_id}",
+    "request": null,
+    "response": null,
+    "status": 204,
+    "tables": [
+      "projects",
+      "project_members",
+      "users"
+    ],
+    "task": "BE-023",
+    "tests": [
+      "UNIT-API-037",
+      "API-037",
+      "INT-API-037",
+      "SEC-API-037"
+    ]
+  },
+  {
+    "acl": "writer",
+    "effect": "Lock owner/project; ACL; idempotency; expected_project_revision; INSERT snapshot/entries/job атомарно; main обязателен.",
+    "group": "documents",
+    "id": "API-038",
+    "method": "POST",
+    "operation_id": "request_compilation",
+    "path": "/api/v1/projects/{project_id}/compilations",
+    "request": "Compile",
+    "response": "JobAccepted",
+    "status": 202,
+    "tables": [
+      "projects",
+      "project_snapshots",
+      "snapshot_entries",
+      "document_jobs"
+    ],
+    "task": "BE-037",
+    "tests": [
+      "UNIT-API-038",
+      "API-038",
+      "INT-API-038",
+      "SEC-API-038"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Lock owner/project; ACL; idempotency; snapshot/entries/job атомарно; docx требует main, zip допускает пустое дерево.",
+    "group": "documents",
+    "id": "API-039",
+    "method": "POST",
+    "operation_id": "request_export",
+    "path": "/api/v1/projects/{project_id}/exports",
+    "request": "Export",
+    "response": "JobAccepted",
+    "status": 202,
+    "tables": [
+      "projects",
+      "project_snapshots",
+      "snapshot_entries",
+      "document_jobs"
+    ],
+    "task": "BE-044",
+    "tests": [
+      "UNIT-API-039",
+      "API-039",
+      "INT-API-039",
+      "SEC-API-039"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Jobs проекта по queued_at DESC,id DESC; не возвращать внутренние ключи.",
+    "group": "jobs",
+    "id": "API-040",
+    "method": "GET",
+    "operation_id": "list_jobs",
+    "path": "/api/v1/projects/{project_id}/jobs",
+    "request": null,
+    "response": "Page_Job_",
+    "status": 200,
+    "tables": [
+      "document_jobs",
+      "job_artifacts",
+      "job_log_entries",
+      "projects"
+    ],
+    "task": "BE-037",
+    "tests": [
+      "UNIT-API-040",
+      "API-040",
+      "INT-API-040",
+      "SEC-API-040"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "SELECT job + artifacts; ошибки и warnings читаются через logs.",
+    "group": "jobs",
+    "id": "API-041",
+    "method": "GET",
+    "operation_id": "read_job",
+    "path": "/api/v1/projects/{project_id}/jobs/{job_id}",
+    "request": null,
+    "response": "Job",
+    "status": 200,
+    "tables": [
+      "document_jobs",
+      "job_artifacts",
+      "job_log_entries",
+      "projects"
+    ],
+    "task": "BE-037",
+    "tests": [
+      "UNIT-API-041",
+      "API-041",
+      "INT-API-041",
+      "SEC-API-041"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Keyset sequence ASC; максимум 100 строк за ответ; paths только из snapshot.",
+    "group": "jobs",
+    "id": "API-042",
+    "method": "GET",
+    "operation_id": "read_job_logs",
+    "path": "/api/v1/projects/{project_id}/jobs/{job_id}/logs",
+    "request": null,
+    "response": "Page_JobLog_",
+    "status": 200,
+    "tables": [
+      "document_jobs",
+      "job_artifacts",
+      "job_log_entries",
+      "projects"
+    ],
+    "task": "BE-037",
+    "tests": [
+      "UNIT-API-042",
+      "API-042",
+      "INT-API-042",
+      "SEC-API-042"
+    ]
+  },
+  {
+    "acl": "owner_or_requester",
+    "effect": "Текущий участник-requester или owner; lock job; queued/retry_wait → cancelled, running выставляет cancellation_requested; terminal возвращается без изменения.",
+    "group": "jobs",
+    "id": "API-043",
+    "method": "POST",
+    "operation_id": "cancel_job",
+    "path": "/api/v1/projects/{project_id}/jobs/{job_id}/cancel",
+    "request": null,
+    "response": "JobAccepted",
+    "status": 202,
+    "tables": [
+      "document_jobs",
+      "job_artifacts",
+      "job_log_entries",
+      "projects"
+    ],
+    "task": "BE-037",
+    "tests": [
+      "UNIT-API-043",
+      "API-043",
+      "INT-API-043",
+      "SEC-API-043"
+    ]
+  },
+  {
+    "acl": "reader",
+    "effect": "Join artifact/job/project; expiry 410; поток immutable bytes; ACL проверяется при каждом запросе.",
+    "group": "jobs",
+    "id": "API-044",
+    "method": "GET",
+    "operation_id": "download_artifact",
+    "path": "/api/v1/projects/{project_id}/artifacts/{artifact_id}/download",
+    "request": null,
+    "response": "Binary",
+    "status": 200,
+    "tables": [
+      "document_jobs",
+      "job_artifacts",
+      "job_log_entries",
+      "projects"
+    ],
+    "task": "BE-037",
+    "tests": [
+      "UNIT-API-044",
+      "API-044",
+      "INT-API-044",
+      "SEC-API-044"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Versioned seed manifest; без таблицы шаблонов.",
+    "group": "projects",
+    "id": "API-045",
+    "method": "GET",
+    "operation_id": "list_templates",
+    "path": "/api/v1/templates",
+    "request": null,
+    "response": "Templates",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-021",
+    "tests": [
+      "UNIT-API-045",
+      "API-045",
+      "INT-API-045",
+      "SEC-API-045"
+    ]
+  },
+  {
+    "acl": "authenticated",
+    "effect": "Только whitelist template_id из manifest; неизвестный 404.",
+    "group": "projects",
+    "id": "API-046",
+    "method": "GET",
+    "operation_id": "read_template",
+    "path": "/api/v1/templates/{template_id}",
+    "request": null,
+    "response": "Template",
+    "status": 200,
+    "tables": [
+      "projects",
+      "project_members",
+      "project_nodes"
+    ],
+    "task": "BE-021",
+    "tests": [
+      "UNIT-API-046",
+      "API-046",
+      "INT-API-046",
+      "SEC-API-046"
+    ]
+  }
+]

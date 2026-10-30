@@ -1,0 +1,34 @@
+# Лимиты и NFR
+
+Владелец: backend architect / backend-developer. Статус: draft. Обновлено: 2026-10-30.
+Связи: BE-002–BE-007; ADR-0001–0007; проверки и задачи в [карте](tasks/ROADMAP.md).
+
+Начальные эксплуатационные defaults, менять через конфигурацию с startup validation.
+
+| Ограничение | Значение | Контроль |
+|---|---|---|
+| API JSON | 2 MiB; текст ≤1 MiB UTF-8 | до parse + после encoding |
+| Upload | 20 MiB | streaming byte counter |
+| Project / owner retained storage | 500 MiB / 2 GiB | owner+project locks, SUM revisions/artifacts |
+| Projects / user; members / project | 100 / 50 | транзакционная квота |
+| Live tree | 2000 nodes, depth20, path1024 | parent check, bounded query |
+| Jobs pending+running | requester3, project3, global pending100 | scheduler/user locks |
+| Running | global1 default, project1 | scheduler advisory lock |
+| PDF / DOCX / ZIP wall time | 60s / 120s / 30s | kill sandbox |
+| Sandbox | 1 CPU, 1 GiB RAM, 64 PID, work512 MiB | rootless cgroup v2 + tmpfs |
+| Artifact | 100 MiB | bounded collection |
+| Register/login | IP 10/15min; login email 10/15min | PostgreSQL atomic bucket |
+| Refresh | session 30/min | atomic bucket |
+| Authenticated API | user 300/min | atomic bucket |
+| Upload | user 20/min | atomic bucket |
+| Compile/export | user 10/min | atomic bucket + job quota |
+| Logs | 1000 entries / 1 MiB | truncate marker |
+
+Fixed-window rate limits, clock DB; UPSERT count атомарный, очистка buckets >24h.
+Граница окна допускает burst 2×limit, принято для MVP. Anonymous API IP 120/min кроме probes;
+health на приватной ingress сети. Concurrency hash CPU ограничивается thread semaphore.
+
+Целевые SLO (не измеренные): metadata p95<300ms при 20 активных пользователях на 4 CPU/8 GiB SSD;
+20 параллельных saves без потерь; queued job pick-up≤2s без занятых slots. TeX latency зависит
+от документа. No N+1; immutable download streaming 64 KiB chunks. Размер backing volume
+≥20 GiB для dev smoke, production capacity планировать по actual retained data + backup.

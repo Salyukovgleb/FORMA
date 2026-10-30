@@ -1,0 +1,11 @@
+flowchart LR
+ Browser --> API[FastAPI process]
+ API --> DB[(PostgreSQL)]
+ API --> Files[(Persistent files volume)]
+ Controller[Trusted worker controller] --> DB
+ Controller --> Files
+ Controller --> Docker[Rootless Docker daemon]
+ Docker --> Sandbox[Per-attempt container: no network or secrets]
+ Input[Job-only input ro] --> Sandbox
+ Sandbox --> Output[Bounded output stream]
+ Output --> Controller

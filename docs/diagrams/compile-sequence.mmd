@@ -1,0 +1,16 @@
+sequenceDiagram
+ participant C as Client
+ participant A as API
+ participant D as PostgreSQL
+ participant W as Worker
+ participant S as Sandbox
+ C->>A: POST compilations + revision + idempotency key
+ A->>D: lock owner/project, ACL, pin snapshot, insert job, commit
+ A-->>C: 202 job_id
+ W->>D: claim + fencing token
+ W->>S: verified job-only inputs
+ S-->>W: bounded PDF/logs
+ W->>D: fenced publish artifact + succeeded
+ C->>A: GET job / artifact download
+ A->>D: current ACL and expiry
+ A-->>C: stream PDF
