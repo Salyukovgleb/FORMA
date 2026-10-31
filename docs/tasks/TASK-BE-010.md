@@ -3,7 +3,7 @@ id: "BE-010"
 title: "Конфигурация окружений, secrets, logging, correlation IDs"
 epic: "EPIC-01"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-008"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -95,3 +95,5 @@ redacted startup errors) и core/logging.py (allowlisted JSON events, ContextVar
 Ruff, strict MyPy (5 files), lock и design PostgreSQL checks green.
 HTTP middleware будет в BE-012; raw сообщения/exception text намеренно не логируются.
 API/DB contract не меняется. Дополнительных runtime libraries кроме уже принятого Pydantic нет.
+
+2026-10-31: подтверждён merge PR #3, `7aad6c1`; head `23ac085`, CI run 41084839338 SUCCESS. Повторный локальный make ci-local: 26 passed, Ruff/MyPy/lock/schema green.
