@@ -2,6 +2,7 @@
 
 import json
 import logging
+import sys
 from collections.abc import Iterator
 from contextlib import contextmanager
 from contextvars import ContextVar
@@ -75,7 +76,7 @@ class JsonFormatter(logging.Formatter):
 def configure_logging() -> logging.Logger:
     """Configure only the application's logger, leaving third-party loggers untouched."""
     logger = logging.getLogger("forma")
-    handler = logging.StreamHandler()
+    handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(JsonFormatter())
     logger.handlers[:] = [handler]
     logger.setLevel(logging.INFO)

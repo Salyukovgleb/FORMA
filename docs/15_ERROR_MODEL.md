@@ -20,10 +20,13 @@ field/current_revision/retry_after/reason (nullable). Текст message не AP
 | 422 | VALIDATION_ERROR, INVALID_PATH, INVALID_MAIN_FILE | Схема/семантика input |
 | 429 | RATE_LIMITED, QUOTA_EXCEEDED | Retry-After seconds (quota: retention/manual cleanup) |
 | 500 | INTERNAL_ERROR | Только generic message, traceback в защищённом log |
-| 503 | STORAGE_UNAVAILABLE, DATABASE_UNAVAILABLE | Dependency недоступна |
+| 405 | METHOD_NOT_ALLOWED | Неподдерживаемый HTTP метод, заголовок Allow сохраняется |
+| 503 | STORAGE_UNAVAILABLE, DATABASE_UNAVAILABLE, DEPENDENCY_UNAVAILABLE | Dependency недоступна |
 
 Job error_code отдельно: LATEX_COMPILATION_FAILED, DOCX_CONVERSION_FAILED,
 INVALID_SNAPSHOT, TIMEOUT, RESOURCE_LIMIT, WORKER_LOST, TEMPORARY_IO,
 DATABASE_UNAVAILABLE, CANCELLED. HTTP 202 не означает успешный результат job.
 FastAPI validation exception переводится в envelope, стандартный detail[] не выдаётся.
 При нескольких validation errors вернуть первую детерминированно и request_id.
+
+BE-012: error envelope реализован на HTTP boundary; значения input, HTTPException.detail и exception text не сериализуются. details.field может быть null; runtime не отражает произвольные ключи запроса.

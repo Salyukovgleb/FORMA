@@ -8,9 +8,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from docs.contracts import models as m
-from docs.contracts.registry import ROWS, TABLES, group
+from docs.contracts.registry import ROWS, TABLES, group, OPERATION_STATUS
 
-META = "Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Реализация: planned.\n"
+META = "Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Состояние реализации указано для каждого метода.\n"
 
 
 def dump(v):
@@ -216,7 +216,7 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
         "summary": uc,
         "description": effect,
         "x-endpoint-id": aid,
-        "x-status": "planned",
+        "x-status": OPERATION_STATUS.get(oid, "planned"),
         "x-acl": role,
         "parameters": params,
         "responses": responses,
@@ -242,7 +242,9 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
         }
     spec["paths"].setdefault(path, {})[method.lower()] = operation
     tests = [f"{prefix}-{i:03}" for prefix in ["UNIT-API", "API", "INT-API", "SEC-API"]]
+    implementation_status = OPERATION_STATUS.get(oid, "planned")
     record = {
+        "implementation_status": implementation_status,
         "id": aid,
         "method": method,
         "path": path,
@@ -274,7 +276,7 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
 
     section = f"""\n## {aid} — {uc}
 
-`{method} {path}` · planned · operationId `{oid}` · tag `{tag}`.
+`{method} {path}` · {implementation_status} · operationId `{oid}` · tag `{tag}`.
 
 Назначение и транзакция: {effect}
 
@@ -329,7 +331,7 @@ for tag, body in docs.items():
 (ROOT / "docs/09_API_ENDPOINT_CATALOG.md").write_text(
     "# Каталог API\n\n"
     + META
-    + f"\nВсего **{len(ROWS)}** методов, все planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
+    + f"\nВсего **{len(ROWS)}** методов: 2 implemented (health), 44 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
     + "\n".join(catalog)
     + "\n\nПолные спецификации: "
     + ", ".join(f"[{t}](api/{t}.md)" for t in docs)

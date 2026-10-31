@@ -26,3 +26,9 @@ JWT не устраняет DB lookup; reload требует login из-за о�
 ## Проверка
 
 BE-003/006/007 проектируют; соответствующие implementation gates описаны в [карте](../tasks/ROADMAP.md). Решение draft, применение в продукте planned.
+
+## Уточнение BE-012
+
+Uvicorn — минимальный ASGI runtime для FastAPI; HTTPX используется только для тестов.
+Новых внешних сервисов нет. Health/Error Pydantic DTO живут в core/contracts.py и
+переиспользуются проектным генератором вместо дублирования wire fields.

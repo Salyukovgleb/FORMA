@@ -1,10 +1,10 @@
 # API: system
 
-Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Реализация: planned.
+Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Состояние реализации указано для каждого метода.
 
 ## API-001 — Liveness
 
-`GET /health/live` · planned · operationId `liveness` · tag `system`.
+`GET /health/live` · implemented · operationId `liveness` · tag `system`.
 
 Назначение и транзакция: Без I/O; проверка event loop.
 
@@ -59,7 +59,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-002 — Readiness
 
-`GET /health/ready` · planned · operationId `readiness` · tag `system`.
+`GET /health/ready` · implemented · operationId `readiness` · tag `system`.
 
 Назначение и транзакция: SELECT 1 и пробная запись/удаление отдельного health-файла; timeout 2s, иначе 503.
 

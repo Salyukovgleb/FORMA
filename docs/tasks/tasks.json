@@ -256,7 +256,7 @@
     "title": "SQLAlchemy/Alembic и первая миграция + smoke-test",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-009"
     ],
@@ -286,7 +286,7 @@
     "title": "FastAPI app factory, единые ошибки, health/ready, OpenAPI",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "planned",
+    "status": "in_review",
     "depends_on": [
       "BE-010",
       "BE-011"

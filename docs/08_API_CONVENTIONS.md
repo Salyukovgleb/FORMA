@@ -4,8 +4,8 @@
 Связи: BE-002–BE-007; ADR-0001–0007; проверки и задачи в [карте](tasks/ROADMAP.md).
 
 API /api/v1; health /health/live и /health/ready. [OpenAPI](contracts/openapi.json)
-генерируется из Pydantic v2 и [registry](contracts/registry.py); все методы planned.
-Runtime /openapi.json и /docs появятся в BE-012, должны совпасть с контрактом после реализации.
+генерируется из Pydantic v2 и [registry](contracts/registry.py); health implemented, остальные44 planned.
+Runtime /openapi.json и /docs реализованы в BE-012 (вне production) и содержат только health.
 JSON extra fields запрещены. UUID canonical, даты RFC3339 UTC, UTF-8. PATCH здесь заменяет
 явно перечисленный набор полей; отсутствующие обязательные поля дают 422.
 

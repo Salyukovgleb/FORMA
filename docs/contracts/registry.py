@@ -536,3 +536,7 @@ def group(route):
     if any(s in route for s in ["/tree", "/folders", "/files", "/nodes", "/uploads"]):
         return "project-files"
     return "projects"
+
+
+# Only these operations have runtime handlers; the other contracts remain planned.
+OPERATION_STATUS = {"liveness": "implemented", "readiness": "implemented"}

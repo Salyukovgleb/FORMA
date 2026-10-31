@@ -17,6 +17,15 @@ def main() -> None:
         "POSTGRES_PASSWORD": secrets.token_hex(24),
         "FORMA_IMAGE": project + ":test",
     }
+    env.update(
+        {
+            "DATABASE_URL": f"postgresql+psycopg://forma:{env['POSTGRES_PASSWORD']}@postgres:5432/forma",
+            "JWT_SECRET": secrets.token_hex(32),
+            "APP_ENV": "test",
+            "ALLOWED_ORIGINS": "https://forma.example.org",
+            "COOKIE_SECURE": "true",
+        }
+    )
     base = [
         "docker",
         "compose",
@@ -95,8 +104,19 @@ def main() -> None:
             "heads",
         )
         assert "0002_sessions_limits (head)" in heads
+        run("up", "-d", "--wait", "--wait-timeout", "90", "api")
+        run(
+            "exec",
+            "-T",
+            "api",
+            "python",
+            "-c",
+            "import json,urllib.request; "
+            "assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/health/live')) == {'status':'ok'}; "
+            "assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/health/ready')) == {'status':'ok'}",
+        )
         print(
-            "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection"
+            "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection, live API health/ready"
         )
     finally:
         # Never use down -v. Remove only this invocation's labelled disposable volumes.

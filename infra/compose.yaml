@@ -34,6 +34,39 @@ services:
     pids_limit: 64
     mem_limit: 256m
     cpus: 1.0
+  api:
+    image: ${FORMA_IMAGE:-forma-backend:local}
+    build:
+      context: ..
+      dockerfile: infra/docker/Dockerfile
+    command: ["python", "-m", "uvicorn", "forma_backend.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?Set ALLOWED_ORIGINS}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      STORAGE_ROOT: /var/lib/forma
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - files:/var/lib/forma
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777,nosuid,nodev
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 512m
+    cpus: 1.0
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=3)"]
+      interval: 3s
+      timeout: 4s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
 volumes:
   pgdata:
   files:

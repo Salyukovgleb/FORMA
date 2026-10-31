@@ -14,8 +14,8 @@
 | [BE-008](TASK-BE-008.md) | done | BE-007 | feat/BE-008-python-foundation | 17f6917 merge | [success ab78556](https://github.com/Salyukovgleb/FORMA/actions/runs/41083987291) | PR #2, 13 tests |
 | [BE-009](TASK-BE-009.md) | done | BE-008, BE-010 | feat/BE-009-compose-bootstrap | b99e2d2 merge PR #6 | [SUCCESS dc672ab](https://github.com/Salyukovgleb/FORMA/actions/runs/41196395866) | Docker persistence smoke + 26 tests/lint/types/lock/schema |
 | [BE-010](TASK-BE-010.md) | done | BE-008 | feat/BE-010-config-logging | 7aad6c1 merge PR #3 | [success 23ac085](https://github.com/Salyukovgleb/FORMA/actions/runs/41084839338) | 26 tests + lint/types/lock/schema |
-| [BE-011](TASK-BE-011.md) | in_review | BE-009 | — | — | не заявлен | ready |
-| [BE-012](TASK-BE-012.md) | planned | BE-010, BE-011 | — | — | не заявлен | planned |
+| [BE-011](TASK-BE-011.md) | done | BE-009 | feat/BE-011-database-migrations | 206cdc2 merge PR #8 | [success 514bd17](https://github.com/Salyukovgleb/FORMA/actions/runs/41197148968) | 26 + 4 tests, Docker migration smoke |
+| [BE-012](TASK-BE-012.md) | in_review | BE-010, BE-011 | — | — | не заявлен | in_review |
 | [BE-013](TASK-BE-013.md) | planned | BE-009, BE-011, BE-012 | — | — | не заявлен | planned |
 | [BE-014](TASK-BE-014.md) | planned | BE-011, BE-012, BE-013 | — | — | не заявлен | planned |
 | [BE-015](TASK-BE-015.md) | planned | BE-014 | — | — | не заявлен | planned |

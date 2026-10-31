@@ -3,7 +3,7 @@ id: "BE-012"
 title: "FastAPI app factory, единые ошибки, health/ready, OpenAPI"
 epic: "EPIC-01"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-010", "BE-011"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-FastAPI app factory, единые ошибки, health/ready, OpenAPI. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M0.
+FastAPI app factory, единые ошибки, health/ready, OpenAPI. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M1.
 
 ## Outcome
 
@@ -88,3 +88,17 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 DB down даёт ready503, live200. Изменение Outcome требует пересмотра зависимых карточек.
 
 ADR-0008 integration gate: Добавить Compose API service и smoke health/ready на действующем PostgreSQL.
+
+## Mini-plan / evidence
+
+BE-010/011 merged. Shared Pydantic Health/Error DTO переиспользуется contract generator.
+Factory управляет engine lifespan; middleware добавляет correlation/no-store/nosniff,
+обрабатывает безопасные HTTP/validation/internal errors, явный CORS allowlist.
+Readiness probes выполняются вне event loop; общий HTTP deadline2s, до4 активных probes,
+DB connect/query bounds; startup production config fail closed; production Swagger отключён.
+
+Тесты написаны до main.py. API suite: DB-down live200/ready503, envelope/request IDs,
+404/405/422/500 без secrets, CORS, docs visibility, semantic OpenAPI schema equality,
+deadline и отсутствие credentials/query values в logs. Integration проверяет настоящий
+PostgreSQL и storage success/failure. Compose smoke запускает API и запрашивает оба health.
+Миграций в BE-012 нет; бизнес-методы API ещё planned. In_review до green SHA CI/merge.

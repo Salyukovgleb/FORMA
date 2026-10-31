@@ -23,3 +23,8 @@ JsonFormatter использует whitelist event/IDs/counts/error codes и о�
 args, arbitrary extras и exception text. request_context() принимает UUID либо генерирует новый,
 сбрасывает ContextVar при выходе. HTTP integration — BE-012. Безопасный traceback formatter
 пока не реализован: не передавать чувствительные сведения в сообщения сторонних logger.
+
+BE-012: request middleware связывает X-Request-ID с JSON logs stdout, ошибками и response headers.
+Readiness deadline2s включает ожидание probes; I/O выполняется вне event loop. Отмена HTTP не
+останавливает синхронный syscall, поэтому активные probes ограничены четырьмя; DB connection
+и statement имеют собственные bounds. При deadline/overload DEPENDENCY_UNAVAILABLE503.

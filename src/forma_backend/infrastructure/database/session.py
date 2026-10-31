@@ -12,7 +12,14 @@ def create_database_engine(url: str | URL) -> Engine:
     parsed = make_url(url)
     if parsed.drivername != "postgresql+psycopg":
         raise ValueError("Expected postgresql+psycopg database URL")
-    return create_engine(parsed, pool_pre_ping=True, hide_parameters=True, echo=False)
+    return create_engine(
+        parsed,
+        pool_pre_ping=True,
+        hide_parameters=True,
+        echo=False,
+        connect_args={"connect_timeout": 2},
+        pool_timeout=2,
+    )
 
 
 @contextmanager
