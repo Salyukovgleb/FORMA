@@ -38,10 +38,11 @@ BE-001…007 done. BE-008 выполняется первой; затем BE-010
 
 ## Текущее состояние — 2026-10-31
 
-M1 foundation (BE-008…013) merged и проверен; BE-014…018 также merged; следующая по критическому пути — BE-024 (storage prerequisite BE-019).
+M1 foundation (BE-008…013) merged и проверен; BE-014…018 также merged; BE-024 также merged; следующая по критическому пути — BE-019.
 Доступны make migrate, migration-check, test-integration, test-migrations, test-security,
 dependency-check, dev-up/dev-down и test-compose. CI имеет восемь обязательных checks;
 каждый новый PR требует фактического green head SHA перед merge. Runtime реализует12 health/identity методов; остальные34 planned. Worker — BE-032.
 
 BE-017 policy implemented без project adapters; auth regression/cleanup CLI BE-018 verified.
-BE-024 начата с mini-plan, implementation ещё pending; project API/ORM остаются planned.
+BE-024 storage/barrier adapter implemented, ADR-0009 уточняет fencing/uncertain commit.
+BE-019 начата с разбора и mini-plan; project API/ORM ещё planned.
