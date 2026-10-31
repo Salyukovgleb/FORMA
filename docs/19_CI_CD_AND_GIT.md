@@ -22,3 +22,15 @@ fork PR не получает secrets. Production deploy/tag только BE-052
 Branch protection настраивается администратором: PR required, актуальные checks required,
 no force push/deletion, review согласно команде. CODEOWNERS не добавлен: один разработчик,
 внешние reviewer usernames не заданы. Защита не считается включённой без проверки API.
+
+## BE-013: восемь checks implemented
+
+lint, types, unit-tests, integration-tests, migration-check, security-tests, docker-build,
+docs-contract реализованы отдельными jobs на одинаковых main/PR triggers.
+Locked Python install вынесен в local composite action; external actions pinned by SHA,
+permissions contents:read, caches по lock, timeout10/15m, superseded runs cancelled.
+Security suite сейчас проверяет существующие config/logging/HTTP controls; auth/ACL/sandbox
+будут добавляться с реализацией модулей. pip check проверяет dependency graph, locks —
+versions/hashes; это не vulnerability scan. Никаких фиктивных зеленых suite.
+Branch protection по-прежнему отдельно настраивает администратор; required check names
+теперь существуют фактически. Состояние protection не изменялось этой задачей.
