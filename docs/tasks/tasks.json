@@ -205,7 +205,7 @@
     "title": "Docker Compose: API, PostgreSQL, worker; persistent volumes; healthchecks",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "blocked",
+    "status": "in_review",
     "depends_on": [
       "BE-008",
       "BE-010"

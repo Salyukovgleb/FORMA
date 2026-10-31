@@ -1,0 +1,5 @@
+# Explicit opt-in for host SQL tools. Production compose publishes no database port.
+services:
+  postgres:
+    ports:
+      - '127.0.0.1:${POSTGRES_PORT:-5432}:5432'

@@ -17,3 +17,13 @@ ci-local: lint typecheck test lock-check schema-check
 
 lock-check:
 	$(PYTHON) scripts/check_lock.py
+	$(PYTHON) scripts/check_lock.py requirements-runtime.lock
+	$(PYTHON) scripts/check_lock.py requirements-build.lock
+
+.PHONY: dev-up dev-down test-compose
+dev-up:
+	docker compose --env-file .env -f infra/compose.yaml up -d --wait postgres
+dev-down:
+	docker compose --env-file .env -f infra/compose.yaml down
+test-compose:
+	$(PYTHON) scripts/check_compose.py

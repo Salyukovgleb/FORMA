@@ -12,3 +12,5 @@
 - BE-008: устанавливаемый typed Python package, lock verification, isolated import tests.
 
 - BE-010: validated environment, protected secret representation, JSON event logging and isolated correlation context.
+
+- BE-009: digest-pinned non-root image, PostgreSQL/volume bootstrap, real persistence smoke and Docker CI.

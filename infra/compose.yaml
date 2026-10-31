@@ -1,0 +1,39 @@
+name: forma
+services:
+  postgres:
+    image: postgres:16.6@sha256:557fea37a744d5f4c8faab304b0a90858b53ab119735a88c131fd19dab802f36
+    environment:
+      POSTGRES_DB: forma
+      POSTGRES_USER: forma
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U forma -d forma']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    security_opt: [no-new-privileges:true]
+    mem_limit: 1g
+    cpus: 1.0
+    restart: unless-stopped
+  backend:
+    profiles: [tools]
+    image: ${FORMA_IMAGE:-forma-backend:local}
+    build:
+      context: ..
+      dockerfile: infra/docker/Dockerfile
+    volumes:
+      - files:/var/lib/forma
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777,nosuid,nodev
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 256m
+    cpus: 1.0
+volumes:
+  pgdata:
+  files:
