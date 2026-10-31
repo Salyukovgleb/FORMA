@@ -255,7 +255,7 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
         "status": status,
         "acl": role,
         "task": f"BE-{task:03}",
-        "tables": TABLES[tag],
+        "tables": ["users", "rate_limit_buckets"] if uc == "RegisterUser" else TABLES[tag],
         "tests": tests,
         "effect": effect,
     }
@@ -307,7 +307,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: {", ".join(TABLES[tag]) or "нет"}; planned BE-046 audit будет добавлять event `{oid}`
+Таблицы: {", ".join(record["tables"]) or "нет"}; planned BE-046 audit будет добавлять event `{oid}`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

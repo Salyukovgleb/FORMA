@@ -33,6 +33,14 @@ def test_hash_capacity_is_bounded(monkeypatch):
     release = Event()
 
     def derive(*args, **kwargs):
+        assert (kwargs["n"], kwargs["r"], kwargs["p"], kwargs["dklen"], kwargs["maxmem"]) == (
+            32768,
+            8,
+            1,
+            64,
+            64 * 1024 * 1024,
+        )
+        assert len(kwargs["salt"]) == 16
         entered.wait(timeout=3)
         assert release.wait(timeout=3)
         return b"x" * 64

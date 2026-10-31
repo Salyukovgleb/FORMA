@@ -9,7 +9,7 @@ owner: "backend-developer"
 estimate: "0.5–2 developer days"
 requirements: ["FR-AUTH-001", "FR-ACL-001"]
 api: ["POST /api/v1/auth/register"]
-database: ["auth_sessions", "rate_limit_buckets", "used_refresh_tokens", "users"]
+database: ["users", "rate_limit_buckets"]
 tests: ["BE-014-POS", "BE-014-NEG", "UNIT-API-003", "API-003", "INT-API-003", "SEC-API-003"]
 adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 ---

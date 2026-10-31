@@ -55,8 +55,6 @@
     "status": 201,
     "tables": [
       "users",
-      "auth_sessions",
-      "used_refresh_tokens",
       "rate_limit_buckets"
     ],
     "task": "BE-014",

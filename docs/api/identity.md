@@ -63,7 +63,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `register_user`
+Таблицы: users, rate_limit_buckets; planned BE-046 audit будет добавлять event `register_user`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
