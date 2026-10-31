@@ -3,7 +3,7 @@ id: "BE-019"
 title: "Таблица projects, репозиторий, создание проекта"
 epic: "EPIC-03"
 priority: "P0"
-status: "planned"
+status: "in_progress"
 depends_on: ["BE-017", "BE-018", "BE-024"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -86,3 +86,33 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Превышение user project quota. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / dependency review — 2026-10-31
+
+BE-017/018/024 done, BE-019 planned → ready → in_progress. Выполнен разбор API/DDL,
+migration plan, role policy и ADR-0009. Код CreateProject пока не реализован.
+
+Source: modules/projects/application.py, schemas.py, router.py; infrastructure/projects/
+persistence.py; typed ORM project/member models и Alembic0003_projects_access. SQLAlchemy
+metadata UoW bind к MaintenanceGuard.connection, join_transaction_mode="rollback_only",
+flush → explicit lease.commit(). Router без SQL, Principal из существующего auth dependency.
+Storage adapter не делает metadata commits. Durable audit остаётся BE-046, не fake event.
+
+Согласно утверждённому migration plan0003 создаёт projects/members без main FK;
+project_nodes/file_revisions и composite main FK/triggers —0004/BE-025. Не создавать ранние
+пустые nodes таблицы ради DTO. До0004 main_file_id должен оставатьсяNULL (проверить временную
+DB constraint при migration review); wire Project уже допускаетNULL. FK/DDL/model drift и
+миграции с seeded identity data должны проверяться отдельно от target schema14tables.
+
+Tests first: unauthenticated401, extra owner_id/role422, whitespace/NUL/invalid Unicode title,
+owner из Principal, revision1/engine xelatex/active/default timestamps, пустой project tree,
+квота100 retained projects/user с user lock, две concurrent creations у предела99,
+revoked/disabled session после ожидания user lock, failed commit без частичного project.
+Проверить membership context binding к requester/project; owner не membership row.
+
+template_id=None создаёт пустой project. Не игнорировать non-null template_id: explicit
+unsupported/unknown template response документируется до BE-021 (templates требуют BE-025/027).
+Новые routes — только POST /api/v1/projects в этой задаче; listing/read/update —BE-020.
+Обновить runtime/canonical DTO, registry/OpenAPI, migration dictionary/runbook и Docker heads/smoke;
+проверить fresh/seeded/idempotent upgrade, FK/checks, downgrade только disposable test DB.
+Затем lint/types/relevant/security/migrations/compose → commit → push → PR → green SHA CI → merge.

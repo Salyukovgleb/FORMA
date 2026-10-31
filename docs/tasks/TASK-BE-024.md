@@ -3,7 +3,7 @@ id: "BE-024"
 title: "Локальный FileStorage adapter + тесты безопасности путей"
 epic: "EPIC-04"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-008", "BE-010", "BE-013"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-40 storage scenarios passed; [evidence](../evidence/BE-024.md). Remote CI/merge ожидаются.
+40 storage scenarios passed; [evidence](../evidence/BE-024.md). PR #19 merged `658b0f3`, восемь checks SUCCESS для head `4eb80bd`.
 
 ## Risks
 

@@ -45,3 +45,9 @@ BE-014…018 done после green CI/merge: registration, sessions/JWT, profile
 чистая role/object policy и auth limit regression/cleanup. M2 ещё не закрыт: BE-019…023 pending.
 BE-019 зависит от FileStorage BE-024, все prerequisites BE-024 done; следующий инкремент — BE-024.
 BE-039 остаётся независимой ready задачей. Не начинать CreateProject с незакрытым storage dependency.
+
+## Storage prerequisite closed — 2026-10-31
+
+BE-024 merged PR #19 после8 green checks: UUID immutable storage, maintenance barrier и40
+storage fault/security scenarios. BE-019 теперь имеет все dependencies done; начат её mini-plan.
+M2 остаётся открытым, project endpoints/schema ещё planned. BE-039 — независимая ready ветка.
