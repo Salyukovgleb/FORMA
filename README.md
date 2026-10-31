@@ -117,3 +117,7 @@ BE-018: auth limits проверены под конкурентной нагр�
 долгая transaction использует текущее DB statement time. `make auth-limits-cleanup`
 удаляет bounded batch rate buckets старше24h из настроенной БД, без удаления пользовательских томов.
 CLI доступен в packaged image; автоматический scheduler ещё planned.
+
+BE-024: typed UUID FileStorage + POSIX local adapter и PostgreSQL shared/exclusive barrier.
+Проверяются private single-link files, capacity floors, atomic reserved rename, guarded metadata
+commit и безопасный GC. API/DB integration — BE-019/025, backup/retention scheduler — BE-047.

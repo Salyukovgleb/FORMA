@@ -18,3 +18,7 @@
 - [GitHub composite action metadata](https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax): common Python setup uses explicit shell and pinned action references.
 
 - [PyJWT security changelog](https://pyjwt.readthedocs.io/en/stable/changelog.html): BE-015 pins2.15.1 including parser security fixes.
+
+- [Python3.12 os](https://docs.python.org/3.12/library/os.html): dir_fd/O_NOFOLLOW, exclusive create, fsync, rename destination semantics.
+- [PostgreSQL16 advisory locks](https://www.postgresql.org/docs/16/explicit-locking.html#ADVISORY-LOCKS): session lock lifecycle.
+- [SQLAlchemy2 connections](https://docs.sqlalchemy.org/en/20/core/connections.html): detach, invalidate/reconnect and explicit commit. BE-024 retains/closes detached driver handle explicitly.

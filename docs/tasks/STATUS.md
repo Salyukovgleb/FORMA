@@ -27,7 +27,7 @@
 | [BE-021](TASK-BE-021.md) | planned | BE-019, BE-025, BE-027 | — | — | не заявлен | planned |
 | [BE-022](TASK-BE-022.md) | planned | BE-020, BE-025 | — | — | не заявлен | planned |
 | [BE-023](TASK-BE-023.md) | planned | BE-019, BE-017 | — | — | не заявлен | planned |
-| [BE-024](TASK-BE-024.md) | in_progress | BE-008, BE-010, BE-013 | — | — | не заявлен | mini-plan; implementation pending |
+| [BE-024](TASK-BE-024.md) | in_review | BE-008, BE-010, BE-013 | — | — | не заявлен | 40 storage scenarios; local checks passed |
 | [BE-025](TASK-BE-025.md) | planned | BE-019, BE-024 | — | — | не заявлен | planned |
 | [BE-026](TASK-BE-026.md) | planned | BE-025 | — | — | не заявлен | planned |
 | [BE-027](TASK-BE-027.md) | planned | BE-025, BE-026 | — | — | не заявлен | planned |

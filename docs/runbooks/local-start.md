@@ -27,3 +27,15 @@ SKIP LOCKED может оставить locked rows. Удаляются толь
 Exit0 — committed batch; exit1 — configuration/DB/timeout failure и rollback; exit2 — invalid batch size.
 Если timeout повторяется на крупной таблице, не убирать timeouts автоматически: изучить EXPLAIN
 и expiry index в BE-048. Внешний schedule ещё не настроен, назначить operator cadence до release.
+
+## Storage adapter prerequisites (BE-024)
+
+POSIX (production Linux image); root должен существовать и принадлежать service UID, без
+symlink в компонентах пути и без group/world write. Storage root обслуживает ровно одну
+backend DB authority; не использовать один volume с независимыми БД и разными locks.
+revisions/artifacts/temp создаются0700; generated files0600. Не исправлять проблему chmod777.
+Capacity defaults: available≥2GiB и≥10%; отказ даёт StorageUnavailable, не удаляет пользовательские данные.
+Весь publish/read/GC вызывается под MaintenanceGuard; metadata — только через ту же connection
+и explicit lease.commit(). ORM Session.commit не должен завершать outer guarded transaction.
+DB lost/uncertain commit: проверить DB state перед retry, не чистить свежий blob сразу.
+Manual GC discovery/retention и backup scripts ещё BE-047, публичный storage API ещё BE-019/025.

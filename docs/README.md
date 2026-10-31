@@ -141,3 +141,6 @@ BE-014: registration implemented; runtime теперь содержит health+r
 BE-015: runtime содержит9 health/identity методов; остальные37 planned. Profile/password change — BE-016.
 
 BE-016: runtime содержит12 health/identity методов; остальные34 planned. Роли — BE-017.
+
+[ADR-0009: publication fencing](adr/0009-storage-publication-fencing.md).
+BE-024: storage/barrier adapter implemented; project/file routes и DB references ещё planned.
