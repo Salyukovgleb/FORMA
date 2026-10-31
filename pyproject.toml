@@ -3,7 +3,7 @@ name = "forma-backend"
 version = "0.1.0.dev0"
 requires-python = ">=3.12"
 description = "FORMA modular backend"
-dependencies = ["pydantic==2.12.3", "SQLAlchemy==2.0.44", "alembic==1.17.1", "psycopg[binary]==3.2.12"]
+dependencies = ["pydantic==2.12.3", "SQLAlchemy==2.0.44", "alembic==1.17.1", "psycopg[binary]==3.2.12", "fastapi==0.121.0", "uvicorn==0.38.0"]
 
 [tool.ruff]
 line-length = 100
@@ -13,7 +13,7 @@ select = ["F"]
 files = ["src", "docs/contracts/models.py"]
 strict = true
 [tool.pytest.ini_options]
-testpaths = ["tests/contracts", "tests/unit"]
+testpaths = ["tests/contracts", "tests/unit", "tests/api"]
 
 [build-system]
 requires = ["setuptools==80.9.0", "wheel==0.45.1"]

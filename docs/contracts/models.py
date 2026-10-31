@@ -3,7 +3,14 @@
 from datetime import datetime
 from typing import Annotated, Generic, Literal, TypeVar
 from uuid import UUID
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import Field
+from forma_backend.core.contracts import (
+    DTO as DTO,
+    ErrorDetail as ErrorDetail,
+    Error as Error,
+    ErrorEnvelope as ErrorEnvelope,
+    Health as Health,
+)
 
 Name = Annotated[str, Field(min_length=1, max_length=255)]
 Email = Annotated[str, Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")]
@@ -13,32 +20,6 @@ Sha256 = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 Engine = Literal["pdflatex", "xelatex", "lualatex"]
 Role = Literal["owner", "editor", "viewer"]
 State = Literal["queued", "running", "retry_wait", "succeeded", "failed", "cancelled"]
-
-
-class DTO(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-
-class Empty(DTO):
-    pass
-
-
-class ErrorDetail(DTO):
-    field: str | None = None
-    current_revision: int | None = None
-    retry_after: int | None = None
-    reason: str | None = None
-
-
-class Error(DTO):
-    code: str
-    message: str
-    details: ErrorDetail
-    request_id: UUID
-
-
-class ErrorEnvelope(DTO):
-    error: Error
 
 
 class Register(DTO):
@@ -270,10 +251,6 @@ class Template(DTO):
     main_file: str
     files: list[str]
     version: str
-
-
-class Health(DTO):
-    status: Literal["ok", "unavailable"]
 
 
 T = TypeVar("T")

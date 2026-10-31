@@ -22,7 +22,7 @@ lock-check:
 
 .PHONY: dev-up dev-down test-compose
 dev-up:
-	docker compose --env-file .env -f infra/compose.yaml up -d --wait postgres
+	docker compose --env-file .env -f infra/compose.yaml -f infra/compose.dev.yaml up -d --build --wait api
 dev-down:
 	docker compose --env-file .env -f infra/compose.yaml down
 test-compose:

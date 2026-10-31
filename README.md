@@ -1,7 +1,7 @@
 # FORMA
 
-Backend научного редактора: LaTeX, PDF, редактируемый DOCX, ZIP. M0 принят и слит; начата **фаза B, BE-008**. Сохранены:
-проектная документация и проверяемые контракты; продуктовый сервер ещё не реализован.
+Backend научного редактора: LaTeX, PDF, редактируемый DOCX, ZIP. M0 принят и слит; идёт **фаза B**. Реализованы database foundation и health API. Сохранены:
+проектная документация и проверяемые контракты; бизнес-методы пока planned.
 
 [Документация](docs/README.md) · [Architectural Review](docs/ARCHITECTURAL_REVIEW.md) ·
 [API: 46 методов](docs/09_API_ENDPOINT_CATALOG.md) · [PostgreSQL](docs/05_DATA_MODEL.md) ·
@@ -35,13 +35,13 @@ make ci-local
 `FORMA_TEST_DATABASE_URL`. Другие имена и непустая БД отвергаются. Никогда не передавать
 пользовательскую БД в эту переменную.
 
-make dev-up/migrate/test-integration/test-security пока отсутствуют: они будут добавлены
-с реальным приложением в BE-009/011/013. Наличие schema.sql не означает выполненную миграцию.
+make dev-up, make migrate и make test-integration доступны. make test-security будет добавлен
+в BE-013 с соответствующим набором реальных проверок. Наличие schema.sql не означает выполненную миграцию.
 Не использовать `docker compose down -v` для устранения неполадок.
 
-BE-008 добавляет устанавливаемый typed package forma_backend; `make lock-check` проверяет версии среды против lock. HTTP application пока отсутствует.
+BE-008 добавляет устанавливаемый typed package forma_backend; `make lock-check` проверяет версии среды против lock. App factory доступна в BE-012.
 
-BE-010: load_settings() валидирует окружение, не загружает .env автоматически. Заменить CHANGE_ME secrets; production требует HTTPS origins и Secure cookie. Логи forma используют whitelist и ContextVar request IDs; HTTP middleware ещё planned.
+BE-010: load_settings() валидирует окружение, не загружает .env автоматически. Заменить CHANGE_ME secrets; production требует HTTPS origins и Secure cookie. Логи forma используют whitelist и ContextVar request IDs; HTTP middleware реализован в BE-012.
 
 ## BE-009: локальный PostgreSQL и образ
 
@@ -67,3 +67,13 @@ make test-integration проверяет реальные миграции в о
 Приложение/пользовательские volumes не используются. Runtime migrations сейчас создают
 только четыре identity таблицы; полный design schema.sql из 14 таблиц остаётся целевой схемой.
 Unit of Work откатывает всё без явного commit(), SQL/параметры не логируются.
+
+## BE-012: health API
+
+После настройки .env: make dev-up собирает image и поднимает PostgreSQL/API с healthchecks;
+API слушает localhost:8000 через dev override. GET /health/live не требует БД;
+GET /health/ready проверяет DB+storage и возвращает503 при недоступности/дедлайне2s.
+Swagger /docs и /openapi.json доступны только вне production; runtime содержит два health
+метода, остальные44 остаются в planned контракте. Запуск без Docker: передать окружение
+и выполнить .venv/bin/python -m uvicorn forma_backend.main:create_app --factory --no-access-log.
+Запускать migrations отдельно до product API; health probe сам схему не создаёт.

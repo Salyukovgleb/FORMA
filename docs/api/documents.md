@@ -1,6 +1,6 @@
 # API: documents
 
-Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Реализация: planned.
+Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Состояние реализации указано для каждого метода.
 
 ## API-038 — RequestCompilation
 

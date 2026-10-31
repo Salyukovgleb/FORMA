@@ -16,3 +16,5 @@
 - BE-009: digest-pinned non-root image, PostgreSQL/volume bootstrap, real persistence smoke and Docker CI.
 
 - BE-011: typed identity persistence, explicit transactions, guarded Alembic revisions and real PostgreSQL migration tests.
+
+- BE-012: FastAPI factory, safe error/correlation boundary, health/readiness, dev Swagger, explicit CORS and live API Compose smoke.

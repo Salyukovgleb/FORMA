@@ -3,7 +3,7 @@ id: "BE-011"
 title: "SQLAlchemy/Alembic и первая миграция + smoke-test"
 epic: "EPIC-01"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-009"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -95,3 +95,5 @@ BE-009 done. Typed SQLAlchemy Base и identity models; explicit-commit Unit of W
 fresh head, seeded N−1→head, repeated upgrade, drift column, guarded downgrade/upgrade,
 CLI entrypoint, constraints и commit/rollback use case. Docker image содержит migrations.
 До merge задача in_review; локальные/CI результаты записываются отдельно.
+
+Merged [PR #8](https://github.com/Salyukovgleb/FORMA/pull/8), `206cdc202ca18e03ac55762cbfc6164f2ffde6b3`. [CI head 514bd17](https://github.com/Salyukovgleb/FORMA/actions/runs/41197148968) SUCCESS: docs-contract/docker-build. BE-011 done.

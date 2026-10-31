@@ -28,3 +28,10 @@ Dev override публикует только localhost SQL port; production base
 Существующие команды теперь make dev-up, make dev-down, make test-compose; make migrate
 появится в BE-011. Dockerfile использует отдельные hashed runtime/build locks.
 API/worker services появятся в BE-012/032 согласно ADR-0008.
+
+## BE-012: API service implemented
+
+Base Compose содержит api без host ports; dev override публикует 127.0.0.1:8000.
+make dev-up запускает api и dependency postgres; требуются DATABASE_URL/JWT_SECRET/ALLOWED_ORIGINS.
+API работает от UID10001, с read-only rootfs и files volume. Healthcheck вызывает readiness.
+Worker ещё planned (BE-032). Интеграционный smoke проверяет API, а не placeholder process.
