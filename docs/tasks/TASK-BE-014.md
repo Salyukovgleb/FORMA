@@ -3,7 +3,7 @@ id: "BE-014"
 title: "Модель users, безопасная регистрация, хеширование паролей"
 epic: "EPIC-02"
 priority: "P0"
-status: "planned"
+status: "ready"
 depends_on: ["BE-011", "BE-012", "BE-013"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
