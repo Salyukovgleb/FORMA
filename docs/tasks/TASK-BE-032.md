@@ -86,3 +86,5 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Complete после lease expiry/cancel. Изменение Outcome требует пересмотра зависимых карточек.
+
+ADR-0008 integration gate: Добавить настоящий Compose worker service с heartbeat smoke; не sleep placeholder.

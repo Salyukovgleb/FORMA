@@ -131,3 +131,5 @@ src/, alembic/, runtime Compose и product tests создаются в фазе 
 Пользователь принял документацию. PR #1 merged, commit `149419f`; M0 закрыт.
 BE-001…007 done. BE-008 выполняется первой; затем BE-010 по зависимостям.
 Предыдущие формулировки об ожидании M0 описывают состояние до принятия.
+
+[ADR-0008: порядок Compose/runtime интеграции](adr/0008-foundation-integration-order.md).

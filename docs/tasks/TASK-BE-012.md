@@ -86,3 +86,5 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 DB down даёт ready503, live200. Изменение Outcome требует пересмотра зависимых карточек.
+
+ADR-0008 integration gate: Добавить Compose API service и smoke health/ready на действующем PostgreSQL.

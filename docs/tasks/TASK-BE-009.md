@@ -24,7 +24,7 @@ Docker Compose: API, PostgreSQL, worker; persistent volumes; healthchecks. Тр�
 
 ## Outcome
 
-API/Postgres/worker стартуют; recreate сохраняет persistent files и DB.
+PostgreSQL стартует; non-root Python image собирается; recreate сохраняет persistent files и DB. API/worker integration — BE-012/032 согласно ADR-0008.
 
 ## Preconditions
 
@@ -46,14 +46,14 @@ Breaking wire changes запрещены без обновления OpenAPI/ADR
 
 ## Implementation checklist
 
-- Написать positive test: API/Postgres/worker стартуют; recreate сохраняет persistent files и DB.
+- Написать positive test: PostgreSQL стартует; non-root Python image собирается; recreate сохраняет persistent files и DB. API/worker integration — BE-012/032 согласно ADR-0008.
 - Зафиксировать negative test: Recreate контейнера не удаляет volume.
 - Реализовать только Outcome с UoW, typed ports и явными error codes.
 - Обновить связанный контракт и доказательство проверок.
 
 ## Required tests
 
-`BE-009-POS`: API/Postgres/worker стартуют; recreate сохраняет persistent files и DB.
+`BE-009-POS`: PostgreSQL стартует; non-root Python image собирается; recreate сохраняет persistent files и DB. API/worker integration — BE-012/032 согласно ADR-0008.
 Endpoint tests: Не применимо: задача проверяется своим POS/NEG сценарием.
 Тесты реализации planned; не заменять assertions пустыми тестами.
 
@@ -65,7 +65,7 @@ Endpoint tests: Не применимо: задача проверяется с�
 
 ## Acceptance criteria
 
-API/Postgres/worker стартуют; recreate сохраняет persistent files и DB. Проверка NEG воспроизводима; green локальные проверки и CI для commit SHA;
+PostgreSQL стартует; non-root Python image собирается; recreate сохраняет persistent files и DB. API/worker integration — BE-012/032 согласно ADR-0008. Проверка NEG воспроизводима; green локальные проверки и CI для commit SHA;
 поведение совпадает с DTO/DDL/ACL; нет незакрытого critical security дефекта.
 
 ## Documentation updates
@@ -101,3 +101,5 @@ Computer Use permissions are not granted. Проверить экран Docker D
 а worker loop — в BE-032. До реализации необходимо разделить инфраструктурный bootstrap
 и финальную проверку runtime persistence; не заменять API/worker sleep-процессами.
 Этот вопрос требует отдельного ADR и корректировки задач до продуктового кода.
+
+Порядок интеграции уточнён в [ADR-0008](../adr/0008-foundation-integration-order.md). Архитектурная неоднозначность устранена; внешний blocker — Docker daemon.

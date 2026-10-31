@@ -86,3 +86,5 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Отсутствующий test suite не зелёный placeholder. Изменение Outcome требует пересмотра зависимых карточек.
+
+ADR-0008 integration gate: Проверять API/DB Docker images; worker smoke добавляется после BE-032.

@@ -86,3 +86,5 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Missing host cgroup delegation. Изменение Outcome требует пересмотра зависимых карточек.
+
+ADR-0008 integration gate: Проверить совместный clean-room Compose запуск API/Postgres/worker и persistence.
