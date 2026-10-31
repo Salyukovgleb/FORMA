@@ -3,7 +3,7 @@ id: "BE-011"
 title: "SQLAlchemy/Alembic и первая миграция + smoke-test"
 epic: "EPIC-01"
 priority: "P0"
-status: "planned"
+status: "ready"
 depends_on: ["BE-009"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
