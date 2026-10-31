@@ -3,7 +3,7 @@ id: "BE-013"
 title: "GitHub Actions: lint, types, unit/integration, migration, build"
 epic: "EPIC-01"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-009", "BE-011", "BE-012"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-GitHub Actions: lint, types, unit/integration, migration, build. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M0.
+GitHub Actions: lint, types, unit/integration, migration, build. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M1.
 
 ## Outcome
 
@@ -88,3 +88,14 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 Отсутствующий test suite не зелёный placeholder. Изменение Outcome требует пересмотра зависимых карточек.
 
 ADR-0008 integration gate: Проверять API/DB Docker images; worker smoke добавляется после BE-032.
+
+## Mini-plan / evidence
+
+BE-009/011/012 merged. Восемь отдельных checks с одним locked Python setup composite action.
+PostgreSQL service только integration/migration checks, Docker smoke отдельным job.
+Policy test сначала падал на отсутствующих шести gates. После реализации local green:
+required names, unconditional checks, read-only token, bounded timeout, pinned external actions,
+без continue-on-error/ignored failures/secrets. Dependency graph проверяется pip check,
+версии/hashes — locks. Это не CVE scan; release security review BE-049 остаётся обязательным.
+Security baseline — config/logging/HTTP (18 реальных tests), не выдуманные auth/ACL tests.
+После BE-014–018/023/034 security gate расширяется новыми suites без placeholders/skips.

@@ -35,8 +35,7 @@ make ci-local
 `FORMA_TEST_DATABASE_URL`. Другие имена и непустая БД отвергаются. Никогда не передавать
 пользовательскую БД в эту переменную.
 
-make dev-up, make migrate и make test-integration доступны. make test-security будет добавлен
-в BE-013 с соответствующим набором реальных проверок. Наличие schema.sql не означает выполненную миграцию.
+make dev-up, make migrate и make test-integration доступны. make test-security доступен для существующих config/logging/HTTP controls. Наличие schema.sql не означает выполненную миграцию.
 Не использовать `docker compose down -v` для устранения неполадок.
 
 BE-008 добавляет устанавливаемый typed package forma_backend; `make lock-check` проверяет версии среды против lock. App factory доступна в BE-012.
@@ -77,3 +76,11 @@ Swagger /docs и /openapi.json доступны только вне production; 
 метода, остальные44 остаются в planned контракте. Запуск без Docker: передать окружение
 и выполнить .venv/bin/python -m uvicorn forma_backend.main:create_app --factory --no-access-log.
 Запускать migrations отдельно до product API; health probe сам схему не создаёт.
+
+## BE-013: CI gates
+
+CI содержит восемь реальных checks: lint, types, unit-tests, integration-tests,
+migration-check, security-tests, docker-build, docs-contract. make test-migrations —
+DB revision/drift suite; make test-security — текущие config/HTTP/logging security tests;
+make dependency-check — pip check, совместимость installed dependency graph (не CVE scan).
+make ci-local + make test-compose воспроизводят проверки; main/PR используют один workflow.

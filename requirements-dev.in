@@ -15,3 +15,7 @@ greenlet==3.2.4
 fastapi==0.121.0
 uvicorn==0.38.0
 httpx==0.28.1
+
+# CI workflow validation and reproducible dependency-graph checking.
+PyYAML==6.0.3
+pip==25.3

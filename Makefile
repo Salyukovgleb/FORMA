@@ -13,7 +13,7 @@ openapi-check:
 	$(PYTHON) -m pytest -q tests/contracts/test_specification.py
 schema-check:
 	$(PYTHON) scripts/check_schema.py
-ci-local: lint typecheck test test-integration lock-check schema-check
+ci-local: lint typecheck test test-integration lock-check dependency-check schema-check
 
 lock-check:
 	$(PYTHON) scripts/check_lock.py
@@ -35,3 +35,11 @@ migration-check:
 	$(PYTHON) -m alembic check
 test-integration:
 	$(PYTHON) -m pytest -q tests/integration
+
+.PHONY: test-migrations test-security dependency-check
+test-migrations:
+	$(PYTHON) -m pytest -q tests/integration/test_migrations.py
+test-security:
+	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/api/test_system.py
+dependency-check:
+	$(PYTHON) -m pip check

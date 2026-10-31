@@ -3,7 +3,7 @@ id: "BE-012"
 title: "FastAPI app factory, единые ошибки, health/ready, OpenAPI"
 epic: "EPIC-01"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-010", "BE-011"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -102,3 +102,5 @@ DB connect/query bounds; startup production config fail closed; production Swagg
 deadline и отсутствие credentials/query values в logs. Integration проверяет настоящий
 PostgreSQL и storage success/failure. Compose smoke запускает API и запрашивает оба health.
 Миграций в BE-012 нет; бизнес-методы API ещё planned. In_review до green SHA CI/merge.
+
+Merged [PR #9](https://github.com/Salyukovgleb/FORMA/pull/9), `d8c498b28650d14a994271f28bcc02ca81c8e730`. [CI c720f45](https://github.com/Salyukovgleb/FORMA/actions/runs/41197899063) all SUCCESS. BE-012 done.

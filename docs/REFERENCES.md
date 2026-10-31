@@ -14,3 +14,5 @@
 
 - [Alembic shared connection](https://alembic.sqlalchemy.org/en/latest/cookbook.html#sharing-a-connection-across-one-or-more-programmatic-migration-commands): migration tests supply an existing connection.
 - [SQLAlchemy Session lifecycle](https://docs.sqlalchemy.org/en/20/orm/session_api.html): explicit commit and context-managed cleanup.
+
+- [GitHub composite action metadata](https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax): common Python setup uses explicit shell and pinned action references.
