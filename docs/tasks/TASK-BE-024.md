@@ -3,7 +3,7 @@ id: "BE-024"
 title: "Локальный FileStorage adapter + тесты безопасности путей"
 epic: "EPIC-04"
 priority: "P0"
-status: "in_progress"
+status: "in_review"
 depends_on: ["BE-008", "BE-010", "BE-013"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -11,7 +11,7 @@ requirements: ["FR-FILE-001", "FR-FILE-002", "NFR-CONC-001"]
 api: []
 database: []
 tests: ["BE-024-POS", "BE-024-NEG"]
-adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
+adr: ["0001-modular-monolith", "0002-local-filesystem-storage", "0009-storage-publication-fencing"]
 ---
 
 # BE-024 — Локальный FileStorage adapter + тесты безопасности путей
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+40 storage scenarios passed; [evidence](../evidence/BE-024.md). Remote CI/merge ожидаются.
 
 ## Risks
 
@@ -104,9 +104,11 @@ Tests first: UUID-only physical keys; immutable publish/open; atomic same-filesy
 с fsync file/dir без overwrite; traversal, symlink/hardlink и directory replacement race;
 ENOSPC/short write/failed fsync, crash до commit; failed DB commit оставляет только orphan.
 Maintenance shared/exclusive lock проверять реальными concurrent PostgreSQL connections;
-loss of lock connection должен прерывать дальнейшую publication/metadata commit.
+Обнаруженный loss of lock connection запрещает дальнейший publish/commit;
+узкое rename window и uncertain COMMIT outcome уточняются ADR-0009.
 GC принимает проверенные reference/age данные под exclusive barrier, не удаляет referenced
 и свежие blobs; действующие пользовательские volumes не используются в tests.
 Тестовые roots только tmp_path/disposable Compose volume. После реализации синхронизировать
 storage/runbook/evidence и пройти tests → commit → push → PR → green CI → merge.
-Код BE-024 ещё не написан; текущая работа — архитектурный разбор и mini-plan.
+Adapter/barrier реализованы; metadata/API integration остаётся BE-019/025.
+Локальные и remote результаты фиксируются в evidence после проверки.

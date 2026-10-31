@@ -24,3 +24,9 @@ nodes/revisions, members, project; audit project_id set null. Commit, затем
 History revisions 30 суток, current/pinned не удалять; project purge освобождает snapshot pins.
 Восстановление отдельного удалённого файла не API MVP; доступно оператору через backup,
 без обещания восстановления после retention.
+
+BE-024 реализует shared/exclusive barrier primitive, но backup/restore команды ещё BE-047.
+Взять MaintenanceGuard(engine, exclusive=True), хранить connection до конца maintenance;
+не освобождать lock отдельным Session.close и не переносить metadata на другую connection.
+После обнаружения потери lease операция останавливается. Потерянный ответ COMMIT требует
+проверки DB state, не предположения rollback. Детали — ADR-0009; автоматический backup не заявлен.

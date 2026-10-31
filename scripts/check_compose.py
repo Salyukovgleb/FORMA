@@ -174,6 +174,10 @@ def main() -> None:
             "10",
         )
         assert cleaned.strip() == "removed=0"
+        storage_smoke = (ROOT / "scripts/storage_smoke.py").read_text()
+        run("exec", "-T", "api", "python", "-c", storage_smoke)
+        run("up", "-d", "--force-recreate", "--wait", "--wait-timeout", "90", "api")
+        run("exec", "-T", "api", "python", "-c", storage_smoke)
         print(
             "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection, live API health/ready"
         )

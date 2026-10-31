@@ -382,3 +382,8 @@ BE-018: rate_limit_buckets UPSERT использует DB statement clock. Bound
 не трогает current buckets, locked rows пропускаются; caller управляет commit/rollback.
 Новых DB объектов нет. Для крупного объёма оценить expiry index/EXPLAIN на BE-048;
 до этого operator cleanup ограничен statement timeout2s и не запускается на каждом request.
+
+BE-024: DB schema не меняется. Maintenance advisory namespace/key1179603533/1 database-local;
+все users этой storage root используют одну DB authority. Reference probe для final blobs —
+будущие revision/artifact/snapshot repositories (BE-025/035/047), не фиктивная runtime таблица.
+Metadata writes привязываются к dedicated guard connection и explicit lease.commit() (ADR-0009).

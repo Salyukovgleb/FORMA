@@ -30,3 +30,8 @@ BE-017: `modules/access/policy.py` реализует RequireProjectPermission �
 Контексты/dataclasses и role enums принадлежат access; Principal приходит из identity.
 Политика не зависит от ORM/FastAPI и не открывает транзакции. Future project/member/node
 adapters возвращают текущий trusted context внутри UoW; DB-интеграция — BE-019/023/025.
+
+BE-024: project_files/storage.py содержит typed ports/value types без ORM/FastAPI;
+infrastructure/storage реализует POSIX local storage и PostgreSQL maintenance lease.
+Metadata UoW будущих callers привязан к dedicated guard connection (ADR-0009); explicit
+commit остаётся у caller. GC получает authoritative reference port, а не transport boolean.
