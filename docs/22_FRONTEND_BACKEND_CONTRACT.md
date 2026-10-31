@@ -27,3 +27,8 @@ refresh/logout с X-CSRF-Token и credentials include. Параллельный 
 между вкладками: второй запрос со старым token отзывает всю session. Cookie обновляется
 только после commit; потерянный refresh response требует повторного login, grace нет.
 Logout-all/revoke делают ранее выданные access JWT недействительными немедленно.
+
+BE-016: профиль GET/PATCH `/api/v1/users/me` (Bearer). PATCH только display_name.
+POST `/api/v1/users/me/change-password`: current_password/new_password, Bearer. Успех204
+очищает refresh cookie и отзывает все сессии; удалить access/CSRF из памяти и показать login.
+Неверный current401 не изменяет пароль/сессии, но клиент может показать общий auth error.

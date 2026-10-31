@@ -17,7 +17,11 @@ from starlette.exceptions import HTTPException
 
 from forma_backend import __version__
 from forma_backend.modules.identity.sessions import SessionUseCases, AuthenticationFailed
-from forma_backend.modules.identity.session_router import session_router
+from forma_backend.modules.identity.session_router import session_router, principal_dependency
+from forma_backend.modules.identity.profile_router import profile_router
+from forma_backend.modules.identity.profiles import ProfileUseCases
+from forma_backend.infrastructure.identity.profile_store import SqlProfileStore
+from forma_backend.modules.identity.application import PasswordCapacityExceeded
 from forma_backend.infrastructure.identity.session_store import SqlSessionStore
 from forma_backend.infrastructure.identity.access_tokens import JwtAccessTokens
 from forma_backend.core.errors import ApiError
@@ -128,6 +132,28 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
             AuthRateLimit(database, settings.jwt_secret.get_secret_value(), "login-email"),
         )
     )
+
+    app.include_router(
+        profile_router(
+            ProfileUseCases(
+                lambda: SqlProfileStore(database, settings.jwt_secret.get_secret_value()),
+                ScryptPasswordHasher(),
+            ),
+            principal_dependency(auth),
+            settings.cookie_secure,
+            AuthRateLimit(database, settings.jwt_secret.get_secret_value(), "password-change"),
+        )
+    )
+
+    @app.exception_handler(PasswordCapacityExceeded)
+    async def password_capacity_error(
+        request: Request, exc: PasswordCapacityExceeded
+    ) -> JSONResponse:
+        response = error_response(
+            503, "RESOURCE_LIMIT", "Password hashing capacity exhausted", request.state.request_id
+        )
+        response.headers["Retry-After"] = "1"
+        return response
 
     @app.exception_handler(AuthenticationFailed)
     async def authentication_error(request: Request, exc: AuthenticationFailed) -> JSONResponse:

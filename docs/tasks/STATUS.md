@@ -18,9 +18,9 @@
 | [BE-012](TASK-BE-012.md) | done | BE-010, BE-011 | feat/BE-012-app-health | d8c498b merge PR #9 | [success c720f45](https://github.com/Salyukovgleb/FORMA/actions/runs/41197899063) | 31 + 6 tests; real API Compose |
 | [BE-013](TASK-BE-013.md) | done | BE-009, BE-011, BE-012 | feat/BE-013-ci-checks | a49b276 merge PR #10 | [8 checks SUCCESS bf27908](https://github.com/Salyukovgleb/FORMA/actions/runs/41198323122) | 32 + 6 tests; Docker; dependency graph |
 | [BE-014](TASK-BE-014.md) | done | BE-011, BE-012, BE-013 | feat/BE-014-registration | e1ecbae merge PR #12 | [8 checks success b8bc092](https://github.com/Salyukovgleb/FORMA/actions/runs/41207592982) | registration/hash/race/bounds tested |
-| [BE-015](TASK-BE-015.md) | in_review | BE-014 | — | — | не заявлен | in_review |
-| [BE-016](TASK-BE-016.md) | planned | BE-015 | — | — | не заявлен | planned |
-| [BE-017](TASK-BE-017.md) | planned | BE-015 | — | — | не заявлен | planned |
+| [BE-015](TASK-BE-015.md) | done | BE-014 | feat/BE-015-auth-sessions | 5c630be merge PR #13 | [8 checks SUCCESS 2b9af8f](https://github.com/Salyukovgleb/FORMA/actions/runs/41226959761) | [Evidence](../evidence/BE-015.md) |
+| [BE-016](TASK-BE-016.md) | in_review | BE-015 | — | — | не заявлен | planned |
+| [BE-017](TASK-BE-017.md) | ready | BE-015 | — | — | не заявлен | planned |
 | [BE-018](TASK-BE-018.md) | planned | BE-016, BE-017 | — | — | не заявлен | planned |
 | [BE-019](TASK-BE-019.md) | planned | BE-017, BE-018, BE-024 | — | — | не заявлен | planned |
 | [BE-020](TASK-BE-020.md) | planned | BE-019 | — | — | не заявлен | planned |

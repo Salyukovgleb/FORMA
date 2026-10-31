@@ -387,7 +387,7 @@
     "title": "Login, refresh rotation, logout, session revocation",
     "epic": "EPIC-02",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-014"
     ],
@@ -449,7 +449,7 @@
     "title": "Profile read/update и смена пароля",
     "epic": "EPIC-02",
     "priority": "P0",
-    "status": "planned",
+    "status": "in_review",
     "depends_on": [
       "BE-015"
     ],
@@ -496,7 +496,7 @@
     "title": "Role policy owner/editor/viewer, object-level authorization",
     "epic": "EPIC-02",
     "priority": "P0",
-    "status": "planned",
+    "status": "ready",
     "depends_on": [
       "BE-015"
     ],

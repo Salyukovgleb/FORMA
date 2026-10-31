@@ -3,7 +3,7 @@ id: "BE-016"
 title: "Profile read/update и смена пароля"
 epic: "EPIC-02"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-015"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,8 +81,20 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+Локальные проверки passed; ожидается PR/green CI/merge. [Evidence](../evidence/BE-016.md).
 
 ## Risks
 
 Чужой профиль и неверный current_password. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan — 2026-10-31
+
+BE-015 merged PR #13, все зависимости done; BE-016 переведена ready → in_progress.
+Tests first: профиль только текущего пользователя, immutable email/id, неверный пароль,
+новый пароль и отзыв всех сессий, повтор старых credentials, concurrency login/change.
+Создать application profiles.py с typed transaction/crypto ports, SQL ProfileStore adapter,
+profile_router.py и общие transport DTO; principal dependency переиспользуется из sessions.
+User lock до проверки текущего пароля и обновления; повторная проверка session под user lock.
+В той же транзакции обновить hash и отозвать все сессии. Login уже берёт тот же user lock.
+Body cap JSON 2MiB до parse для PATCH/profile и POST/password, лимит password-change.
+Новых DB объектов нет; синхронизировать OpenAPI/DTO/docs/evidence; полный CI перед merge.

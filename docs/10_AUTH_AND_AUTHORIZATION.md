@@ -65,3 +65,14 @@ Current access сверяется с DB на каждом protected request; JSO
 токены. Logout повторно с тем же cookie+CSRF до expiry →204; без cookie →401.
 User session pagination cursor v1 содержит created_at/id/filter; foreign UUID →404.
 rotated_at меняется только при замене refresh hash, revoked_at сохраняет первый отзыв.
+
+## BE-016 implemented
+
+Профиль доступен только текущему authenticated user. PATCH принимает только display_name1..100;
+extra fields/email/id →422. Password change: current1..128, new12..128, Unicode/NUL validation;
+неверный current →401 без изменений. Лимит10/15min по HMAC user ID, 429 Retry-After900.
+Под user lock повторно проверяется session, проверяется latest hash, затем password_hash/updated_at
+и revoke-all обновляются в одной transaction. Ошибка до commit откатывает оба эффекта.
+Login использует тот же lock; конкурентный login со старым паролем не создаёт сессию после change.
+204 очищает cookie, все старые access/refresh отклоняются. Нужен новый login.
+JSON body cap2MiB до parse применяется к PATCH/profile и POST/password, secret repr скрыт.

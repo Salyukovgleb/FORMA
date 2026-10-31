@@ -1,4 +1,4 @@
-"""Bound registration bodies before JSON parsing, including chunked requests."""
+"""Bound identity bodies before JSON parsing, including chunked requests."""
 
 from uuid import UUID
 
@@ -14,11 +14,12 @@ class AuthBodyLimit:
         self.app = app
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
-        if (
-            scope["type"] != "http"
-            or scope["path"] not in {"/api/v1/auth/register", "/api/v1/auth/login"}
-            or scope["method"] != "POST"
-        ):
+        if scope["type"] != "http" or (scope["method"], scope["path"]) not in {
+            ("POST", "/api/v1/auth/register"),
+            ("POST", "/api/v1/auth/login"),
+            ("PATCH", "/api/v1/users/me"),
+            ("POST", "/api/v1/users/me/change-password"),
+        }:
             await self.app(scope, receive, send)
             return
 

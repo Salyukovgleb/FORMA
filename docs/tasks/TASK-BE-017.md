@@ -3,7 +3,7 @@ id: "BE-017"
 title: "Role policy owner/editor/viewer, object-level authorization"
 epic: "EPIC-02"
 priority: "P0"
-status: "planned"
+status: "ready"
 depends_on: ["BE-015"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"

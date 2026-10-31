@@ -11,6 +11,10 @@ from forma_backend.modules.identity.session_schemas import (
     Token as Token,
     Session as Session,
 )
+from forma_backend.modules.identity.profile_schemas import (
+    ProfilePatch as ProfilePatch,
+    PasswordChange as PasswordChange,
+)
 from forma_backend.core.contracts import Page as Page
 from datetime import datetime
 from typing import Annotated, Literal
@@ -30,15 +34,6 @@ Sha256 = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 Engine = Literal["pdflatex", "xelatex", "lualatex"]
 Role = Literal["owner", "editor", "viewer"]
 State = Literal["queued", "running", "retry_wait", "succeeded", "failed", "cancelled"]
-
-
-class ProfilePatch(DTO):
-    display_name: Annotated[str, Field(min_length=1, max_length=100)]
-
-
-class PasswordChange(DTO):
-    current_password: str
-    new_password: Password
 
 
 class ProjectCreate(DTO):
