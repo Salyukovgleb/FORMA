@@ -3,7 +3,7 @@ id: "BE-009"
 title: "Docker Compose: API, PostgreSQL, worker; persistent volumes; healthchecks"
 epic: "EPIC-01"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-008", "BE-010"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -102,3 +102,7 @@ backend container прочитал сохранённый file; пустой POS
 Тестовый проект уникален; cleanup затрагивает только его labelled volumes; down -v не применяется.
 
 Задача in_review до green CI точного head SHA и merge.
+
+## Закрытие
+
+2026-10-31: [PR #6](https://github.com/Salyukovgleb/FORMA/pull/6) merged, commit `b99e2d2f0c39b30fd322f87adab5a69e39eb590f`. [CI head dc672ab](https://github.com/Salyukovgleb/FORMA/actions/runs/41196395866): docs-contract и docker-build SUCCESS. BE-009 done, BE-011 ready.
