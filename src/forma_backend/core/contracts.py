@@ -1,6 +1,6 @@
 """Shared implemented wire models, also imported by the design contract generator."""
 
-from typing import Literal
+from typing import Literal, Generic, TypeVar
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict
@@ -30,3 +30,11 @@ class ErrorEnvelope(DTO):
 
 class Health(DTO):
     status: Literal["ok", "unavailable"]
+
+
+T = TypeVar("T")
+
+
+class Page(DTO, Generic[T]):
+    items: list[T]
+    next_cursor: str | None

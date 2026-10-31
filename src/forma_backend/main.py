@@ -16,13 +16,17 @@ from sqlalchemy import Engine
 from starlette.exceptions import HTTPException
 
 from forma_backend import __version__
+from forma_backend.modules.identity.sessions import SessionUseCases, AuthenticationFailed
+from forma_backend.modules.identity.session_router import session_router
+from forma_backend.infrastructure.identity.session_store import SqlSessionStore
+from forma_backend.infrastructure.identity.access_tokens import JwtAccessTokens
 from forma_backend.core.errors import ApiError
-from forma_backend.modules.identity.body_limit import RegistrationBodyLimit
+from forma_backend.modules.identity.body_limit import AuthBodyLimit
 from forma_backend.modules.identity.router import registration_router
 from forma_backend.modules.identity.application import RegisterUser
 from forma_backend.infrastructure.identity.persistence import SqlIdentityUnitOfWork
 from forma_backend.infrastructure.identity.passwords import ScryptPasswordHasher
-from forma_backend.infrastructure.identity.rate_limit import RegistrationRateLimit
+from forma_backend.infrastructure.identity.rate_limit import AuthRateLimit
 from forma_backend.core.config import Settings, load_settings
 from forma_backend.core.contracts import Error, ErrorDetail, ErrorEnvelope, Health
 from forma_backend.core.logging import configure_logging, request_context
@@ -66,22 +70,7 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
         redoc_url=None,
         openapi_url="/openapi.json" if docs else None,
     )
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=list(settings.allowed_origins),
-        allow_credentials=True,
-        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        allow_headers=[
-            "Authorization",
-            "Content-Type",
-            "X-CSRF-Token",
-            "X-Request-ID",
-            "Idempotency-Key",
-        ],
-        expose_headers=["X-Request-ID", "Content-Disposition", "Retry-After"],
-    )
-
-    app.add_middleware(RegistrationBodyLimit)
+    app.add_middleware(AuthBodyLimit)
 
     @app.middleware("http")
     async def correlate(
@@ -113,9 +102,43 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
     app.include_router(
         registration_router(
             RegisterUser(lambda: SqlIdentityUnitOfWork(database), ScryptPasswordHasher()),
-            RegistrationRateLimit(database, settings.jwt_secret.get_secret_value()),
+            AuthRateLimit(database, settings.jwt_secret.get_secret_value()),
         )
     )
+
+    auth = SessionUseCases(
+        lambda: SqlSessionStore(database, settings.jwt_secret.get_secret_value()),
+        ScryptPasswordHasher(),
+        JwtAccessTokens(
+            settings.jwt_secret.get_secret_value(),
+            settings.jwt_issuer,
+            settings.jwt_audience,
+            settings.jwt_key_id,
+            (settings.jwt_previous_key_id, settings.jwt_previous_secret.get_secret_value())
+            if settings.jwt_previous_key_id and settings.jwt_previous_secret
+            else None,
+        ),
+    )
+    app.include_router(
+        session_router(
+            auth,
+            settings.allowed_origins,
+            settings.cookie_secure,
+            AuthRateLimit(database, settings.jwt_secret.get_secret_value(), "login-ip"),
+            AuthRateLimit(database, settings.jwt_secret.get_secret_value(), "login-email"),
+        )
+    )
+
+    @app.exception_handler(AuthenticationFailed)
+    async def authentication_error(request: Request, exc: AuthenticationFailed) -> JSONResponse:
+        response = error_response(
+            exc.status, exc.code, "Authentication failed", request.state.request_id
+        )
+        if exc.status == 401:
+            response.headers["WWW-Authenticate"] = "Bearer"
+        if exc.status == 429:
+            response.headers["Retry-After"] = "60"
+        return response
 
     @app.exception_handler(ApiError)
     async def application_error(request: Request, exc: ApiError) -> JSONResponse:
@@ -192,5 +215,20 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
         if error:
             return error_response(503, error, "Dependency unavailable", request.state.request_id)
         return Health(status="ok")
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=list(settings.allowed_origins),
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=[
+            "Authorization",
+            "Content-Type",
+            "X-CSRF-Token",
+            "X-Request-ID",
+            "Idempotency-Key",
+        ],
+        expose_headers=["X-Request-ID", "Content-Disposition", "Retry-After"],
+    )
 
     return app

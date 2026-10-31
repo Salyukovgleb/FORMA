@@ -1599,7 +1599,17 @@
       "post": {
         "description": "Проверить пароль; INSERT session; установить refresh cookie и вернуть access/CSRF.",
         "operationId": "login",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "maxLength": 2048,
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1741,7 +1751,7 @@
         ],
         "x-acl": "public",
         "x-endpoint-id": "API-004",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/auth/logout": {
@@ -1749,6 +1759,15 @@
         "description": "Отозвать текущую session и очистить cookie; повторный отзыв 204, невалидный token 401.",
         "operationId": "logout",
         "parameters": [
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "maxLength": 2048,
+              "type": "string"
+            }
+          },
           {
             "in": "header",
             "name": "X-CSRF-Token",
@@ -1882,7 +1901,7 @@
         ],
         "x-acl": "refresh",
         "x-endpoint-id": "API-006",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/auth/logout-all": {
@@ -2012,7 +2031,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-007",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/auth/refresh": {
@@ -2020,6 +2039,15 @@
         "description": "Lock session; использованный hash в used_refresh_tokens; заменить refresh/CSRF hashes. Replay отзывает session.",
         "operationId": "rotate_session",
         "parameters": [
+          {
+            "in": "header",
+            "name": "Origin",
+            "required": true,
+            "schema": {
+              "maxLength": 2048,
+              "type": "string"
+            }
+          },
           {
             "in": "header",
             "name": "X-CSRF-Token",
@@ -2172,7 +2200,7 @@
         ],
         "x-acl": "refresh",
         "x-endpoint-id": "API-005",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/auth/register": {
@@ -2466,7 +2494,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-011",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/auth/sessions/{session_id}": {
@@ -2606,7 +2634,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-012",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/projects": {

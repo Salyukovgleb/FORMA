@@ -78,7 +78,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-004 — Login
 
-`POST /api/v1/auth/login` · planned · operationId `login` · tag `identity`.
+`POST /api/v1/auth/login` · implemented · operationId `login` · tag `identity`.
 
 Назначение и транзакция: Проверить пароль; INSERT session; установить refresh cookie и вернуть access/CSRF.
 
@@ -89,7 +89,17 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 
 Параметры (required/default/type определены явно):
 ```json
-[]
+[
+  {
+    "in": "header",
+    "name": "Origin",
+    "required": true,
+    "schema": {
+      "maxLength": 2048,
+      "type": "string"
+    }
+  }
+]
 ```
 
 Запрос — `Login`:
@@ -135,7 +145,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `login`
+Таблицы: users, auth_sessions, rate_limit_buckets; planned BE-046 audit будет добавлять event `login`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -150,7 +160,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-005 — RotateSession
 
-`POST /api/v1/auth/refresh` · planned · operationId `rotate_session` · tag `identity`.
+`POST /api/v1/auth/refresh` · implemented · operationId `rotate_session` · tag `identity`.
 
 Назначение и транзакция: Lock session; использованный hash в used_refresh_tokens; заменить refresh/CSRF hashes. Replay отзывает session.
 
@@ -162,6 +172,15 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 Параметры (required/default/type определены явно):
 ```json
 [
+  {
+    "in": "header",
+    "name": "Origin",
+    "required": true,
+    "schema": {
+      "maxLength": 2048,
+      "type": "string"
+    }
+  },
   {
     "in": "header",
     "name": "X-CSRF-Token",
@@ -222,7 +241,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-006 — Logout
 
-`POST /api/v1/auth/logout` · planned · operationId `logout` · tag `identity`.
+`POST /api/v1/auth/logout` · implemented · operationId `logout` · tag `identity`.
 
 Назначение и транзакция: Отозвать текущую session и очистить cookie; повторный отзыв 204, невалидный token 401.
 
@@ -234,6 +253,15 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 Параметры (required/default/type определены явно):
 ```json
 [
+  {
+    "in": "header",
+    "name": "Origin",
+    "required": true,
+    "schema": {
+      "maxLength": 2048,
+      "type": "string"
+    }
+  },
   {
     "in": "header",
     "name": "X-CSRF-Token",
@@ -264,7 +292,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `logout`
+Таблицы: users, auth_sessions, used_refresh_tokens; planned BE-046 audit будет добавлять event `logout`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -279,7 +307,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-007 — LogoutAll
 
-`POST /api/v1/auth/logout-all` · planned · operationId `logout_all` · tag `identity`.
+`POST /api/v1/auth/logout-all` · implemented · operationId `logout_all` · tag `identity`.
 
 Назначение и транзакция: Отозвать все session пользователя; очистить cookie.
 
@@ -310,7 +338,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `logout_all`
+Таблицы: users, auth_sessions; planned BE-046 audit будет добавлять event `logout_all`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -513,7 +541,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-011 — ListSessions
 
-`GET /api/v1/auth/sessions` · planned · operationId `list_sessions` · tag `identity`.
+`GET /api/v1/auth/sessions` · implemented · operationId `list_sessions` · tag `identity`.
 
 Назначение и транзакция: Только собственные неотозванные сессии.
 
@@ -574,7 +602,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `list_sessions`
+Таблицы: users, auth_sessions; planned BE-046 audit будет добавлять event `list_sessions`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -589,7 +617,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-012 — RevokeSession
 
-`DELETE /api/v1/auth/sessions/{session_id}` · planned · operationId `revoke_session` · tag `identity`.
+`DELETE /api/v1/auth/sessions/{session_id}` · implemented · operationId `revoke_session` · tag `identity`.
 
 Назначение и транзакция: Lock session своего пользователя; чужая/отсутствующая 404; повторный отзыв 204.
 
@@ -630,7 +658,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `revoke_session`
+Таблицы: users, auth_sessions; planned BE-046 audit будет добавлять event `revoke_session`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

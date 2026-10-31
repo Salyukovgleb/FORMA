@@ -22,3 +22,5 @@
 - BE-013: eight CI gates, shared locked setup, quality-policy guard and dependency graph validation.
 
 - BE-014: registration, bounded salted scrypt, atomic uniqueness/IP limit and protected request body handling.
+
+- BE-015: JWT access with DB revocation, hashed rotating refresh/CSRF, own-session management and key rotation.

@@ -130,6 +130,15 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
                 "schema": {"type": "string", "minLength": 16, "maxLength": 128},
             }
         )
+    if role == "refresh" or uc == "Login":
+        params.append(
+            {
+                "name": "Origin",
+                "in": "header",
+                "required": True,
+                "schema": {"type": "string", "maxLength": 2048},
+            }
+        )
     if role == "refresh":
         params.append(
             {
@@ -255,7 +264,20 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
         "status": status,
         "acl": role,
         "task": f"BE-{task:03}",
-        "tables": ["users", "rate_limit_buckets"] if uc == "RegisterUser" else TABLES[tag],
+        "tables": {
+            "RegisterUser": ["users", "rate_limit_buckets"],
+            "Login": ["users", "auth_sessions", "rate_limit_buckets"],
+            "RotateSession": [
+                "users",
+                "auth_sessions",
+                "used_refresh_tokens",
+                "rate_limit_buckets",
+            ],
+            "Logout": ["users", "auth_sessions", "used_refresh_tokens"],
+            "LogoutAll": ["users", "auth_sessions"],
+            "ListSessions": ["users", "auth_sessions"],
+            "RevokeSession": ["users", "auth_sessions"],
+        }.get(uc, TABLES[tag]),
         "tests": tests,
         "effect": effect,
     }
@@ -331,7 +353,7 @@ for tag, body in docs.items():
 (ROOT / "docs/09_API_ENDPOINT_CATALOG.md").write_text(
     "# Каталог API\n\n"
     + META
-    + f"\nВсего **{len(ROWS)}** методов: 3 implemented (health/register), 43 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
+    + f"\nВсего **{len(ROWS)}** методов: 9 implemented (health/identity), 37 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
     + "\n".join(catalog)
     + "\n\nПолные спецификации: "
     + ", ".join(f"[{t}](api/{t}.md)" for t in docs)

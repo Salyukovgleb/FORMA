@@ -137,3 +137,5 @@ BE-001…007 done. BE-008 выполняется первой; затем BE-010
 BE-011 merged (PR #8): четыре identity таблицы и Alembic. BE-012: health runtime реализован; остальные44 метода planned.
 
 BE-014: registration implemented; runtime теперь содержит health+register (3 метода), остальные43 planned.
+
+BE-015: runtime содержит9 health/identity методов; остальные37 planned. Profile/password change — BE-016.

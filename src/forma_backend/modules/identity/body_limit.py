@@ -9,14 +9,14 @@ from starlette.types import ASGIApp, Message, Receive, Scope, Send
 from forma_backend.core.contracts import Error, ErrorDetail, ErrorEnvelope
 
 
-class RegistrationBodyLimit:
+class AuthBodyLimit:
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if (
             scope["type"] != "http"
-            or scope["path"] != "/api/v1/auth/register"
+            or scope["path"] not in {"/api/v1/auth/register", "/api/v1/auth/login"}
             or scope["method"] != "POST"
         ):
             await self.app(scope, receive, send)

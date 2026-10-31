@@ -50,3 +50,18 @@ maxmem=64MiB учитывает OpenSSL overhead; принимается тол�
 Rate bucket10/15min по HMAC socket peer; Retry-After900. Cleanup/остальные auth limits — BE-018.
 API не выдаёт сессию при регистрации. Password repr скрыт; request JSON нужен только на входе.
 Durable audit — BE-046. Login/refresh/revoke остаются BE-015, не считать их implemented.
+
+## BE-015 implemented
+
+Login, refresh, logout/logout-all, session list/revoke реализованы. JWT key ID задаётся
+JWT_KEY_ID (v1 default); для graceful rotation задать вместе JWT_PREVIOUS_KEY_ID и
+JWT_PREVIOUS_SECRET. Пустая пара выключает previous key. Удалить previous key после10min;
+при компрометации drop немедленно и revoke sessions согласно incident procedure.
+Секреты только в окружении; Compose передаёт key fields явно. PyJWT2.15.1, fixed HS256;
+никаких remote JWK lookups. Origin обязателен для login/refresh/logout, CSRF32..128 для
+refresh/logout; отсутствие required header →422, неверное значение →403. Account reload
+по-прежнему требует login (ADR-0006). Login10/15min IP+email, refresh30/min session.
+Current access сверяется с DB на каждом protected request; JSON/HTTP errors не содержат
+токены. Logout повторно с тем же cookie+CSRF до expiry →204; без cookie →401.
+User session pagination cursor v1 содержит created_at/id/filter; foreign UUID →404.
+rotated_at меняется только при замене refresh hash, revoked_at сохраняет первый отзыв.

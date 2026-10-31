@@ -368,3 +368,8 @@ users/auth_sessions/used_refresh_tokens/rate_limit_buckets имеют typed ORM 
 Колонки/FK/defaults соответствуют DDL; именованы ck_users_email_normalized,
 ck_users_display_name, ck_sessions_expiry, ck_rate_count для сопровождаемости.
 Остальные таблицы — design planned, не считать их мигрированными после upgrade head.
+
+BE-015 runtime: auth_sessions содержит только SHA256 refresh/CSRF; history хранит used hash
+до absolute expiry. Logout/revoke не меняют rotated_at и не продлевают expiry.
+Rate bucket scopes register/login-ip/login-email/refresh-session; refresh quota commit
+выполняется в session transaction без дополнительного connection/lock-order inversion.
