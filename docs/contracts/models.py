@@ -1,5 +1,11 @@
 """Phase A wire contracts only. No application handlers or database adapters."""
 
+from forma_backend.modules.identity.schemas import (
+    Register as Register,
+    Profile as Profile,
+    Email as Email,
+    Password as Password,
+)
 from datetime import datetime
 from typing import Annotated, Generic, Literal, TypeVar
 from uuid import UUID
@@ -13,19 +19,11 @@ from forma_backend.core.contracts import (
 )
 
 Name = Annotated[str, Field(min_length=1, max_length=255)]
-Email = Annotated[str, Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")]
-Password = Annotated[str, Field(min_length=12, max_length=128)]
 Revision = Annotated[int, Field(ge=1)]
 Sha256 = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 Engine = Literal["pdflatex", "xelatex", "lualatex"]
 Role = Literal["owner", "editor", "viewer"]
 State = Literal["queued", "running", "retry_wait", "succeeded", "failed", "cancelled"]
-
-
-class Register(DTO):
-    email: Email
-    password: Password
-    display_name: Annotated[str, Field(min_length=1, max_length=100)]
 
 
 class Login(DTO):
@@ -38,13 +36,6 @@ class Token(DTO):
     token_type: Literal["bearer"] = "bearer"
     expires_in: Literal[600] = 600
     csrf_token: str
-
-
-class Profile(DTO):
-    id: UUID
-    email: Email
-    display_name: str
-    created_at: datetime
 
 
 class ProfilePatch(DTO):

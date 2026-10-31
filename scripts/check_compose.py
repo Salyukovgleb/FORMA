@@ -115,6 +115,16 @@ def main() -> None:
             "assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/health/live')) == {'status':'ok'}; "
             "assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/health/ready')) == {'status':'ok'}",
         )
+        run(
+            "run",
+            "--rm",
+            "--no-deps",
+            "backend",
+            "python",
+            "-c",
+            "from forma_backend.infrastructure.identity.passwords import ScryptPasswordHasher; "
+            "h=ScryptPasswordHasher(); assert h.verify('runtime-password',h.hash('runtime-password'))",
+        )
         print(
             "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection, live API health/ready"
         )

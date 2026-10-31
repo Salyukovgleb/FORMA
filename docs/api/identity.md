@@ -4,7 +4,7 @@
 
 ## API-003 — RegisterUser
 
-`POST /api/v1/auth/register` · planned · operationId `register_user` · tag `identity`.
+`POST /api/v1/auth/register` · implemented · operationId `register_user` · tag `identity`.
 
 Назначение и транзакция: Нормализовать email; hash пароля; INSERT user; дубликат 409 EMAIL_TAKEN. Сессия не создаётся.
 
@@ -63,7 +63,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `register_user`
+Таблицы: users, rate_limit_buckets; planned BE-046 audit будет добавлять event `register_user`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -135,7 +135,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `login`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `login`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -207,7 +207,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `rotate_session`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `rotate_session`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -264,7 +264,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `logout`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `logout`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -310,7 +310,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `logout_all`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `logout_all`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -371,7 +371,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `read_profile`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `read_profile`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -441,7 +441,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `update_profile`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `update_profile`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -498,7 +498,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `change_password`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `change_password`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -574,7 +574,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `list_sessions`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `list_sessions`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -630,7 +630,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; mutation добавляет audit event `revoke_session`
+Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `revoke_session`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

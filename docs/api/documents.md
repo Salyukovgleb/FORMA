@@ -77,7 +77,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_snapshots, snapshot_entries, document_jobs; mutation добавляет audit event `request_compilation`
+Таблицы: projects, project_snapshots, snapshot_entries, document_jobs; planned BE-046 audit будет добавлять event `request_compilation`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -169,7 +169,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_snapshots, snapshot_entries, document_jobs; mutation добавляет audit event `request_export`
+Таблицы: projects, project_snapshots, snapshot_entries, document_jobs; planned BE-046 audit будет добавлять event `request_export`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

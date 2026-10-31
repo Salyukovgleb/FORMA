@@ -540,3 +540,5 @@ def group(route):
 
 # Only these operations have runtime handlers; the other contracts remain planned.
 OPERATION_STATUS = {"liveness": "implemented", "readiness": "implemented"}
+
+OPERATION_STATUS["register_user"] = "implemented"

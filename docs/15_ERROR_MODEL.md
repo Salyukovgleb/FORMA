@@ -30,3 +30,5 @@ FastAPI validation exception переводится в envelope, стандар�
 При нескольких validation errors вернуть первую детерминированно и request_id.
 
 BE-012: error envelope реализован на HTTP boundary; значения input, HTTPException.detail и exception text не сериализуются. details.field может быть null; runtime не отражает произвольные ключи запроса.
+
+BE-014: hash capacity saturation →503 RESOURCE_LIMIT (Retry-After1), registration quota →429 RATE_LIMITED (Retry-After900), duplicate normalized email →409 EMAIL_TAKEN.

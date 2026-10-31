@@ -3,13 +3,13 @@ id: "BE-014"
 title: "Модель users, безопасная регистрация, хеширование паролей"
 epic: "EPIC-02"
 priority: "P0"
-status: "ready"
+status: "in_review"
 depends_on: ["BE-011", "BE-012", "BE-013"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
 requirements: ["FR-AUTH-001", "FR-ACL-001"]
 api: ["POST /api/v1/auth/register"]
-database: ["auth_sessions", "rate_limit_buckets", "used_refresh_tokens", "users"]
+database: ["users", "rate_limit_buckets"]
 tests: ["BE-014-POS", "BE-014-NEG", "UNIT-API-003", "API-003", "INT-API-003", "SEC-API-003"]
 adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 ---
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-Модель users, безопасная регистрация, хеширование паролей. Требования: FR-AUTH-001, FR-ACL-001. Цель — следующий проверяемый инкремент milestone M1.
+Модель users, безопасная регистрация, хеширование паролей. Требования: FR-AUTH-001, FR-ACL-001. Цель — следующий проверяемый инкремент milestone M2.
 
 ## Outcome
 
@@ -86,3 +86,20 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Email case collision, слабый пароль. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / implementation evidence — 2026-10-31
+
+Schemas/router и application ports/use case в modules/identity; SQL/scrypt/rate adapters
+в infrastructure/identity. Session UoW закрывает/откатывает незакоммиченные изменения;
+use case явно делает commit. Email нормализуется до проверки/insert. DB unique разрешает races.
+Соль16bytes, scrypt v1 N32768/r8/p1/dklen64, maxmem64MiB, максимум2 одновременных вычисления.
+Hash verifier отбрасывает неизвестные параметры до KDF, сравнение constant-time.
+Register201 возвращает только Profile, без сессии/cookie/token. Duplicate409 EMAIL_TAKEN.
+JSON cap2MiB до parse (включая chunked), multipart415, SQL IP quota10/15min, HMAC subject,
+forwarded headers не принимаются приложением без доверенного proxy; hash saturation503.
+
+Rate-limit для регистрации реализован сейчас, BE-018 расширит auth policies/cleanup.
+Audit storage остаётся BE-046; текущие request logs не содержат body/password.
+Тесты написаны до модулей; проверяют hash/salt, invalid hashes, capacity, registration,
+duplicate/case conflict, races, invalid input, отсутствие session и secret leakage,
+rate-limit/forwarded bypass и body limits. Миграции не требуются: используются BE-011 tables.

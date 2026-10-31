@@ -16,6 +16,13 @@ from sqlalchemy import Engine
 from starlette.exceptions import HTTPException
 
 from forma_backend import __version__
+from forma_backend.core.errors import ApiError
+from forma_backend.modules.identity.body_limit import RegistrationBodyLimit
+from forma_backend.modules.identity.router import registration_router
+from forma_backend.modules.identity.application import RegisterUser
+from forma_backend.infrastructure.identity.persistence import SqlIdentityUnitOfWork
+from forma_backend.infrastructure.identity.passwords import ScryptPasswordHasher
+from forma_backend.infrastructure.identity.rate_limit import RegistrationRateLimit
 from forma_backend.core.config import Settings, load_settings
 from forma_backend.core.contracts import Error, ErrorDetail, ErrorEnvelope, Health
 from forma_backend.core.logging import configure_logging, request_context
@@ -74,6 +81,8 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
         expose_headers=["X-Request-ID", "Content-Disposition", "Retry-After"],
     )
 
+    app.add_middleware(RegistrationBodyLimit)
+
     @app.middleware("http")
     async def correlate(
         request: Request, call_next: Callable[[Request], Awaitable[Response]]
@@ -100,6 +109,20 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
                 },
             )
             return response
+
+    app.include_router(
+        registration_router(
+            RegisterUser(lambda: SqlIdentityUnitOfWork(database), ScryptPasswordHasher()),
+            RegistrationRateLimit(database, settings.jwt_secret.get_secret_value()),
+        )
+    )
+
+    @app.exception_handler(ApiError)
+    async def application_error(request: Request, exc: ApiError) -> JSONResponse:
+        response = error_response(exc.status, exc.code, exc.message, request.state.request_id)
+        if exc.retry_after is not None:
+            response.headers["Retry-After"] = str(exc.retry_after)
+        return response
 
     @app.exception_handler(HTTPException)
     async def http_error(request: Request, exc: HTTPException) -> JSONResponse:

@@ -84,3 +84,11 @@ migration-check, security-tests, docker-build, docs-contract. make test-migratio
 DB revision/drift suite; make test-security — текущие config/HTTP/logging security tests;
 make dependency-check — pip check, совместимость installed dependency graph (не CVE scan).
 make ci-local + make test-compose воспроизводят проверки; main/PR используют один workflow.
+
+## BE-014: регистрация
+
+После make migrate доступен POST /api/v1/auth/register: email/password/display_name → Profile201.
+Email strip/lower; пароль12–128 символов, scrypt с random salt; duplicate409 EMAIL_TAKEN.
+Сессия не создаётся. JSON≤2MiB, register IP quota10/15min и bounded hashing.
+Runtime содержит3 метода; login/refresh ещё planned. make test-security теперь включает
+password hashing и registration boundary; PostgreSQL integration проверяет реальные races.
