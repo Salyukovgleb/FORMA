@@ -3,7 +3,7 @@ id: "BE-013"
 title: "GitHub Actions: lint, types, unit/integration, migration, build"
 epic: "EPIC-01"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-009", "BE-011", "BE-012"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -99,3 +99,5 @@ required names, unconditional checks, read-only token, bounded timeout, pinned e
 версии/hashes — locks. Это не CVE scan; release security review BE-049 остаётся обязательным.
 Security baseline — config/logging/HTTP (18 реальных tests), не выдуманные auth/ACL tests.
 После BE-014–018/023/034 security gate расширяется новыми suites без placeholders/skips.
+
+Merged [PR #10](https://github.com/Salyukovgleb/FORMA/pull/10), `a49b27680d0ee1ec1167e4363a8a5acce362b93b`. [CI bf27908](https://github.com/Salyukovgleb/FORMA/actions/runs/41198323122): все8 checks SUCCESS. BE-013 done.

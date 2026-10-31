@@ -35,3 +35,11 @@ make openapi-check, make schema-check, make ci-local. Продуктовые к�
 Пользователь принял документацию. PR #1 merged, commit `149419f`; M0 закрыт.
 BE-001…007 done. BE-008 выполняется первой; затем BE-010 по зависимостям.
 Предыдущие формулировки об ожидании M0 описывают состояние до принятия.
+
+## Текущее состояние — 2026-10-31
+
+M1 foundation (BE-008…013) merged и проверен; следующий первый ready — BE-014.
+Доступны make migrate, migration-check, test-integration, test-migrations, test-security,
+dependency-check, dev-up/dev-down и test-compose. CI имеет восемь обязательных checks;
+каждый новый PR требует фактического green head SHA перед merge. Runtime пока реализует
+только health; не считать остальные44 planned endpoints рабочими. Worker — BE-032.

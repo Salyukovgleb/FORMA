@@ -31,3 +31,10 @@ BE-013 затем включает product CI, до product features. Нельз
 Пользователь принял документацию. PR #1 merged, commit `149419f`; M0 закрыт.
 BE-001…007 done. BE-008 выполняется первой; затем BE-010 по зависимостям.
 Предыдущие формулировки об ожидании M0 описывают состояние до принятия.
+
+## M1 foundation closed — 2026-10-31
+
+BE-008…013 done: package/config, persistent PostgreSQL/image, typed DB/Alembic,
+реальный health API и восемь CI checks. Worker runtime остаётся BE-032 согласно ADR-0008,
+проверки всей системы — BE-051. Следующая ready задача по критическому пути — BE-014.
+Миграции проверены в disposable DB; это не заявление о применении к пользовательской БД.
