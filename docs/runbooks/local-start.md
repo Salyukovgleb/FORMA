@@ -8,3 +8,11 @@ Prerequisites фазы A: Python3.12, pip, PostgreSQL client/server utilities д
 `make ci-local`. Expected: contracts/schema tests pass. Runtime Compose ещё planned в BE-009;
 не обещать доступный :8000. После реализации проверить Docker volume persistence отдельным
 recreate smoke без удаления томов; production sandbox требует Linux, rootless cgroups.
+
+## Docker bootstrap (2026-10-31)
+
+Убедиться docker info/compose version работают. Скопировать .env.example в .env,
+заменить POSTGRES_PASSWORD, затем make dev-up. Ожидать healthy postgres.
+make dev-down сохраняет volumes. make test-compose использует отдельный случайный
+проект, проверяет persistence и очищает только свои тестовые volumes.
+Если порт5432 занят, base Compose не публикует его; dev override добавлять явно.

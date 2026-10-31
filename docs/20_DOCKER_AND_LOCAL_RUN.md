@@ -18,3 +18,13 @@ infra/compose.yaml, infra/compose.dev.yaml. Сейчас эти пустые к�
 не создаются. Точные существующие команды фазы A — в корневом README и Makefile.
 Будущие make dev-up/migrate/test-integration/test-security появятся в BE-009/011/013;
 сейчас запускать их нельзя. Никогда не применять docker compose down -v к пользовательским данным.
+
+## BE-009: bootstrap implemented
+
+infra/compose.yaml запускает PostgreSQL16.6 (digest pinned) с persistent pgdata.
+Python3.12 image (digest pinned) multi-stage, runtime UID10001, tools profile с files volume,
+read-only rootfs, cap-drop ALL и no-new-privileges. Это не sandbox для документов.
+Dev override публикует только localhost SQL port; production base без host ports.
+Существующие команды теперь make dev-up, make dev-down, make test-compose; make migrate
+появится в BE-011. Dockerfile использует отдельные hashed runtime/build locks.
+API/worker services появятся в BE-012/032 согласно ADR-0008.

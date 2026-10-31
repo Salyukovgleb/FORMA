@@ -37,3 +37,9 @@ jobs:
       - run: .venv/bin/python -m pip install --no-build-isolation --no-deps .
       - run: make ci-local
       - run: git diff --exit-code
+  docker-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python3 scripts/check_compose.py

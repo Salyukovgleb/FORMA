@@ -3,7 +3,7 @@ id: "BE-009"
 title: "Docker Compose: API, PostgreSQL, worker; persistent volumes; healthchecks"
 epic: "EPIC-01"
 priority: "P0"
-status: "blocked"
+status: "in_review"
 depends_on: ["BE-008", "BE-010"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -87,19 +87,18 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 
 Recreate контейнера не удаляет volume. Изменение Outcome требует пересмотра зависимых карточек.
 
-## Readiness / блокер — 2026-10-31
+## Mini-plan и evidence — 2026-10-31
 
-BE-008 и BE-010 merged. Docker CLI установлен, но docker info возвращает exit1:
-нет unix socket ~/.docker/run/docker.sock. docker desktop status не завершился за 8s.
-Ранее выполненный open -a Docker не восстановил daemon. UI tool сообщил:
-Computer Use permissions are not granted. Проверить экран Docker Desktop из сессии нельзя.
-Нужно завершить запуск Docker Desktop на компьютере пользователя; затем `docker info`
-должен показывать Server, после чего выполнить контейнерные тесты. Данные/volumes не удалялись.
+Docker Engine29.0.1/Compose2.40.3 доступны; внешний блокер снят. ADR-0008 определяет scope.
+Сначала scripts/check_compose.py завершился ошибкой на отсутствующем Compose-файле.
+Затем добавлены Dockerfile (multi-stage, UID10001), digest-pinned Python/PostgreSQL,
+Compose bootstrap с pgdata/files volumes и PostgreSQL healthcheck. API/worker будут BE-012/032.
+Runtime/build locks отделены от dev lock. CI docker-build исполняет настоящий smoke.
 
-Также обнаружена неполнота исходного DAG: BE-009 требует стартующих API/worker,
-но app factory появляется в BE-012 (через BE-011, зависящую от BE-009),
-а worker loop — в BE-032. До реализации необходимо разделить инфраструктурный bootstrap
-и финальную проверку runtime persistence; не заменять API/worker sleep-процессами.
-Этот вопрос требует отдельного ADR и корректировки задач до продуктового кода.
+Локально: make ci-local — 26 passed, lint/types/lock/schema green.
+make test-compose — PASS: image import от UID10001; PostgreSQL healthy;
+после force-recreate container ID изменился, DB row сохранилась; повторный одноразовый
+backend container прочитал сохранённый file; пустой POSTGRES_PASSWORD отклонён.
+Тестовый проект уникален; cleanup затрагивает только его labelled volumes; down -v не применяется.
 
-Порядок интеграции уточнён в [ADR-0008](../adr/0008-foundation-integration-order.md). Архитектурная неоднозначность устранена; внешний blocker — Docker daemon.
+Задача in_review до green CI точного head SHA и merge.

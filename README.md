@@ -42,3 +42,18 @@ make dev-up/migrate/test-integration/test-security пока отсутствую
 BE-008 добавляет устанавливаемый typed package forma_backend; `make lock-check` проверяет версии среды против lock. HTTP application пока отсутствует.
 
 BE-010: load_settings() валидирует окружение, не загружает .env автоматически. Заменить CHANGE_ME secrets; production требует HTTPS origins и Secure cookie. Логи forma используют whitelist и ContextVar request IDs; HTTP middleware ещё planned.
+
+## BE-009: локальный PostgreSQL и образ
+
+Docker Engine + Compose v2 обязательны. `cp .env.example .env`, заменить POSTGRES_PASSWORD
+и остальные CHANGE_ME значения. `make dev-up` запускает PostgreSQL без host port;
+`make dev-down` останавливает проект, сохраняя тома. Для host SQL tools явно добавить
+`-f infra/compose.dev.yaml` к Compose command; порт слушает только 127.0.0.1.
+Python image собирается `docker compose --env-file .env -f infra/compose.yaml build backend`.
+Одноразовый tools service проверяет импорт package от UID10001; это ещё не API/worker.
+Их runtime-интеграция — BE-012/032 по ADR-0008.
+
+`make test-compose` создаёт отдельный случайно названный тестовый проект, проверяет
+PostgreSQL health, non-root image и DB/files persistence при recreate. Затем удаляет
+только контейнеры/тома своего тестового проекта по уникальной Compose label.
+Пользовательский проект forma не используется. `down -v` не применяется.
