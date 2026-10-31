@@ -103,3 +103,7 @@ JWT key rotation — JWT_KEY_ID и optional previous key pair; не хранит
 После нового lock выполнить install по README и переустановить пакет. make test-security
 включает real PostgreSQL auth tests (локально Docker), а Docker smoke проверяет register→login→refresh→sessions.
 Runtime9 методов, profile/change-password остаются следующей задачей BE-016.
+
+BE-016: GET/PATCH `/api/v1/users/me`, POST `/api/v1/users/me/change-password` implemented.
+Изменяется только display_name; новый password12..128. Смена требует current_password
+и отзывает все сессии включая текущую (204, cookie очищается). После неё нужен login.

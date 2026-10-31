@@ -157,7 +157,11 @@ def main() -> None:
             "token=json.load(r); cookie=SimpleCookie(r.headers['Set-Cookie']); assert cookie['forma_refresh']['httponly'] and cookie['forma_refresh']['secure']; "
             "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/auth/refresh',method='POST',headers={**headers,'X-CSRF-Token':token['csrf_token'],'Cookie':'forma_refresh='+cookie['forma_refresh'].value})); fresh=json.load(r); "
             "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/auth/sessions',headers={'Authorization':'Bearer '+fresh['access_token']})); "
-            "assert json.load(r)['items'][0]['is_current']",
+            "assert json.load(r)['items'][0]['is_current']; "
+            "bearer={**headers,'Authorization':'Bearer '+fresh['access_token']}; "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me',headers=bearer)); assert json.load(r)['email']=='smoke@example.org'; "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me',method='PATCH',data=json.dumps({'display_name':'Updated'}).encode(),headers=bearer)); assert json.load(r)['display_name']=='Updated'; "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me/change-password',data=json.dumps({'current_password':register['password'],'new_password':'another strong smoke password'}).encode(),headers=bearer)); assert r.status==204",
         )
         print(
             "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection, live API health/ready"

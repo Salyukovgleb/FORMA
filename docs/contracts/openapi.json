@@ -1023,6 +1023,8 @@
         "additionalProperties": false,
         "properties": {
           "current_password": {
+            "maxLength": 128,
+            "minLength": 1,
             "title": "Current Password",
             "type": "string"
           },
@@ -1589,7 +1591,7 @@
     }
   },
   "info": {
-    "description": "Design contract; no implemented routes.",
+    "description": "Design contract; implemented operations are marked with x-status, others remain planned.",
     "title": "FORMA planned API",
     "version": "0.1.0-draft"
   },
@@ -1672,6 +1674,26 @@
               }
             },
             "description": "HTTP 400; see error catalog"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "HTTP 401; see error catalog"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "HTTP 403; see error catalog"
           },
           "409": {
             "content": {
@@ -1787,6 +1809,12 @@
                 "description": "No shared caching",
                 "schema": {
                   "const": "no-store",
+                  "type": "string"
+                }
+              },
+              "Set-Cookie": {
+                "description": "Clear forma_refresh cookie; Path=/api/v1/auth; Max-Age=0; HttpOnly; Secure; SameSite=Strict",
+                "schema": {
                   "type": "string"
                 }
               },
@@ -1917,6 +1945,12 @@
                 "description": "No shared caching",
                 "schema": {
                   "const": "no-store",
+                  "type": "string"
+                }
+              },
+              "Set-Cookie": {
+                "description": "Clear forma_refresh cookie; Path=/api/v1/auth; Max-Age=0; HttpOnly; Secure; SameSite=Strict",
+                "schema": {
                   "type": "string"
                 }
               },
@@ -8752,7 +8786,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-008",
-        "x-status": "planned"
+        "x-status": "implemented"
       },
       "patch": {
         "description": "Lock user; изменить display_name. Email неизменяем в MVP.",
@@ -8926,7 +8960,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-009",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/users/me/change-password": {
@@ -8956,6 +8990,12 @@
                 "description": "No shared caching",
                 "schema": {
                   "const": "no-store",
+                  "type": "string"
+                }
+              },
+              "Set-Cookie": {
+                "description": "Clear forma_refresh cookie; Path=/api/v1/auth; Max-Age=0; HttpOnly; Secure; SameSite=Strict",
+                "schema": {
                   "type": "string"
                 }
               },
@@ -9090,7 +9130,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-010",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/health/live": {

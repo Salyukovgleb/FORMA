@@ -373,3 +373,7 @@ BE-015 runtime: auth_sessions содержит только SHA256 refresh/CSRF;
 до absolute expiry. Logout/revoke не меняют rotated_at и не продлевают expiry.
 Rate bucket scopes register/login-ip/login-email/refresh-session; refresh quota commit
 выполняется в session transaction без дополнительного connection/lock-order inversion.
+
+BE-016: profile/password writes обновляют users.updated_at явно. User row lock сериализует
+login и password-change; password_hash + revoke-all атомарны, rollback сохраняет оба состояния.
+Password-change scope rate_limit_buckets: HMAC user ID,10/15min. Новых колонок/миграций нет.

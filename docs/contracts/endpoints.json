@@ -170,7 +170,7 @@
     "effect": "SELECT текущего пользователя.",
     "group": "identity",
     "id": "API-008",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "GET",
     "operation_id": "read_profile",
     "path": "/api/v1/users/me",
@@ -179,9 +179,7 @@
     "status": 200,
     "tables": [
       "users",
-      "auth_sessions",
-      "used_refresh_tokens",
-      "rate_limit_buckets"
+      "auth_sessions"
     ],
     "task": "BE-016",
     "tests": [
@@ -196,7 +194,7 @@
     "effect": "Lock user; изменить display_name. Email неизменяем в MVP.",
     "group": "identity",
     "id": "API-009",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "PATCH",
     "operation_id": "update_profile",
     "path": "/api/v1/users/me",
@@ -205,9 +203,7 @@
     "status": 200,
     "tables": [
       "users",
-      "auth_sessions",
-      "used_refresh_tokens",
-      "rate_limit_buckets"
+      "auth_sessions"
     ],
     "task": "BE-016",
     "tests": [
@@ -222,7 +218,7 @@
     "effect": "Проверить current_password; lock user; обновить hash; отозвать все сессии включая текущую.",
     "group": "identity",
     "id": "API-010",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "change_password",
     "path": "/api/v1/users/me/change-password",
@@ -232,7 +228,6 @@
     "tables": [
       "users",
       "auth_sessions",
-      "used_refresh_tokens",
       "rate_limit_buckets"
     ],
     "task": "BE-016",

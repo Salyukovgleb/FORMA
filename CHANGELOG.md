@@ -24,3 +24,5 @@
 - BE-014: registration, bounded salted scrypt, atomic uniqueness/IP limit and protected request body handling.
 
 - BE-015: JWT access with DB revocation, hashed rotating refresh/CSRF, own-session management and key rotation.
+
+- BE-016: own profile read/update, bounded password change, atomic revoke-all and login/change serialization; shared wire models and Docker profile smoke.

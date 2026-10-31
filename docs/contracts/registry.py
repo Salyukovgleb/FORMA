@@ -552,3 +552,6 @@ for _operation in [
     "revoke_session",
 ]:
     OPERATION_STATUS[_operation] = "implemented"
+
+for _operation in ["read_profile", "update_profile", "change_password"]:
+    OPERATION_STATUS[_operation] = "implemented"

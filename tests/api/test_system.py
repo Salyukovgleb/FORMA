@@ -96,13 +96,27 @@ def test_errors_and_runtime_openapi(tmp_path):
             "/api/v1/auth/logout-all",
             "/api/v1/auth/sessions",
             "/api/v1/auth/sessions/{session_id}",
+            "/api/v1/users/me",
+            "/api/v1/users/me/change-password",
         }
         assert spec["paths"]["/health/ready"]["get"]["operationId"] == "readiness"
         assert client.get("/docs").status_code == 200
         canonical = json.loads(
             (Path(__file__).resolve().parents[2] / "docs/contracts/openapi.json").read_text()
         )
-        for name in ["Health", "ErrorEnvelope", "Error", "ErrorDetail"]:
+        for name in [
+            "Health",
+            "ErrorEnvelope",
+            "Error",
+            "ErrorDetail",
+            "Register",
+            "Profile",
+            "Login",
+            "Token",
+            "Session",
+            "ProfilePatch",
+            "PasswordChange",
+        ]:
             assert schema_without_null_defaults(
                 spec["components"]["schemas"][name]
             ) == schema_without_null_defaults(canonical["components"]["schemas"][name])

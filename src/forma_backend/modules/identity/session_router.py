@@ -1,5 +1,7 @@
 """HTTP session boundary; credentials never appear in logs, URLs or errors."""
 
+from collections.abc import Callable
+
 import base64
 import hashlib
 import json
@@ -24,6 +26,25 @@ COOKIE = "forma_refresh"
 COOKIE_PATH = "/api/v1/auth"
 
 
+def clear_refresh_cookie(response: Response, secure: bool) -> None:
+    response.delete_cookie(
+        COOKIE, path=COOKIE_PATH, secure=secure, httponly=True, samesite="strict"
+    )
+
+
+def principal_dependency(service: SessionUseCases) -> Callable[..., Principal]:
+    bearer = HTTPBearer(auto_error=False, scheme_name="bearerAuth", bearerFormat="JWT")
+
+    def principal(
+        credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
+    ) -> Principal:
+        if credentials is None:
+            raise AuthenticationFailed()
+        return service.authenticate(credentials.credentials)
+
+    return principal
+
+
 def session_router(
     service: SessionUseCases,
     origins: tuple[str, ...],
@@ -37,7 +58,7 @@ def session_router(
         if request.headers.get("origin") not in origins:
             raise ApiError(403, "CSRF_FAILED", "Origin rejected")
 
-    bearer = HTTPBearer(auto_error=False, scheme_name="bearerAuth", bearerFormat="JWT")
+    principal = principal_dependency(service)
     cookie = APIKeyCookie(name=COOKIE, auto_error=False, scheme_name="refreshCookie")
 
     def refresh_credentials(
@@ -51,13 +72,6 @@ def session_router(
             raise ApiError(403, "CSRF_FAILED", "Invalid CSRF token")
         return refresh or "", csrf
 
-    def principal(
-        credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
-    ) -> Principal:
-        if credentials is None:
-            raise AuthenticationFailed()
-        return service.authenticate(credentials.credentials)
-
     def issue(bundle: TokenBundle, response: Response) -> Token:
         response.set_cookie(
             COOKIE,
@@ -69,11 +83,6 @@ def session_router(
             path=COOKIE_PATH,
         )
         return Token(access_token=bundle.access_token, csrf_token=bundle.csrf_token)
-
-    def clear(response: Response) -> None:
-        response.delete_cookie(
-            COOKIE, path=COOKIE_PATH, secure=secure, httponly=True, samesite="strict"
-        )
 
     @router.post(
         "/api/v1/auth/login",
@@ -124,7 +133,7 @@ def session_router(
         refresh, csrf = credentials
         service.logout(refresh, csrf)
         response = Response(status_code=204)
-        clear(response)
+        clear_refresh_cookie(response, secure)
         return response
 
     @router.post(
@@ -137,7 +146,7 @@ def session_router(
     def logout_all(actor: Annotated[Principal, Depends(principal)]) -> Response:
         service.logout_all(actor)
         response = Response(status_code=204)
-        clear(response)
+        clear_refresh_cookie(response, secure)
         return response
 
     @router.get(
@@ -210,7 +219,7 @@ def session_router(
         service.revoke(actor, session_id)
         response = Response(status_code=204)
         if actor.session_id == session_id:
-            clear(response)
+            clear_refresh_cookie(response, secure)
         return response
 
     return router

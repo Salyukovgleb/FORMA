@@ -3,7 +3,7 @@ id: "BE-015"
 title: "Login, refresh rotation, logout, session revocation"
 epic: "EPIC-02"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-014"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+Merged PR #13, `5c630be`; head `2b9af8f`, восемь checks SUCCESS. [Evidence](../evidence/BE-015.md).
 
 ## Risks
 

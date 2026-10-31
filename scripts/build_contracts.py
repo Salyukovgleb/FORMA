@@ -64,7 +64,7 @@ spec = {
     "info": {
         "title": "FORMA planned API",
         "version": "0.1.0-draft",
-        "description": "Design contract; no implemented routes.",
+        "description": "Design contract; implemented operations are marked with x-status, others remain planned.",
     },
     "paths": {},
     "components": {
@@ -158,6 +158,11 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
             "description": "No shared caching",
         },
     }
+    if uc in ["Logout", "LogoutAll", "ChangePassword"]:
+        headers["Set-Cookie"] = {
+            "schema": {"type": "string"},
+            "description": "Clear forma_refresh cookie; Path=/api/v1/auth; Max-Age=0; HttpOnly; Secure; SameSite=Strict",
+        }
     if uc in ["Login", "RotateSession"]:
         headers["Set-Cookie"] = {
             "schema": {"type": "string"},
@@ -205,6 +210,8 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
         errors += [401, 403, 404]
     if method != "GET":
         errors += [409]
+    if uc == "Login":
+        errors += [401, 403]
     if req:
         errors += [413, 415]
     if uc in ["ReadContent", "RestoreFileRevision"]:
@@ -277,6 +284,9 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
             "LogoutAll": ["users", "auth_sessions"],
             "ListSessions": ["users", "auth_sessions"],
             "RevokeSession": ["users", "auth_sessions"],
+            "ReadProfile": ["users", "auth_sessions"],
+            "UpdateProfile": ["users", "auth_sessions"],
+            "ChangePassword": ["users", "auth_sessions", "rate_limit_buckets"],
         }.get(uc, TABLES[tag]),
         "tests": tests,
         "effect": effect,
@@ -353,7 +363,7 @@ for tag, body in docs.items():
 (ROOT / "docs/09_API_ENDPOINT_CATALOG.md").write_text(
     "# Каталог API\n\n"
     + META
-    + f"\nВсего **{len(ROWS)}** методов: 9 implemented (health/identity), 37 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
+    + f"\nВсего **{len(ROWS)}** методов: 12 implemented (health/identity), 34 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
     + "\n".join(catalog)
     + "\n\nПолные спецификации: "
     + ", ".join(f"[{t}](api/{t}.md)" for t in docs)

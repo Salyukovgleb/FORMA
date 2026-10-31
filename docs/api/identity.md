@@ -136,7 +136,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 }
 ```
 
-Ошибки: 400, 409, 413, 415, 422, 429, 500, 503; единая [модель](../15_ERROR_MODEL.md).
+Ошибки: 400, 401, 403, 409, 413, 415, 422, 429, 500, 503; единая [модель](../15_ERROR_MODEL.md).
 Чужой project/object → 404; доступный объект с запрещённой операцией → 403;
 невалидный input → 422; конфликт revision/name/state → 409.
 
@@ -353,7 +353,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-008 — ReadProfile
 
-`GET /api/v1/users/me` · planned · operationId `read_profile` · tag `identity`.
+`GET /api/v1/users/me` · implemented · operationId `read_profile` · tag `identity`.
 
 Назначение и транзакция: SELECT текущего пользователя.
 
@@ -399,7 +399,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `read_profile`
+Таблицы: users, auth_sessions; planned BE-046 audit будет добавлять event `read_profile`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -414,7 +414,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-009 — UpdateProfile
 
-`PATCH /api/v1/users/me` · planned · operationId `update_profile` · tag `identity`.
+`PATCH /api/v1/users/me` · implemented · operationId `update_profile` · tag `identity`.
 
 Назначение и транзакция: Lock user; изменить display_name. Email неизменяем в MVP.
 
@@ -469,7 +469,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `update_profile`
+Таблицы: users, auth_sessions; planned BE-046 audit будет добавлять event `update_profile`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -484,7 +484,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-010 — ChangePassword
 
-`POST /api/v1/users/me/change-password` · planned · operationId `change_password` · tag `identity`.
+`POST /api/v1/users/me/change-password` · implemented · operationId `change_password` · tag `identity`.
 
 Назначение и транзакция: Проверить current_password; lock user; обновить hash; отозвать все сессии включая текущую.
 
@@ -502,7 +502,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 
 | Поле | JSON schema | Обязательное |
 |---|---|---|
-| `current_password` | `{"title": "Current Password", "type": "string"}` | True |
+| `current_password` | `{"maxLength": 128, "minLength": 1, "title": "Current Password", "type": "string"}` | True |
 | `new_password` | `{"maxLength": 128, "minLength": 12, "title": "New Password", "type": "string"}` | True |
 
 Пример:
@@ -526,7 +526,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: users, auth_sessions, used_refresh_tokens, rate_limit_buckets; planned BE-046 audit будет добавлять event `change_password`
+Таблицы: users, auth_sessions, rate_limit_buckets; planned BE-046 audit будет добавлять event `change_password`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
