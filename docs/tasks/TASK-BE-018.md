@@ -3,7 +3,7 @@ id: "BE-018"
 title: "ACL tests, session expiry/replay tests, rate limiting on auth"
 epic: "EPIC-02"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-016", "BE-017"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-Локальные checks passed; [evidence](../evidence/BE-018.md). Remote CI/merge ожидаются.
+Локальные checks passed; [evidence](../evidence/BE-018.md). PR #17 merged `bf37ba2`, восемь checks SUCCESS для head `c8a2b4c`.
 
 ## Risks
 

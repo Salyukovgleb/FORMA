@@ -38,3 +38,10 @@ BE-008…013 done: package/config, persistent PostgreSQL/image, typed DB/Alembic
 реальный health API и восемь CI checks. Worker runtime остаётся BE-032 согласно ADR-0008,
 проверки всей системы — BE-051. Следующая ready задача по критическому пути — BE-014.
 Миграции проверены в disposable DB; это не заявление о применении к пользовательской БД.
+
+## Identity increment — 2026-10-31
+
+BE-014…018 done после green CI/merge: registration, sessions/JWT, profile/password,
+чистая role/object policy и auth limit regression/cleanup. M2 ещё не закрыт: BE-019…023 pending.
+BE-019 зависит от FileStorage BE-024, все prerequisites BE-024 done; следующий инкремент — BE-024.
+BE-039 остаётся независимой ready задачей. Не начинать CreateProject с незакрытым storage dependency.

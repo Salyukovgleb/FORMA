@@ -522,7 +522,7 @@
     "title": "ACL tests, session expiry/replay tests, rate limiting on auth",
     "epic": "EPIC-02",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-016",
       "BE-017"
@@ -790,7 +790,7 @@
     "title": "Локальный FileStorage adapter + тесты безопасности путей",
     "epic": "EPIC-04",
     "priority": "P0",
-    "status": "planned",
+    "status": "in_progress",
     "depends_on": [
       "BE-008",
       "BE-010",
