@@ -22,6 +22,9 @@ def main() -> None:
             "DATABASE_URL": f"postgresql+psycopg://forma:{env['POSTGRES_PASSWORD']}@postgres:5432/forma",
             "JWT_SECRET": secrets.token_hex(32),
             "APP_ENV": "test",
+            "JWT_KEY_ID": "v1",
+            "JWT_PREVIOUS_KEY_ID": "",
+            "JWT_PREVIOUS_SECRET": "",
             "ALLOWED_ORIGINS": "https://forma.example.org",
             "COOKIE_SECURE": "true",
         }
@@ -124,6 +127,37 @@ def main() -> None:
             "-c",
             "from forma_backend.infrastructure.identity.passwords import ScryptPasswordHasher; "
             "h=ScryptPasswordHasher(); assert h.verify('runtime-password',h.hash('runtime-password'))",
+        )
+        run(
+            "run",
+            "--rm",
+            "--no-deps",
+            "-e",
+            "DATABASE_URL",
+            "backend",
+            "python",
+            "-m",
+            "alembic",
+            "-c",
+            "/opt/forma/alembic.ini",
+            "upgrade",
+            "head",
+        )
+        run(
+            "exec",
+            "-T",
+            "api",
+            "python",
+            "-c",
+            "import json,urllib.request; from http.cookies import SimpleCookie; "
+            "url='http://127.0.0.1:8000'; headers={'Content-Type':'application/json','Origin':'https://forma.example.org'}; "
+            "register={'email':'smoke@example.org','password':'correct horse battery','display_name':'Smoke'}; "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/auth/register',data=json.dumps(register).encode(),headers=headers)); assert r.status==201; "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/auth/login',data=json.dumps({k:v for k,v in register.items() if k!='display_name'}).encode(),headers=headers)); "
+            "token=json.load(r); cookie=SimpleCookie(r.headers['Set-Cookie']); assert cookie['forma_refresh']['httponly'] and cookie['forma_refresh']['secure']; "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/auth/refresh',method='POST',headers={**headers,'X-CSRF-Token':token['csrf_token'],'Cookie':'forma_refresh='+cookie['forma_refresh'].value})); fresh=json.load(r); "
+            "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/auth/sessions',headers={'Authorization':'Bearer '+fresh['access_token']})); "
+            "assert json.load(r)['items'][0]['is_current']",
         )
         print(
             "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection, live API health/ready"

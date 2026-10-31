@@ -542,3 +542,13 @@ def group(route):
 OPERATION_STATUS = {"liveness": "implemented", "readiness": "implemented"}
 
 OPERATION_STATUS["register_user"] = "implemented"
+
+for _operation in [
+    "login",
+    "rotate_session",
+    "logout",
+    "logout_all",
+    "list_sessions",
+    "revoke_session",
+]:
+    OPERATION_STATUS[_operation] = "implemented"

@@ -85,3 +85,21 @@ def test_concurrent_contexts_are_isolated():
 
     first, second = asyncio.run(run())
     assert isinstance(first, UUID) and first != second
+
+
+def test_key_rotation_configuration_requires_valid_pair():
+    env = environment()
+    env["JWT_PREVIOUS_KEY_ID"] = "old"
+    with pytest.raises(ConfigurationError):
+        load_settings(env)
+    env["JWT_PREVIOUS_SECRET"] = "b" * 64
+    configured = load_settings(env)
+    assert configured.jwt_previous_key_id == "old" and "b" * 64 not in repr(configured)
+    env["JWT_PREVIOUS_KEY_ID"] = "v1"
+    with pytest.raises(ConfigurationError):
+        load_settings(env)
+
+
+def test_empty_previous_key_environment_disables_graceful_rotation():
+    env = {**environment(), "JWT_PREVIOUS_KEY_ID": "", "JWT_PREVIOUS_SECRET": ""}
+    assert load_settings(env).jwt_previous_secret is None

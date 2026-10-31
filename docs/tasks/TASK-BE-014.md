@@ -3,7 +3,7 @@ id: "BE-014"
 title: "Модель users, безопасная регистрация, хеширование паролей"
 epic: "EPIC-02"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-011", "BE-012", "BE-013"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -103,3 +103,5 @@ Audit storage остаётся BE-046; текущие request logs не соде
 Тесты написаны до модулей; проверяют hash/salt, invalid hashes, capacity, registration,
 duplicate/case conflict, races, invalid input, отсутствие session и secret leakage,
 rate-limit/forwarded bypass и body limits. Миграции не требуются: используются BE-011 tables.
+
+Merged [PR #12](https://github.com/Salyukovgleb/FORMA/pull/12), `e1ecbae7d84dbc5ad29c0eaf64d603192fc75c7d`. [CI b8bc092](https://github.com/Salyukovgleb/FORMA/actions/runs/41207592982): все8 checks SUCCESS. BE-014 done.

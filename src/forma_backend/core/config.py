@@ -18,6 +18,9 @@ class Settings(BaseModel):
     app_env: Literal["development", "test", "production"] = "development"
     database_url: SecretStr
     jwt_secret: SecretStr
+    jwt_key_id: str = Field(default="v1", pattern=r"^[A-Za-z0-9_-]{1,32}$")
+    jwt_previous_key_id: str | None = Field(default=None, pattern=r"^[A-Za-z0-9_-]{1,32}$")
+    jwt_previous_secret: SecretStr | None = None
     jwt_issuer: str = Field(default="forma", min_length=1)
     jwt_audience: str = Field(default="forma-web", min_length=1)
     storage_root: Path = Path("/var/lib/forma")
@@ -34,6 +37,16 @@ class Settings(BaseModel):
         secret = self.jwt_secret.get_secret_value()
         if len(secret.encode("utf-8")) < 32 or "CHANGE_ME" in secret:
             raise ValueError("JWT_SECRET must contain at least 32 secret bytes")
+        if (self.jwt_previous_key_id is None) != (self.jwt_previous_secret is None):
+            raise ValueError("Previous key ID and secret must be configured together")
+        if self.jwt_previous_secret is not None:
+            old = self.jwt_previous_secret.get_secret_value()
+            if (
+                self.jwt_previous_key_id == self.jwt_key_id
+                or len(old.encode()) < 32
+                or "CHANGE_ME" in old
+            ):
+                raise ValueError("Invalid previous signing key")
         database = urlsplit(self.database_url.get_secret_value())
         if (
             database.scheme != "postgresql+psycopg"
@@ -75,6 +88,8 @@ def load_settings(environment: Mapping[str, str] | None = None) -> Settings:
     for name in Settings.model_fields:
         value = source.get(name.upper())
         if value is not None:
+            if name in {"jwt_previous_key_id", "jwt_previous_secret"} and value == "":
+                continue
             values[name] = (
                 tuple(part.strip() for part in value.split(","))
                 if name == "allowed_origins"

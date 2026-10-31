@@ -1,9 +1,11 @@
+import pytest
 from fastapi.testclient import TestClient
 from forma_backend.core.config import load_settings
 from forma_backend.main import create_app
 
 
-def test_registration_bounds_precede_database_access(tmp_path):
+@pytest.mark.parametrize("path", ["/api/v1/auth/register", "/api/v1/auth/login"])
+def test_registration_bounds_precede_database_access(tmp_path, path):
     settings = load_settings(
         {
             "APP_ENV": "test",
@@ -13,14 +15,15 @@ def test_registration_bounds_precede_database_access(tmp_path):
         }
     )
     with TestClient(create_app(settings)) as client:
-        unsupported = client.post("/api/v1/auth/register", content="text")
+        unsupported = client.post(path, content="text")
         assert unsupported.status_code == 415
         large = client.post(
-            "/api/v1/auth/register",
+            path,
             content=iter([b"x" * 1048576, b"x" * 1048577]),
-            headers={"Content-Type": "application/json"},
+            headers={"Content-Type": "application/json", "Origin": "http://localhost:3000"},
         )
         assert large.status_code == 413
+        assert large.headers["access-control-allow-origin"] == "http://localhost:3000"
         assert large.json()["error"]["code"] == "PAYLOAD_TOO_LARGE"
 
 

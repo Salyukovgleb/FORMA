@@ -32,3 +32,7 @@ BE-003/006/007 проектируют; соответствующие implementa
 Uvicorn — минимальный ASGI runtime для FastAPI; HTTPX используется только для тестов.
 Новых внешних сервисов нет. Health/Error Pydantic DTO живут в core/contracts.py и
 переиспользуются проектным генератором вместо дублирования wire fields.
+
+BE-015: PyJWT pinned2.15.1 по актуальному security changelog; HS256/key-ring local,
+внешний JWK client не используется. Cookie/CSRF transport и обязательный login после reload
+сохранены согласно решению. JWT headers/claims проверяются до DB principal lookup.

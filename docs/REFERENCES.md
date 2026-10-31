@@ -16,3 +16,5 @@
 - [SQLAlchemy Session lifecycle](https://docs.sqlalchemy.org/en/20/orm/session_api.html): explicit commit and context-managed cleanup.
 
 - [GitHub composite action metadata](https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax): common Python setup uses explicit shell and pinned action references.
+
+- [PyJWT security changelog](https://pyjwt.readthedocs.io/en/stable/changelog.html): BE-015 pins2.15.1 including parser security fixes.

@@ -3,7 +3,7 @@ id: "BE-015"
 title: "Login, refresh rotation, logout, session revocation"
 epic: "EPIC-02"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-014"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-Login, refresh rotation, logout, session revocation. Требования: FR-AUTH-001, FR-ACL-001. Цель — следующий проверяемый инкремент milestone M1.
+Login, refresh rotation, logout, session revocation. Требования: FR-AUTH-001, FR-ACL-001. Цель — следующий проверяемый инкремент milestone M2.
 
 ## Outcome
 
@@ -86,3 +86,24 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Двойной refresh и replay старого token. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / implementation evidence — 2026-10-31
+
+BE-014 merged. Application session use cases работают с transaction store/crypto ports;
+SQLAlchemy и PyJWT adapters — infrastructure. Login блокирует user до проверки/создания session.
+Refresh сначала находит ID по current/history hash, затем locks по ID; replay revoke commit
+выполняется до исключения, поэтому повтор не откатывает security effect. Concurrency barrier
+принудительно проверяет два lookup до claim. Ключи JWT локальные; HS256 fixed, mandatory
+claims/UUID/time bounds, active/previous kid. Каждый access проверяет active user + session в DB.
+
+Cookie HttpOnly/Secure/SameSite Strict/Path auth; refresh/login/logout проверяют Origin,
+refresh/logout требуют CSRF header. History/hash only, absolute TTL30d без sliding;
+access600s. Login unknown user выполняет dummy scrypt, error одинаковый. List/revoke only own,
+keyset cursor привязан к user filter. Logout idempotent, logout-all немедленно отзывает JWT.
+Public limits login IP/email10/15min; refresh session30/min в той же transaction (без второго
+DB connection под session lock). Cleanup и полная auth review — BE-018.
+
+Тесты написаны до handlers (login404), затем real PostgreSQL scenarios, malformed JWT,
+key rotation, cookie/CSRF, expiry/disabled user, foreign sessions, replay race, hash-only
+storage, no secret logs, pagination/revoke и absolute expiry. Docker выполняет весь auth smoke.
+Новых migrations нет; используется схема BE-011. Profile/change-password — BE-016, не здесь.

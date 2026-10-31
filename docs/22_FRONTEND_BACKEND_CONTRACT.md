@@ -21,3 +21,9 @@ Blob URL revoke при закрытии. CSP frontend ограничивает v
 После полной перезагрузки login требуется снова (ADR-0006). На 429 учитывать Retry-After;
 POST создавать заново только с тем же idempotency key при неизвестном результате.
 Без WebSocket/SSE. Контрактные fixture JSON в examples/; /docs только когда runtime реализован.
+
+BE-015 transport implemented: login Origin обязателен; csrf_token держать в памяти,
+refresh/logout с X-CSRF-Token и credentials include. Параллельный refresh координировать
+между вкладками: второй запрос со старым token отзывает всю session. Cookie обновляется
+только после commit; потерянный refresh response требует повторного login, grace нет.
+Logout-all/revoke делают ранее выданные access JWT недействительными немедленно.

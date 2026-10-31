@@ -19,3 +19,5 @@ httpx==0.28.1
 # CI workflow validation and reproducible dependency-graph checking.
 PyYAML==6.0.3
 pip==25.3
+
+PyJWT==2.15.1

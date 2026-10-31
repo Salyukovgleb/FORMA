@@ -22,6 +22,7 @@ def app(database_url, tmp_path):
     settings = load_settings(
         {
             "APP_ENV": "test",
+            "ALLOWED_ORIGINS": "https://forma.example.org",
             "DATABASE_URL": database_url.render_as_string(hide_password=False),
             "JWT_SECRET": "a" * 64,
             "STORAGE_ROOT": str(tmp_path),
@@ -87,11 +88,11 @@ def test_concurrent_registration_has_single_winner(database_url, tmp_path):
 
 
 def test_registration_ip_limit_cannot_be_bypassed_with_forwarded_header(database_url, tmp_path):
-    from forma_backend.infrastructure.identity.rate_limit import RegistrationRateLimit
+    from forma_backend.infrastructure.identity.rate_limit import AuthRateLimit
 
     application, engine = app(database_url, tmp_path)
     try:
-        limiter = RegistrationRateLimit(engine, "a" * 64)
+        limiter = AuthRateLimit(engine, "a" * 64)
         for _ in range(10):
             assert limiter.consume("testclient")
         with TestClient(application) as client:

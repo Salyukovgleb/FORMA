@@ -70,7 +70,7 @@
     "effect": "Проверить пароль; INSERT session; установить refresh cookie и вернуть access/CSRF.",
     "group": "identity",
     "id": "API-004",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "login",
     "path": "/api/v1/auth/login",
@@ -80,7 +80,6 @@
     "tables": [
       "users",
       "auth_sessions",
-      "used_refresh_tokens",
       "rate_limit_buckets"
     ],
     "task": "BE-015",
@@ -96,7 +95,7 @@
     "effect": "Lock session; использованный hash в used_refresh_tokens; заменить refresh/CSRF hashes. Replay отзывает session.",
     "group": "identity",
     "id": "API-005",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "rotate_session",
     "path": "/api/v1/auth/refresh",
@@ -122,7 +121,7 @@
     "effect": "Отозвать текущую session и очистить cookie; повторный отзыв 204, невалидный token 401.",
     "group": "identity",
     "id": "API-006",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "logout",
     "path": "/api/v1/auth/logout",
@@ -132,8 +131,7 @@
     "tables": [
       "users",
       "auth_sessions",
-      "used_refresh_tokens",
-      "rate_limit_buckets"
+      "used_refresh_tokens"
     ],
     "task": "BE-015",
     "tests": [
@@ -148,7 +146,7 @@
     "effect": "Отозвать все session пользователя; очистить cookie.",
     "group": "identity",
     "id": "API-007",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "logout_all",
     "path": "/api/v1/auth/logout-all",
@@ -157,9 +155,7 @@
     "status": 204,
     "tables": [
       "users",
-      "auth_sessions",
-      "used_refresh_tokens",
-      "rate_limit_buckets"
+      "auth_sessions"
     ],
     "task": "BE-015",
     "tests": [
@@ -252,7 +248,7 @@
     "effect": "Только собственные неотозванные сессии.",
     "group": "identity",
     "id": "API-011",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "GET",
     "operation_id": "list_sessions",
     "path": "/api/v1/auth/sessions",
@@ -261,9 +257,7 @@
     "status": 200,
     "tables": [
       "users",
-      "auth_sessions",
-      "used_refresh_tokens",
-      "rate_limit_buckets"
+      "auth_sessions"
     ],
     "task": "BE-015",
     "tests": [
@@ -278,7 +272,7 @@
     "effect": "Lock session своего пользователя; чужая/отсутствующая 404; повторный отзыв 204.",
     "group": "identity",
     "id": "API-012",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "DELETE",
     "operation_id": "revoke_session",
     "path": "/api/v1/auth/sessions/{session_id}",
@@ -287,9 +281,7 @@
     "status": 204,
     "tables": [
       "users",
-      "auth_sessions",
-      "used_refresh_tokens",
-      "rate_limit_buckets"
+      "auth_sessions"
     ],
     "task": "BE-015",
     "tests": [

@@ -92,3 +92,14 @@ Email strip/lower; пароль12–128 символов, scrypt с random salt;
 Сессия не создаётся. JSON≤2MiB, register IP quota10/15min и bounded hashing.
 Runtime содержит3 метода; login/refresh ещё planned. make test-security теперь включает
 password hashing и registration boundary; PostgreSQL integration проверяет реальные races.
+
+## BE-015: сессии
+
+POST /api/v1/auth/login возвращает access/CSRF JSON и устанавливает refresh cookie.
+POST refresh/logout: credentials include + Origin + X-CSRF-Token; login требует Origin.
+Bearer нужен для logout-all, GET sessions и DELETE sessions/{session_id}. Cookies — HttpOnly,
+Secure по окружению, SameSite Strict, Path=/api/v1/auth. Reload без CSRF требует login.
+JWT key rotation — JWT_KEY_ID и optional previous key pair; не хранить значения в Git.
+После нового lock выполнить install по README и переустановить пакет. make test-security
+включает real PostgreSQL auth tests (локально Docker), а Docker smoke проверяет register→login→refresh→sessions.
+Runtime9 методов, profile/change-password остаются следующей задачей BE-016.

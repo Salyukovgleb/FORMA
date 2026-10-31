@@ -6,8 +6,14 @@ from forma_backend.modules.identity.schemas import (
     Email as Email,
     Password as Password,
 )
+from forma_backend.modules.identity.session_schemas import (
+    Login as Login,
+    Token as Token,
+    Session as Session,
+)
+from forma_backend.core.contracts import Page as Page
 from datetime import datetime
-from typing import Annotated, Generic, Literal, TypeVar
+from typing import Annotated, Literal
 from uuid import UUID
 from pydantic import Field
 from forma_backend.core.contracts import (
@@ -26,18 +32,6 @@ Role = Literal["owner", "editor", "viewer"]
 State = Literal["queued", "running", "retry_wait", "succeeded", "failed", "cancelled"]
 
 
-class Login(DTO):
-    email: Email
-    password: Annotated[str, Field(min_length=1, max_length=128)]
-
-
-class Token(DTO):
-    access_token: str
-    token_type: Literal["bearer"] = "bearer"
-    expires_in: Literal[600] = 600
-    csrf_token: str
-
-
 class ProfilePatch(DTO):
     display_name: Annotated[str, Field(min_length=1, max_length=100)]
 
@@ -45,13 +39,6 @@ class ProfilePatch(DTO):
 class PasswordChange(DTO):
     current_password: str
     new_password: Password
-
-
-class Session(DTO):
-    id: UUID
-    created_at: datetime
-    expires_at: datetime
-    is_current: bool
 
 
 class ProjectCreate(DTO):
@@ -242,14 +229,6 @@ class Template(DTO):
     main_file: str
     files: list[str]
     version: str
-
-
-T = TypeVar("T")
-
-
-class Page(DTO, Generic[T]):
-    items: list[T]
-    next_cursor: str | None
 
 
 class Members(DTO):
