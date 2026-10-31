@@ -107,3 +107,8 @@ Runtime9 методов, profile/change-password остаются следующ
 BE-016: GET/PATCH `/api/v1/users/me`, POST `/api/v1/users/me/change-password` implemented.
 Изменяется только display_name; новый password12..128. Смена требует current_password
 и отзывает все сессии включая текущую (204, cookie очищается). После неё нужен login.
+
+BE-017: чистая политика project ACL в `modules/access/policy.py`: owner/editor/viewer,
+project/object UUID scope, owner-only/self/requester и deleted visibility. Проверены unit/security
+scenarios. Подключение к реальным project repositories/routes — последующие задачи;
+runtime API по-прежнему12 implemented /34 planned.

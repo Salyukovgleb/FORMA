@@ -76,3 +76,30 @@ extra fields/email/id →422. Password change: current1..128, new12..128, Unicod
 Login использует тот же lock; конкурентный login со старым паролем не создаёт сессию после change.
 204 очищает cookie, все старые access/refresh отклоняются. Нужен новый login.
 JSON body cap2MiB до parse применяется к PATCH/profile и POST/password, secret repr скрыт.
+
+## BE-017: implemented policy, repository integration pending
+
+`modules/access/policy.py` — чистая stateless policy, принимает проверенный Principal и
+immutable ProjectAccessContext из trusted repository текущего UoW. Она не выполняет
+authentication, SQL, commit и не кэширует grants. Owner вычисляется из owner_id;
+ProjectMembership принимает только MemberRole.EDITOR/VIEWER, с project_id и user_id.
+Чужая membership не даёт прав. Role из JSON/JWT не является входом policy.
+
+| Вызов | Scope / правило |
+|---|---|
+| require_project_permission | reader/writer/owner/restore; возвращает вычисленный ProjectRole |
+| require_object_permission | дополнительно сверяет object_id и project_id с route до проверки прав; owner_or_requester берёт requester из object context |
+| require_member_change | grant/change owner-only; remove owner_or_self; owner target →409 OWNER_IMMUTABLE после проверки прав |
+
+Нет проекта/членства, несовпадение project/object/user IDs →404 NOT_FOUND; видимый
+active project без нужных прав →403 FORBIDDEN. Conditional permissions нельзя вызвать
+без member/object scope. Unknown permission fail-closed. Requester должен оставаться
+участником; owner вправе отменять job другого requester. Deleted project доступен только
+owner для project read/restore; child/member/прочие operations →404, включая owner.
+Restore active project разрешается policy для owner, state/retention проверяет use case.
+
+Contexts не строятся из transport. Mutation и worker должны перечитать membership и
+ownership под блокировками своего UoW; полученный grant нельзя сохранять между запросами
+или использовать после commit. Project-qualified repositories и вызовы policy появятся
+в BE-019/023/025/033; эти project routes всё ещё planned. Здесь verified только policy,
+не объявлена работающая end-to-end object ACL до реализации этих routes/adapters.

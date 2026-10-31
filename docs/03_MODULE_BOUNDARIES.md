@@ -25,3 +25,8 @@ Protocols: FileStorage.publish/open/delete; ProjectRepository.get_for_update;
 NodeRepository.find_in_project; JobRepository.claim/fenced_update;
 DocumentCompiler.compile; DocxExporter.export. Domain entities содержат инварианты,
 адаптеры только выполняют I/O. Return types — конкретные dataclasses/DTO, не Any.
+
+BE-017: `modules/access/policy.py` реализует RequireProjectPermission и проверки child scope.
+Контексты/dataclasses и role enums принадлежат access; Principal приходит из identity.
+Политика не зависит от ORM/FastAPI и не открывает транзакции. Future project/member/node
+adapters возвращают текущий trusted context внутри UoW; DB-интеграция — BE-019/023/025.

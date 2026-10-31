@@ -26,3 +26,5 @@
 - BE-015: JWT access with DB revocation, hashed rotating refresh/CSRF, own-session management and key rotation.
 
 - BE-016: own profile read/update, bounded password change, atomic revoke-all and login/change serialization; shared wire models and Docker profile smoke.
+
+- BE-017: typed stateless project policy, derived owner, bound membership/object IDs, owner/self/requester rules and deleted visibility; project repository integration remains planned.

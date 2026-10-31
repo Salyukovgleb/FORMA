@@ -3,7 +3,7 @@ id: "BE-017"
 title: "Role policy owner/editor/viewer, object-level authorization"
 epic: "EPIC-02"
 priority: "P0"
-status: "in_progress"
+status: "in_review"
 depends_on: ["BE-015"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -34,7 +34,7 @@ Policy покрывает owner/editor/viewer и child IDs без утечки �
 
 ## Files to change
 
-`src/forma_backend/modules/identity/`; соответствующие tests/integration/,
+`src/forma_backend/modules/access/policy.py`; tests/unit/test_project_policy.py,
 [STATUS](STATUS.md), связанные API docs и migration plan при изменении схемы.
 Точный список новых файлов зафиксировать в mini-plan перед реализацией; пустые skeletons не добавлять.
 
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+59 policy scenarios passed; [evidence](../evidence/BE-017.md). PR/remote CI/merge ожидаются.
 
 ## Risks
 
@@ -103,4 +103,5 @@ repositories выполняется BE-019/023/025; до них не заявл�
 Typed ProjectAccessContext передаётся из trusted repository текущего UoW; policy проверяет
 actor/context/project/child совпадение и не доверяет role из transport. Использовать
 чёткие permission types и явные error codes; без FastAPI/SQLAlchemy imports в policy.
-Реализация и её tests ещё не начаты; этот план не является доказательством working ACL.
+Реализация policy/tests выполнена; локальные/remote результаты — в evidence после проверки.
+Project repositories/routes ещё planned; работающая end-to-end object ACL здесь не заявляется.

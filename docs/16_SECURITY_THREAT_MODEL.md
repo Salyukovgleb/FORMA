@@ -25,3 +25,7 @@ Auth rate-limit hashes IP with server HMAC, trust X-Forwarded-For только �
 в frontend только text rendering, не innerHTML. Swagger prod authenticated или disabled.
 Residual risk: shared Linux kernel container escape; один хост — single failure domain;
 локальный backup на том же диске не disaster recovery. Публичный запуск запрещён до BE-034/049.
+
+BE-017: role/child-scope policy проверена против cross-project UUID, чужой membership,
+подмены owner role, former requester и deleted visibility. Это unit/security evidence;
+SEC project API tests и project-qualified DB lookup остаются gates BE-019/023/025.
