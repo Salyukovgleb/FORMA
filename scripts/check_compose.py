@@ -37,7 +37,9 @@ def main() -> None:
                 "Compose failed: "
                 + " ".join(args[:2])
                 + "\n"
-                + result.stderr.replace(env["POSTGRES_PASSWORD"], "[redacted]")
+                + (result.stdout + result.stderr)[-18000:].replace(
+                    env["POSTGRES_PASSWORD"], "[redacted]"
+                )
             )
         return result.stdout.strip()
 
@@ -80,6 +82,19 @@ def main() -> None:
             "-c",
             "from pathlib import Path; assert Path('/var/lib/forma/probe').read_text()=='retained'",
         )
+        heads = run(
+            "run",
+            "--rm",
+            "--no-deps",
+            "backend",
+            "python",
+            "-m",
+            "alembic",
+            "-c",
+            "/opt/forma/alembic.ini",
+            "heads",
+        )
+        assert "0002_sessions_limits (head)" in heads
         print(
             "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection"
         )

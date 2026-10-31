@@ -256,7 +256,7 @@
     "title": "SQLAlchemy/Alembic и первая миграция + smoke-test",
     "epic": "EPIC-01",
     "priority": "P0",
-    "status": "ready",
+    "status": "in_review",
     "depends_on": [
       "BE-009"
     ],
@@ -266,7 +266,12 @@
       "NFR-OPS-001"
     ],
     "api": [],
-    "database": [],
+    "database": [
+      "users",
+      "auth_sessions",
+      "used_refresh_tokens",
+      "rate_limit_buckets"
+    ],
     "tests": [
       "BE-011-POS",
       "BE-011-NEG"

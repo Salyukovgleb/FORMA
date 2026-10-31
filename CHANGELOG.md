@@ -14,3 +14,5 @@
 - BE-010: validated environment, protected secret representation, JSON event logging and isolated correlation context.
 
 - BE-009: digest-pinned non-root image, PostgreSQL/volume bootstrap, real persistence smoke and Docker CI.
+
+- BE-011: typed identity persistence, explicit transactions, guarded Alembic revisions and real PostgreSQL migration tests.

@@ -5,3 +5,10 @@
 !requirements-runtime.lock
 !src/
 !src/**
+!alembic.ini
+!alembic/
+!alembic/**
+
+# Never copy local bytecode into runtime/build contexts.
+**/__pycache__/
+**/*.pyc

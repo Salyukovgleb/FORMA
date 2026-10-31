@@ -3,8 +3,8 @@ PYTHON ?= .venv/bin/python
 contracts:
 	$(PYTHON) scripts/build_contracts.py
 lint:
-	$(PYTHON) -m ruff format --check src docs/contracts scripts tests
-	$(PYTHON) -m ruff check src docs/contracts scripts tests
+	$(PYTHON) -m ruff format --check src alembic docs/contracts scripts tests
+	$(PYTHON) -m ruff check src alembic docs/contracts scripts tests
 typecheck:
 	$(PYTHON) -m mypy
 test:
@@ -13,7 +13,7 @@ openapi-check:
 	$(PYTHON) -m pytest -q tests/contracts/test_specification.py
 schema-check:
 	$(PYTHON) scripts/check_schema.py
-ci-local: lint typecheck test lock-check schema-check
+ci-local: lint typecheck test test-integration lock-check schema-check
 
 lock-check:
 	$(PYTHON) scripts/check_lock.py
@@ -27,3 +27,11 @@ dev-down:
 	docker compose --env-file .env -f infra/compose.yaml down
 test-compose:
 	$(PYTHON) scripts/check_compose.py
+
+.PHONY: migrate migration-check test-integration
+migrate:
+	$(PYTHON) -m alembic upgrade head
+migration-check:
+	$(PYTHON) -m alembic check
+test-integration:
+	$(PYTHON) -m pytest -q tests/integration

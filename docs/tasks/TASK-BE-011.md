@@ -3,7 +3,7 @@ id: "BE-011"
 title: "SQLAlchemy/Alembic и первая миграция + smoke-test"
 epic: "EPIC-01"
 priority: "P0"
-status: "ready"
+status: "in_review"
 depends_on: ["BE-009"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -20,7 +20,7 @@ adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 
 ## Context
 
-SQLAlchemy/Alembic и первая миграция + smoke-test. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M0.
+SQLAlchemy/Alembic и первая миграция + smoke-test. Требования: NFR-OPS-001. Цель — следующий проверяемый инкремент milestone M1.
 
 ## Outcome
 
@@ -86,3 +86,12 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Upgrade с существующими rows не теряет данные. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / implementation evidence
+
+BE-009 done. Typed SQLAlchemy Base и identity models; explicit-commit Unit of Work;
+две immutable Alembic revisions (users, затем sessions/rate limits). API не меняется.
+Проверки написаны до реализации. Проверяется PostgreSQL16.6, а не SQLite:
+fresh head, seeded N−1→head, repeated upgrade, drift column, guarded downgrade/upgrade,
+CLI entrypoint, constraints и commit/rollback use case. Docker image содержит migrations.
+До merge задача in_review; локальные/CI результаты записываются отдельно.

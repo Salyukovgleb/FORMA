@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir --require-hashes -r /tmp/requirements-runtime.loc
     && chown 10001:10001 /var/lib/forma
 COPY --from=build /wheels /wheels
 RUN pip install --no-cache-dir --no-deps /wheels/*.whl && rm -r /wheels
+COPY alembic.ini /opt/forma/alembic.ini
+COPY alembic /opt/forma/alembic
 USER 10001:10001
 WORKDIR /var/lib/forma
 CMD ["python", "-c", "import forma_backend; print(forma_backend.__version__)"]
