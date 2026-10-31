@@ -377,3 +377,8 @@ Rate bucket scopes register/login-ip/login-email/refresh-session; refresh quota 
 BE-016: profile/password writes обновляют users.updated_at явно. User row lock сериализует
 login и password-change; password_hash + revoke-all атомарны, rollback сохраняет оба состояния.
 Password-change scope rate_limit_buckets: HMAC user ID,10/15min. Новых колонок/миграций нет.
+
+BE-018: rate_limit_buckets UPSERT использует DB statement clock. Bounded cleanup старше24h
+не трогает current buckets, locked rows пропускаются; caller управляет commit/rollback.
+Новых DB объектов нет. Для крупного объёма оценить expiry index/EXPLAIN на BE-048;
+до этого operator cleanup ограничен statement timeout2s и не запускается на каждом request.

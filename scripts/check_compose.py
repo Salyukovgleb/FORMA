@@ -163,6 +163,17 @@ def main() -> None:
             "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me',method='PATCH',data=json.dumps({'display_name':'Updated'}).encode(),headers=bearer)); assert json.load(r)['display_name']=='Updated'; "
             "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me/change-password',data=json.dumps({'current_password':register['password'],'new_password':'another strong smoke password'}).encode(),headers=bearer)); assert r.status==204",
         )
+        cleaned = run(
+            "exec",
+            "-T",
+            "api",
+            "python",
+            "-m",
+            "forma_backend.infrastructure.identity.cleanup_limits",
+            "--max-rows",
+            "10",
+        )
+        assert cleaned.strip() == "removed=0"
         print(
             "PASS: non-root package image, PostgreSQL health, DB/files persistence across recreation, missing-secret rejection, live API health/ready"
         )

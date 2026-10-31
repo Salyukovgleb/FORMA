@@ -3,13 +3,13 @@ id: "BE-018"
 title: "ACL tests, session expiry/replay tests, rate limiting on auth"
 epic: "EPIC-02"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-016", "BE-017"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
 requirements: ["FR-AUTH-001", "FR-ACL-001"]
 api: []
-database: []
+database: ["rate_limit_buckets", "auth_sessions", "used_refresh_tokens", "users"]
 tests: ["BE-018-POS", "BE-018-NEG"]
 adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
 ---
@@ -81,8 +81,22 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+Локальные checks passed; [evidence](../evidence/BE-018.md). Remote CI/merge ожидаются.
 
 ## Risks
 
 Burst на границе rate window. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan — 2026-10-31
+
+BE-016/017 done, BE-018 ready → in_progress. Policy regression в security suite уже есть;
+expiry/replay/revocation tests сохраняются. Новый tests/integration/test_auth_limits.py:
+24 concurrent same-subject attempts без потерянных increments; два deterministic соседних
+окна (DB clock expression controlled только в test harness), долгоживущая transaction,
+реальный login IP/email limits и refresh30/min с committed429 и непродлённой session.
+Воспроизвести выбор старого rate window через transaction now(), затем использовать
+statement_timestamp() — серверное время текущего SQL statement.
+Rate buckets старше24h: ограниченная cleanup-функция и отдельная operator CLI/Make target;
+SKIP LOCKED, max rows, rollback-safe и timeouts; автоматический scheduler не добавляется.
+Files: infrastructure/identity/rate_limit.py, infrastructure/identity/cleanup_limits.py,
+новый test suite, Makefile, auth/NFR/runbook/evidence. Без новых routes/schema/dependencies.

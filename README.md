@@ -112,3 +112,8 @@ BE-017: чистая политика project ACL в `modules/access/policy.py`:
 project/object UUID scope, owner-only/self/requester и deleted visibility. Проверены unit/security
 scenarios. Подключение к реальным project repositories/routes — последующие задачи;
 runtime API по-прежнему12 implemented /34 planned.
+
+BE-018: auth limits проверены под конкурентной нагрузкой и на границе fixed window;
+долгая transaction использует текущее DB statement time. `make auth-limits-cleanup`
+удаляет bounded batch rate buckets старше24h из настроенной БД, без удаления пользовательских томов.
+CLI доступен в packaged image; автоматический scheduler ещё planned.
