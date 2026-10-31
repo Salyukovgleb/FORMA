@@ -3,7 +3,7 @@ id: "BE-016"
 title: "Profile read/update и смена пароля"
 epic: "EPIC-02"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-015"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-Локальные проверки passed; ожидается PR/green CI/merge. [Evidence](../evidence/BE-016.md).
+Merged PR #14, `8000af2`; восемь checks SUCCESS для head `4e0bf89`. [Evidence](../evidence/BE-016.md).
 
 ## Risks
 

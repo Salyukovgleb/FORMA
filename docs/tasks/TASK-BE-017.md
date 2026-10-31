@@ -3,7 +3,7 @@ id: "BE-017"
 title: "Role policy owner/editor/viewer, object-level authorization"
 epic: "EPIC-02"
 priority: "P0"
-status: "ready"
+status: "in_progress"
 depends_on: ["BE-015"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -86,3 +86,21 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 UUID другого проекта. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan — 2026-10-31
+
+BE-015/016 merged (PR #13/#14); BE-017 ready → in_progress: выполнен разбор границ.
+Policy принадлежит modules/access, согласно docs/03_MODULE_BOUNDARIES.md; identity даёт
+только Principal и не импортирует projects. Точный новый source: modules/access/policy.py,
+tests/unit/test_project_policy.py; tests/security включит эту policy suite.
+Новых HTTP endpoints/DB tables в BE-017 нет. Интеграция с реальными project/member/node
+repositories выполняется BE-019/023/025; до них не заявлять runtime object ACL.
+
+Сначала тестовая матрица owner/editor/viewer/nonmember: read/edit/owner-only, невидимый
+проект404, видимый с запрещённой операцией403, owner immutable и owner не может leave,
+удалённый project виден только owner для read/restore. Затем cross-project child UUID,
+подмена membership user ID, owner precedence над membership, requester/self policies.
+Typed ProjectAccessContext передаётся из trusted repository текущего UoW; policy проверяет
+actor/context/project/child совпадение и не доверяет role из transport. Использовать
+чёткие permission types и явные error codes; без FastAPI/SQLAlchemy imports в policy.
+Реализация и её tests ещё не начаты; этот план не является доказательством working ACL.

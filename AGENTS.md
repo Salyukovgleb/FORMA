@@ -38,7 +38,7 @@ BE-001…007 done. BE-008 выполняется первой; затем BE-010
 
 ## Текущее состояние — 2026-10-31
 
-M1 foundation (BE-008…013) merged и проверен; BE-014/015 также merged; следующая по цепочке — BE-016.
+M1 foundation (BE-008…013) merged и проверен; BE-014…016 также merged; следующая по цепочке — BE-017.
 Доступны make migrate, migration-check, test-integration, test-migrations, test-security,
 dependency-check, dev-up/dev-down и test-compose. CI имеет восемь обязательных checks;
-каждый новый PR требует фактического green head SHA перед merge. Runtime реализует9 health/identity методов; остальные37 planned. Worker — BE-032.
+каждый новый PR требует фактического green head SHA перед merge. Runtime реализует12 health/identity методов; остальные34 planned. Worker — BE-032.
