@@ -307,7 +307,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: {", ".join(TABLES[tag]) or "нет"}; mutation добавляет audit event `{oid}`
+Таблицы: {", ".join(TABLES[tag]) or "нет"}; planned BE-046 audit будет добавлять event `{oid}`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -331,7 +331,7 @@ for tag, body in docs.items():
 (ROOT / "docs/09_API_ENDPOINT_CATALOG.md").write_text(
     "# Каталог API\n\n"
     + META
-    + f"\nВсего **{len(ROWS)}** методов: 2 implemented (health), 44 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
+    + f"\nВсего **{len(ROWS)}** методов: 3 implemented (health/register), 43 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
     + "\n".join(catalog)
     + "\n\nПолные спецификации: "
     + ", ".join(f"[{t}](api/{t}.md)" for t in docs)

@@ -41,3 +41,12 @@ Password change отзывает все session. Email normalize strip/lower, б
 Все child IDs сверяются с project_id; знание UUID не даёт доступа. До выполнения queued job
 worker проверяет active project, requester membership и право для job_type; потеря доступа
 отменяет job. Running результат не выдаётся без текущего ACL; удаление проекта отменяет jobs.
+
+## BE-014 implemented
+
+POST /api/v1/auth/register создаёт user с normalized strip/lower email и scrypt hash.
+maxmem=64MiB учитывает OpenSSL overhead; принимается только фиксированный v1 hash format.
+Конкурентные hash operations≤2; неверные stored parameters не исполняются.
+Rate bucket10/15min по HMAC socket peer; Retry-After900. Cleanup/остальные auth limits — BE-018.
+API не выдаёт сессию при регистрации. Password repr скрыт; request JSON нужен только на входе.
+Durable audit — BE-046. Login/refresh/revoke остаются BE-015, не считать их implemented.

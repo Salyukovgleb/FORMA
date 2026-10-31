@@ -46,7 +46,7 @@
     "effect": "Нормализовать email; hash пароля; INSERT user; дубликат 409 EMAIL_TAKEN. Сессия не создаётся.",
     "group": "identity",
     "id": "API-003",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "register_user",
     "path": "/api/v1/auth/register",

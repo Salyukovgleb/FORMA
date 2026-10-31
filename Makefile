@@ -40,6 +40,6 @@ test-integration:
 test-migrations:
 	$(PYTHON) -m pytest -q tests/integration/test_migrations.py
 test-security:
-	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/api/test_system.py
+	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/unit/test_passwords.py tests/api/test_system.py tests/security
 dependency-check:
 	$(PYTHON) -m pip check

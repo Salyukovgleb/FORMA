@@ -17,7 +17,7 @@
 | [BE-011](TASK-BE-011.md) | done | BE-009 | feat/BE-011-database-migrations | 206cdc2 merge PR #8 | [success 514bd17](https://github.com/Salyukovgleb/FORMA/actions/runs/41197148968) | 26 + 4 tests, Docker migration smoke |
 | [BE-012](TASK-BE-012.md) | done | BE-010, BE-011 | feat/BE-012-app-health | d8c498b merge PR #9 | [success c720f45](https://github.com/Salyukovgleb/FORMA/actions/runs/41197899063) | 31 + 6 tests; real API Compose |
 | [BE-013](TASK-BE-013.md) | done | BE-009, BE-011, BE-012 | feat/BE-013-ci-checks | a49b276 merge PR #10 | [8 checks SUCCESS bf27908](https://github.com/Salyukovgleb/FORMA/actions/runs/41198323122) | 32 + 6 tests; Docker; dependency graph |
-| [BE-014](TASK-BE-014.md) | ready | BE-011, BE-012, BE-013 | — | — | не заявлен | ready |
+| [BE-014](TASK-BE-014.md) | in_review | BE-011, BE-012, BE-013 | — | — | не заявлен | ready |
 | [BE-015](TASK-BE-015.md) | planned | BE-014 | — | — | не заявлен | planned |
 | [BE-016](TASK-BE-016.md) | planned | BE-015 | — | — | не заявлен | planned |
 | [BE-017](TASK-BE-017.md) | planned | BE-015 | — | — | не заявлен | planned |

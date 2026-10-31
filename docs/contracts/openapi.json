@@ -2316,7 +2316,7 @@
         ],
         "x-acl": "public",
         "x-endpoint-id": "API-003",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/auth/sessions": {

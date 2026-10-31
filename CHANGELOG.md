@@ -20,3 +20,5 @@
 - BE-012: FastAPI factory, safe error/correlation boundary, health/readiness, dev Swagger, explicit CORS and live API Compose smoke.
 
 - BE-013: eight CI gates, shared locked setup, quality-policy guard and dependency graph validation.
+
+- BE-014: registration, bounded salted scrypt, atomic uniqueness/IP limit and protected request body handling.

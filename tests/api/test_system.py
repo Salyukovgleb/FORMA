@@ -86,7 +86,7 @@ def test_errors_and_runtime_openapi(tmp_path):
         )
         assert "secret-sentinel" not in response.text
         spec = client.get("/openapi.json").json()
-        assert set(spec["paths"]) == {"/health/live", "/health/ready"}
+        assert set(spec["paths"]) == {"/health/live", "/health/ready", "/api/v1/auth/register"}
         assert spec["paths"]["/health/ready"]["get"]["operationId"] == "readiness"
         assert client.get("/docs").status_code == 200
         canonical = json.loads(
