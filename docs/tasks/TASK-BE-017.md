@@ -3,7 +3,7 @@ id: "BE-017"
 title: "Role policy owner/editor/viewer, object-level authorization"
 epic: "EPIC-02"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-015"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-59 policy scenarios passed; [evidence](../evidence/BE-017.md). PR/remote CI/merge ожидаются.
+59 policy scenarios passed; [evidence](../evidence/BE-017.md). PR #16 merged `3251252`, восемь checks SUCCESS head `82a63a9`.
 
 ## Risks
 

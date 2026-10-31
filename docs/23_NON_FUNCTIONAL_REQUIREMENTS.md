@@ -32,3 +32,9 @@ health на приватной ingress сети. Concurrency hash CPU огран
 20 параллельных saves без потерь; queued job pick-up≤2s без занятых slots. TeX latency зависит
 от документа. No N+1; immutable download streaming 64 KiB chunks. Размер backing volume
 ≥20 GiB для dev smoke, production capacity планировать по actual retained data + backup.
+
+BE-018: auth-specific limits verified на real PostgreSQL (register/login, refresh и password-change).
+DB clock для bucket — statement_timestamp(), включая transaction, начавшуюся в прошлом окне.
+Очистка >24h реализована operator CLI, bounded rows + timeouts; автоматический запуск ещё planned.
+Общие anonymous120/min и authenticated300/min, upload/compile quotas остаются planned;
+не считать эту таблицу доказательством реализации всего NFR в текущем identity runtime.

@@ -16,3 +16,14 @@ recreate smoke без удаления томов; production sandbox требу
 make dev-down сохраняет volumes. make test-compose использует отдельный случайный
 проект, проверяет persistence и очищает только свои тестовые volumes.
 Если порт5432 занят, base Compose не публикует его; dev override добавлять явно.
+
+## Auth rate bucket cleanup (BE-018)
+
+При уже экспортированном environment API: `make auth-limits-cleanup` (до1000 expired rows).
+В работающем Compose: `docker compose --env-file .env -f infra/compose.yaml exec -T api python -m forma_backend.infrastructure.identity.cleanup_limits --max-rows 1000`.
+При необходимости повторять до removed=0, затем повторить после окончания активных transactions:
+SKIP LOCKED может оставить locked rows. Удаляются только buckets старше24h; API credentials
+и current quotas не сбрасываются. Команда не удаляет volumes или auth sessions/history.
+Exit0 — committed batch; exit1 — configuration/DB/timeout failure и rollback; exit2 — invalid batch size.
+Если timeout повторяется на крупной таблице, не убирать timeouts автоматически: изучить EXPLAIN
+и expiry index в BE-048. Внешний schedule ещё не настроен, назначить operator cadence до release.

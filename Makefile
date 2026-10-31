@@ -40,6 +40,10 @@ test-integration:
 test-migrations:
 	$(PYTHON) -m pytest -q tests/integration/test_migrations.py
 test-security:
-	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/unit/test_passwords.py tests/unit/test_access_tokens.py tests/unit/test_project_policy.py tests/api/test_system.py tests/security tests/integration/test_sessions.py tests/integration/test_profiles.py
+	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/unit/test_passwords.py tests/unit/test_access_tokens.py tests/unit/test_project_policy.py tests/api/test_system.py tests/security tests/integration/test_sessions.py tests/integration/test_profiles.py tests/integration/test_auth_limits.py
 dependency-check:
 	$(PYTHON) -m pip check
+
+.PHONY: auth-limits-cleanup
+auth-limits-cleanup:
+	$(PYTHON) -m forma_backend.infrastructure.identity.cleanup_limits

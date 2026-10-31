@@ -103,3 +103,21 @@ ownership под блокировками своего UoW; полученный
 или использовать после commit. Project-qualified repositories и вызовы policy появятся
 в BE-019/023/025/033; эти project routes всё ещё planned. Здесь verified только policy,
 не объявлена работающая end-to-end object ACL до реализации этих routes/adapters.
+
+## BE-018 verified auth regression
+
+Atomic UPSERT проверен с24 concurrent attempts до/после DB window boundary;10 admitted
+на каждое окно. Fixed windows намеренно допускают2×limit на границе (NFR), без rolling-window
+гарантии. Используется statement_timestamp(), а не время начала transaction: ожидание
+session lock/долгоживущая transaction не должны списывать попытку в уже прошедшее окно.
+Login IP/email проверены раздельно (normalized email, socket IP, spoofed forwarded ignored).
+Refresh31-й/32-й →429 с committed count, без rotation/revoke/cookie; абсолютный TTL сохранён.
+Expired/revoked/disabled sessions не возобновляются через refresh. Replay/ACL regression — security suite.
+
+Rate buckets старше24h удаляет bounded operator command `make auth-limits-cleanup`.
+Он использует существующий environment приложения, удаляет до1000 rows, `FOR UPDATE SKIP LOCKED`,
+statement timeout2s / lock timeout1s; результат removed=N. Никаких JWT/password/DB URLs в errors.
+Отдельный CLI --max-rows1..10000; повторять вручную до removed=0 с учётом возможных locked rows.
+Автоматического scheduler пока нет; запуск очистки — операционная обязанность до BE-032/047.
+Auth session/history retention и общие anonymous/authenticated API quotas не объявляются
+реализованными этим auth-specific review; внедряются при расширении runtime и BE-047/049.

@@ -28,3 +28,5 @@
 - BE-016: own profile read/update, bounded password change, atomic revoke-all and login/change serialization; shared wire models and Docker profile smoke.
 
 - BE-017: typed stateless project policy, derived owner, bound membership/object IDs, owner/self/requester rules and deleted visibility; project repository integration remains planned.
+
+- BE-018: real PostgreSQL auth burst/window/refresh-limit regressions; use statement clock for rate buckets; bounded rollback-safe operator cleanup of buckets older than24h, without exposing configuration secrets.

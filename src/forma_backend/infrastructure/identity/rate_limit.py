@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 BUCKET_SQL = text("""
  INSERT INTO rate_limit_buckets(scope,subject_hash,window_start,count)
- VALUES (:scope,:subject,to_timestamp(floor(extract(epoch FROM now())/:window)*:window),1)
+ VALUES (:scope,:subject,to_timestamp(floor(extract(epoch FROM statement_timestamp())/:window)*:window),1)
  ON CONFLICT(scope,subject_hash,window_start)
  DO UPDATE SET count=rate_limit_buckets.count+1 RETURNING count
 """)
