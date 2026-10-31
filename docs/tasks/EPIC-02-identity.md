@@ -9,3 +9,7 @@
 - [BE-018](TASK-BE-018.md): ACL tests, session expiry/replay tests, rate limiting on auth
 
 Выход: все перечисленные Outcomes проверены; критические NEG сценарии зелёные.
+
+BE-014…018 merged и verified (PR #12/#13/#14/#16/#17), ссылки на SHA/CI — STATUS/evidence.
+Role policy verified отдельно; project repository/HTTP integration выполняется следующими
+задачами. Общие API quotas/automatic retention ещё planned; M2 включает также BE-019…023.
