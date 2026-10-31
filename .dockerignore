@@ -5,3 +5,6 @@
 !requirements-runtime.lock
 !src/
 !src/**
+!alembic.ini
+!alembic/
+!alembic/**

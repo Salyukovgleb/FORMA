@@ -57,3 +57,13 @@ Python image собирается `docker compose --env-file .env -f infra/compo
 PostgreSQL health, non-root image и DB/files persistence при recreate. Затем удаляет
 только контейнеры/тома своего тестового проекта по уникальной Compose label.
 Пользовательский проект forma не используется. `down -v` не применяется.
+
+## BE-011: database foundation
+
+make migrate применяет Alembic upgrade head, make migration-check проверяет drift
+реализованного ORM-среза. Требуется DATABASE_URL в окружении, .env автоматически не читается.
+make test-integration проверяет реальные миграции в отдельной БД: локально поднимает
+свой временный PostgreSQL container, в CI создаёт UUID-named test DB на выделенном сервере.
+Приложение/пользовательские volumes не используются. Runtime migrations сейчас создают
+только четыре identity таблицы; полный design schema.sql из 14 таблиц остаётся целевой схемой.
+Unit of Work откатывает всё без явного commit(), SQL/параметры не логируются.

@@ -360,3 +360,11 @@ CASCADE только для принадлежащих project/session/job за�
 При 1000 пользователей планировать 20 млн revisions, до 300 тыс jobs за месяц при 10 jobs/user/day и до 300 млн log rows в худшем cap; это upper bound, поэтому log cap и purge обязательны. Рост snapshots примерно jobs × file count; удалить entries с jobs через 30 дней. Если фактический размер выходит за бюджет, сначала снижать retention/лимиты, затем ADR по partitioning.
 
 SQLAlchemy 2.x модели planned: явные Mapped/ mapped_column, UUID(as_uuid=True), DateTime(timezone=True), ForeignKeyConstraint для composite FK. Domain classes не наследуют ORM. Реализация ORM и Alembic — BE-011/014/019/025/031, не фаза A.
+
+## Реализованный срез BE-011
+
+users/auth_sessions/used_refresh_tokens/rate_limit_buckets имеют typed ORM models
+в src/forma_backend/infrastructure/database/models.py и две Alembic revisions.
+Колонки/FK/defaults соответствуют DDL; именованы ck_users_email_normalized,
+ck_users_display_name, ck_sessions_expiry, ck_rate_count для сопровождаемости.
+Остальные таблицы — design planned, не считать их мигрированными после upgrade head.

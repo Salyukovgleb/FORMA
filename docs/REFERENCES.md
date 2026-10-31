@@ -11,3 +11,6 @@
 - [Pydantic JSON Schema](https://docs.pydantic.dev/latest/concepts/json_schema/): model_json_schema используется для contract artifacts.
 
 Выбор протоколов fencing/backup/ACL — проектные решения FORMA, не гарантия этих библиотек.
+
+- [Alembic shared connection](https://alembic.sqlalchemy.org/en/latest/cookbook.html#sharing-a-connection-across-one-or-more-programmatic-migration-commands): migration tests supply an existing connection.
+- [SQLAlchemy Session lifecycle](https://docs.sqlalchemy.org/en/20/orm/session_api.html): explicit commit and context-managed cleanup.

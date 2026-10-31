@@ -1,1 +1,7 @@
 pydantic==2.12.3
+SQLAlchemy==2.0.44
+alembic==1.17.1
+psycopg[binary]==3.2.12
+
+# SQLAlchemy requires greenlet on Linux architectures; include it in the macOS-generated lock.
+greenlet==3.2.4
