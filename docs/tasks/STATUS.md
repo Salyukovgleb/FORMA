@@ -23,7 +23,7 @@
 | [BE-017](TASK-BE-017.md) | done | BE-015 | feat/BE-017-project-policy | 3251252 merge PR #16 | [8 checks SUCCESS 82a63a9](https://github.com/Salyukovgleb/FORMA/actions/runs/41230995450) | [Evidence](../evidence/BE-017.md) |
 | [BE-018](TASK-BE-018.md) | done | BE-016, BE-017 | feat/BE-018-auth-limits | bf37ba2 merge PR #17 | [8 checks SUCCESS c8a2b4c](https://github.com/Salyukovgleb/FORMA/actions/runs/41231547832) | [Evidence](../evidence/BE-018.md) |
 | [BE-019](TASK-BE-019.md) | done | BE-017, BE-018, BE-024 | feat/BE-019-create-project | ad13413 merge PR #21 | [8 checks SUCCESS 1e236bf](https://github.com/Salyukovgleb/FORMA/actions/runs/41254972430) | [Evidence](../evidence/BE-019.md) |
-| [BE-020](TASK-BE-020.md) | in_review | BE-019 | feat/BE-020-project-crud | pending | ожидается | [Evidence](../evidence/BE-020.md) |
+| [BE-020](TASK-BE-020.md) | done | BE-019 | feat/BE-020-project-crud | fb1ad22 merge PR #23 | [8 checks SUCCESS c3eb8fd](https://github.com/Salyukovgleb/FORMA/actions/runs/41257627358) | [Evidence](../evidence/BE-020.md) |
 | [BE-021](TASK-BE-021.md) | planned | BE-019, BE-025, BE-027 | — | — | не заявлен | planned |
 | [BE-022](TASK-BE-022.md) | planned | BE-020, BE-025 | — | — | не заявлен | planned |
 | [BE-023](TASK-BE-023.md) | planned | BE-019, BE-017 | — | — | не заявлен | planned |
@@ -42,7 +42,7 @@
 | [BE-036](TASK-BE-036.md) | planned | BE-035 | — | — | не заявлен | planned |
 | [BE-037](TASK-BE-037.md) | planned | BE-023, BE-032, BE-033, BE-035, BE-036 | — | — | не заявлен | planned |
 | [BE-038](TASK-BE-038.md) | planned | BE-037 | — | — | не заявлен | planned |
-| [BE-039](TASK-BE-039.md) | ready | BE-007 | — | — | не заявлен | planned |
+| [BE-039](TASK-BE-039.md) | in_progress | BE-007 | — | — | не заявлен | mini-plan; fixtures implementation pending |
 | [BE-040](TASK-BE-040.md) | planned | BE-034, BE-039 | — | — | не заявлен | planned |
 | [BE-041](TASK-BE-041.md) | planned | BE-040 | — | — | не заявлен | planned |
 | [BE-042](TASK-BE-042.md) | planned | BE-041 | — | — | не заявлен | planned |
