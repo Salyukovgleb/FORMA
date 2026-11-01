@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "DX-001",
+      "construct": "Кириллица UTF-8, paragraphs",
+      "source": "DX-001.tex",
+      "assets": [],
+      "support": "supported",
+      "source_markers": [
+        "Первый абзац: ёж, Москва.\n\nВторой абзац: Юникод."
+      ],
+      "assertions": [
+        "document.xml contains exact Cyrillic text in two paragraphs"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-002",
+      "construct": "section/subsection 1–3",
+      "source": "DX-002.tex",
+      "assets": [],
+      "support": "supported",
+      "source_markers": [
+        "\\section{Один}\\subsection{Два}\\subsubsection{Три}"
+      ],
+      "assertions": [
+        "Heading1, Heading2, Heading3 paragraph styles with corresponding text"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-003",
+      "construct": "emphasis/bold, lists",
+      "source": "DX-003.tex",
+      "assets": [],
+      "support": "supported",
+      "source_markers": [
+        "\\emph{Курсив} \\textbf{Жирный}\\begin{itemize}\\item Пункт\\end{itemize}\\begin{enumerate}\\item Первый\\end{enumerate}"
+      ],
+      "assertions": [
+        "italic and bold runs; bullet and decimal numbering relationships"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-004",
+      "construct": "Inline/display math",
+      "source": "DX-004.tex",
+      "assets": [],
+      "support": "supported",
+      "source_markers": [
+        "Формула $x^2+1$ и \\[\\frac{a}{b}=c\\]."
+      ],
+      "assertions": [
+        "m:oMath inline and m:oMathPara display; no image replacement"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-005",
+      "construct": "tabular simple",
+      "source": "DX-005.tex",
+      "assets": [],
+      "support": "supported",
+      "source_markers": [
+        "\\begin{tabular}{ll}Имя & Число\\\\ Альфа & 42\\end{tabular}"
+      ],
+      "assertions": [
+        "w:tbl with two rows, two editable cells each, text Альфа and 42"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-006",
+      "construct": "multicolumn",
+      "source": "DX-006.tex",
+      "assets": [],
+      "support": "partial",
+      "source_markers": [
+        "\\begin{tabular}{ll}\\multicolumn{2}{c}{Общий заголовок}\\\\ A & B\\end{tabular}"
+      ],
+      "assertions": [
+        "table text retained; merged geometry may degrade"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_TABLE_DEGRADED",
+          "file": "DX-006.tex",
+          "line": 3,
+          "marker": "\\begin{tabular}{ll}\\multicolumn{2}{c}{Общий заголовок}\\\\ A & B\\end{tabular}"
+        }
+      ]
+    },
+    {
+      "id": "DX-007",
+      "construct": "multirow",
+      "source": "DX-007.tex",
+      "assets": [],
+      "support": "partial",
+      "source_markers": [
+        "\\begin{tabular}{ll}\\multirow{2}{*}{Общее} & A\\\\ & B\\end{tabular}"
+      ],
+      "assertions": [
+        "table text retained; vertical merge may degrade"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_TABLE_DEGRADED",
+          "file": "DX-007.tex",
+          "line": 4,
+          "marker": "\\begin{tabular}{ll}\\multirow{2}{*}{Общее} & A\\\\ & B\\end{tabular}"
+        }
+      ]
+    },
+    {
+      "id": "DX-008",
+      "construct": "longtable",
+      "source": "DX-008.tex",
+      "assets": [],
+      "support": "partial",
+      "source_markers": [
+        "\\begin{longtable}{ll}A & B\\\\ C & D\\end{longtable}"
+      ],
+      "assertions": [
+        "editable table text retained; pagination may degrade"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_TABLE_DEGRADED",
+          "file": "DX-008.tex",
+          "line": 4,
+          "marker": "\\begin{longtable}{ll}A & B\\\\ C & D\\end{longtable}"
+        }
+      ]
+    },
+    {
+      "id": "DX-009",
+      "construct": "PNG figures",
+      "source": "DX-009.tex",
+      "assets": [
+        "figure.png"
+      ],
+      "support": "supported",
+      "source_markers": [
+        "\\begin{figure}\\includegraphics{figure.png}\\caption{Синий квадрат PNG}\\end{figure}"
+      ],
+      "assertions": [
+        "PNG media relationship resolves; editable caption and nonempty alt text"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-010",
+      "construct": "JPEG figures",
+      "source": "DX-010.tex",
+      "assets": [
+        "figure.jpg"
+      ],
+      "support": "supported",
+      "source_markers": [
+        "\\begin{figure}\\includegraphics{figure.jpg}\\caption{Синий квадрат JPEG}\\end{figure}"
+      ],
+      "assertions": [
+        "JPEG media relationship resolves; editable caption and nonempty alt text"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-011",
+      "construct": "PDF figures",
+      "source": "DX-011.tex",
+      "assets": [
+        "figure.pdf"
+      ],
+      "support": "unsupported",
+      "source_markers": [
+        "\\begin{figure}\\includegraphics{figure.pdf}\\caption{PDF схема}\\end{figure}"
+      ],
+      "assertions": [
+        "visible placeholder with caption PDF схема; no unsupported PDF embedding"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_IMAGE_UNSUPPORTED",
+          "file": "DX-011.tex",
+          "line": 4,
+          "marker": "\\begin{figure}\\includegraphics{figure.pdf}\\caption{PDF схема}\\end{figure}"
+        }
+      ]
+    },
+    {
+      "id": "DX-012",
+      "construct": "footnotes",
+      "source": "DX-012.tex",
+      "assets": [],
+      "support": "supported",
+      "source_markers": [
+        "Текст\\footnote{Тестовая сноска}."
+      ],
+      "assertions": [
+        "footnotes.xml contains Тестовая сноска; document reference resolves"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-013",
+      "construct": "bib/cite",
+      "source": "DX-013.tex",
+      "assets": [
+        "refs.bib"
+      ],
+      "support": "supported",
+      "source_markers": [
+        "Цитата \\cite{forma2026}.\\bibliography{refs}"
+      ],
+      "assertions": [
+        "citeproc resolves forma2026; editable bibliography text includes Тестовая книга"
+      ],
+      "warnings": []
+    },
+    {
+      "id": "DX-014",
+      "construct": "labels/ref",
+      "source": "DX-014.tex",
+      "assets": [],
+      "support": "partial",
+      "source_markers": [
+        "\\section{Раздел}\\label{sec:one}См. \\ref{sec:one}."
+      ],
+      "assertions": [
+        "section and reference text retained; dynamic Word field not required"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_REFERENCE_DEGRADED",
+          "file": "DX-014.tex",
+          "line": 3,
+          "marker": "\\section{Раздел}\\label{sec:one}См. \\ref{sec:one}."
+        }
+      ]
+    },
+    {
+      "id": "DX-015",
+      "construct": "TikZ",
+      "source": "DX-015.tex",
+      "assets": [],
+      "support": "unsupported",
+      "source_markers": [
+        "\\begin{tikzpicture}\\draw (0,0) -- (1,1);\\end{tikzpicture}"
+      ],
+      "assertions": [
+        "visible placeholder with warning; no silent loss"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_UNSUPPORTED_CONSTRUCT",
+          "file": "DX-015.tex",
+          "line": 4,
+          "marker": "\\begin{tikzpicture}\\draw (0,0) -- (1,1);\\end{tikzpicture}"
+        }
+      ]
+    },
+    {
+      "id": "DX-016",
+      "construct": "PSTricks",
+      "source": "DX-016.tex",
+      "assets": [],
+      "support": "unsupported",
+      "source_markers": [
+        "\\begin{pspicture}(0,0)(1,1)\\psline(0,0)(1,1)\\end{pspicture}"
+      ],
+      "assertions": [
+        "visible placeholder with warning; no silent loss"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_UNSUPPORTED_CONSTRUCT",
+          "file": "DX-016.tex",
+          "line": 4,
+          "marker": "\\begin{pspicture}(0,0)(1,1)\\psline(0,0)(1,1)\\end{pspicture}"
+        }
+      ]
+    },
+    {
+      "id": "DX-017",
+      "construct": "custom macros",
+      "source": "DX-017.tex",
+      "assets": [],
+      "support": "unsupported",
+      "source_markers": [
+        "\\customforma{Нельзя молча потерять}"
+      ],
+      "assertions": [
+        "visible placeholder with warning; no silent loss"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_UNSUPPORTED_CONSTRUCT",
+          "file": "DX-017.tex",
+          "line": 4,
+          "marker": "\\customforma"
+        }
+      ]
+    },
+    {
+      "id": "DX-018",
+      "construct": "class/layout/page geometry",
+      "source": "DX-018.tex",
+      "assets": [],
+      "support": "partial",
+      "source_markers": [
+        "Текст с запрошенной геометрией страницы."
+      ],
+      "assertions": [
+        "text retained; canonical reference layout allowed instead of requested margins"
+      ],
+      "warnings": [
+        {
+          "code": "DOCX_LAYOUT_APPROXIMATION",
+          "file": "DX-018.tex",
+          "line": 2,
+          "marker": "\\usepackage[margin=4cm]"
+        }
+      ]
+    }
+  ]
+}

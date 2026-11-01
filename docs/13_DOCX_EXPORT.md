@@ -57,3 +57,31 @@ sequenceDiagram
  W->>D: fenced artifact and terminal state
  C->>A: poll / download with current ACL
 ```
+
+## Versioned source corpus — BE-039
+
+Все fixtures — собственные синтетические примеры FORMA (CC0-1.0). Manifest v1:
+`tests/fixtures/docx/manifest.json`. Assertions являются ожидаемым результатом будущего
+isolated exporter BE-040/042, а не отчётом о выполненной конвертации.
+Для DX-013 требуется citeproc с refs.bib; reference template — forma-default-v1.
+
+| Case | Конструкция | Уровень |
+|---|---|---|
+| `DX-001` | Кириллица UTF-8, paragraphs | supported |
+| `DX-002` | section/subsection 1–3 | supported |
+| `DX-003` | emphasis/bold, lists | supported |
+| `DX-004` | Inline/display math | supported |
+| `DX-005` | tabular simple | supported |
+| `DX-006` | multicolumn | partial |
+| `DX-007` | multirow | partial |
+| `DX-008` | longtable | partial |
+| `DX-009` | PNG figures | supported |
+| `DX-010` | JPEG figures | supported |
+| `DX-011` | PDF figures | unsupported |
+| `DX-012` | footnotes | supported |
+| `DX-013` | bib/cite | supported |
+| `DX-014` | labels/ref | partial |
+| `DX-015` | TikZ | unsupported |
+| `DX-016` | PSTricks | unsupported |
+| `DX-017` | custom macros | unsupported |
+| `DX-018` | class/layout/page geometry | partial |
