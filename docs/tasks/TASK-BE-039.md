@@ -3,7 +3,7 @@ id: "BE-039"
 title: "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures"
 epic: "EPIC-06"
 priority: "P0"
-status: "in_progress"
+status: "in_review"
 depends_on: ["BE-007"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+18 source cases и manifest реализованы; [evidence](../evidence/BE-039.md). До merge — in_review.
 
 ## Risks
 

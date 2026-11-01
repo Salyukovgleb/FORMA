@@ -42,7 +42,7 @@
 | [BE-036](TASK-BE-036.md) | planned | BE-035 | — | — | не заявлен | planned |
 | [BE-037](TASK-BE-037.md) | planned | BE-023, BE-032, BE-033, BE-035, BE-036 | — | — | не заявлен | planned |
 | [BE-038](TASK-BE-038.md) | planned | BE-037 | — | — | не заявлен | planned |
-| [BE-039](TASK-BE-039.md) | in_progress | BE-007 | — | — | не заявлен | mini-plan; fixtures implementation pending |
+| [BE-039](TASK-BE-039.md) | in_review | BE-007 | feat/BE-039-docx-fixtures | pending | ожидается | [Evidence](../evidence/BE-039.md) |
 | [BE-040](TASK-BE-040.md) | planned | BE-034, BE-039 | — | — | не заявлен | planned |
 | [BE-041](TASK-BE-041.md) | planned | BE-040 | — | — | не заявлен | planned |
 | [BE-042](TASK-BE-042.md) | planned | BE-041 | — | — | не заявлен | planned |

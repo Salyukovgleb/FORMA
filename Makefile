@@ -10,7 +10,7 @@ typecheck:
 test:
 	$(PYTHON) -m pytest -q
 openapi-check:
-	$(PYTHON) -m pytest -q tests/contracts/test_specification.py
+	$(PYTHON) -m pytest -q tests/contracts
 schema-check:
 	$(PYTHON) scripts/check_schema.py
 ci-local: lint typecheck test test-integration lock-check dependency-check schema-check
