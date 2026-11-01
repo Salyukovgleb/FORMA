@@ -3,7 +3,7 @@ id: "BE-023"
 title: "Участники, роли, запрет потери owner, permission tests"
 epic: "EPIC-03"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-019", "BE-017"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-[Evidence](../evidence/BE-023.md); local/CI verification pending; not done before merge.
+[Evidence](../evidence/BE-023.md); local checks and8 exact-head CI checks passed; PR #27 merged.
 
 ## Risks
 
@@ -96,3 +96,7 @@ Files: projects/member_{schemas,application,router}.py, infrastructure/projects/
 tests/integration/test_members.py; reuse guarded RC UoW and sorted actor/owner locks,
 project lock then fresh ACL. No migration; membership does not change project revision.
 Sync canonical DTO/registry/docs/status/evidence and security target.
+
+## Completion — 2026-11-01
+
+PR [#27](https://github.com/Salyukovgleb/FORMA/pull/27) merged `9b7fe1453e2f02915df848498b16c3161074f993`; head `9b0a350887394d19572ae216ca51f3ccd422c181`: [8 SUCCESS checks](https://github.com/Salyukovgleb/FORMA/actions/runs/41312833808), verified exact SHA before merge.
