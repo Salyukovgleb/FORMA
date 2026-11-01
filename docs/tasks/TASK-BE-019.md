@@ -3,7 +3,7 @@ id: "BE-019"
 title: "Таблица projects, репозиторий, создание проекта"
 epic: "EPIC-03"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-017", "BE-018", "BE-024"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-Локальные checks passed; [evidence](../evidence/BE-019.md). Remote CI/merge ожидаются.
+Локальные checks passed; [evidence](../evidence/BE-019.md). PR #21 merged `ad13413`; восемь checks SUCCESS для head `1e236bf`.
 
 ## Risks
 
