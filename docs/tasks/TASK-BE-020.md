@@ -3,7 +3,7 @@ id: "BE-020"
 title: "Список, поиск, детали, редактирование, удаление"
 epic: "EPIC-03"
 priority: "P0"
-status: "planned"
+status: "in_progress"
 depends_on: ["BE-019"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -86,3 +86,33 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Restore после retention; stale delete. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / dependency review — 2026-11-01
+
+BE-019 merged PR #21 с8 green SHA checks. BE-020 planned → ready → in_progress;
+изучены contracts/ACL/revision/retention. Код CRUD ещё не реализован.
+Source: modules/projects/{application,schemas,router}.py, infrastructure/projects/persistence.py;
+вынести общий read/view port при необходимости, tests/integration/test_project_crud.py.
+Runtime0003 уже имеет projects/members; nodes/revisions не нужны для metadata CRUD доBE-025.
+Не снимать mainNULL CHECK до0004. Новые DB объекты — только через reviewed Alembic revision.
+
+Tests first: owner/editor/viewer/stranger list/read/update/delete/restore matrix; role derived
+из owner/membership, чужие project IDs404, visible forbidden403, deleted скрыт от nonowner.
+List/search с keyset cursor created_at/id DESC, limit1..100, filter binding actor/q/status;
+никаких N+1. Deleted list только owner. Transport role/owner/cursor не даёт доступа.
+PATCH требует expected_revision и контрактные title/description; Unicode/NUL validation из core.
+Два concurrent update с одной revision →один успех/один409, stale delete без side effects.
+DELETE confirm_title + revision, soft status/deleted_at и revision increment; retained quota
+не освобождается. Restore owner-only до7d; active409, expired410, stale409; проверить rollback.
+
+Mutations используют guarded RC UoW. Для editor на чужом owned project все нужные User UUID
+(actor + owner) lock в сортированном порядке, затем actor session и project: не вводить
+cross-user deadlock. Предварительно читать только owner_id scalar; locked Project entity
+перечитать/populate_existing, не использовать cached stale revision/membership после ожидания.
+Authoritative access context строится adapter внутри UoW; policy BE-017 проверяет scope/rights.
+updated_at/deleted_at/retention используют текущий DB clock, не старый transaction timestamp.
+
+JSON bounds расширить на реальные PATCH/DELETE/restore paths; синхронизировать DTO/registry/
+OpenAPI, auth/ACL evidence и Docker smoke. Jobs ещё отсутствуют: не заявлять fake cancellation
+или audit; jobs-delete integration добавить при jobs tasks BE-033/037, durable audit BE-046.
+M2 остаётся открытым. После реализации — tests→commit→push→PR→green CI→merge.

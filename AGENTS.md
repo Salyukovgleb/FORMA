@@ -36,13 +36,13 @@ make openapi-check, make schema-check, make ci-local. Продуктовые к�
 BE-001…007 done. BE-008 выполняется первой; затем BE-010 по зависимостям.
 Предыдущие формулировки об ожидании M0 описывают состояние до принятия.
 
-## Текущее состояние — 2026-10-31
+## Текущее состояние — 2026-11-01
 
-M1 foundation (BE-008…013) merged и проверен; BE-014…018 также merged; BE-024 также merged; следующая по критическому пути — BE-019.
+M1 foundation (BE-008…013) merged и проверен; BE-014…018 также merged; BE-024 также merged; BE-019 также merged; следующая по критическому пути — BE-020.
 Доступны make migrate, migration-check, test-integration, test-migrations, test-security,
 dependency-check, dev-up/dev-down и test-compose. CI имеет восемь обязательных checks;
-каждый новый PR требует фактического green head SHA перед merge. Runtime реализует12 health/identity методов; остальные34 planned. Worker — BE-032.
+каждый новый PR требует фактического green head SHA перед merge. Runtime реализует13 health/identity/projects методов; остальные33 planned. Head Alembic0003,6 runtime tables. Worker — BE-032.
 
 BE-017 policy implemented без project adapters; auth regression/cleanup CLI BE-018 verified.
 BE-024 storage/barrier adapter implemented, ADR-0009 уточняет fencing/uncertain commit.
-BE-019 начата с разбора и mini-plan; project API/ORM ещё planned.
+BE-019 CreateProject/guarded quota/project ORM реализованы; BE-020 начата с mini-plan, CRUD ещё planned.

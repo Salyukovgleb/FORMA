@@ -51,3 +51,9 @@ BE-039 остаётся независимой ready задачей. Не нач
 BE-024 merged PR #19 после8 green checks: UUID immutable storage, maintenance barrier и40
 storage fault/security scenarios. BE-019 теперь имеет все dependencies done; начат её mini-plan.
 M2 остаётся открытым, project endpoints/schema ещё planned. BE-039 — независимая ready ветка.
+
+## First project creation — 2026-11-01
+
+BE-019 done PR #21: POST CreateProject, retained quota с guarded RC transaction,0003 projects/
+members (6 runtime tables).13 API methods implemented,33 planned. BE-020 следующая по
+критическому пути; начат mini-plan, list/search/CRUD ещё не реализованы. M2 не закрыт.
