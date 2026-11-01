@@ -821,7 +821,7 @@
     "effect": "Owner из projects плюс editor/viewer из project_members; максимум 50.",
     "group": "access",
     "id": "API-034",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "GET",
     "operation_id": "list_members",
     "path": "/api/v1/projects/{project_id}/members",
@@ -829,9 +829,10 @@
     "response": "Members",
     "status": 200,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "users"
+      "project_members"
     ],
     "task": "BE-023",
     "tests": [
@@ -843,10 +844,10 @@
   },
   {
     "acl": "owner",
-    "effect": "Lock project; найти active user по normalized email; неизвестный 404 USER_NOT_FOUND; owner/duplicate 409.",
+    "effect": "Lock project; active normalized email; unknown404 USER_NOT_FOUND, owner409 OWNER_IMMUTABLE, duplicate409 MEMBER_EXISTS,50 total cap429 MEMBER_LIMIT_EXCEEDED.",
     "group": "access",
     "id": "API-035",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "grant_project_access",
     "path": "/api/v1/projects/{project_id}/members",
@@ -854,9 +855,10 @@
     "response": "Member",
     "status": 201,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "users"
+      "project_members"
     ],
     "task": "BE-023",
     "tests": [
@@ -871,7 +873,7 @@
     "effect": "Lock project; role editor/viewer; owner неизменяем, попытка 409 OWNER_IMMUTABLE.",
     "group": "access",
     "id": "API-036",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "PATCH",
     "operation_id": "change_member_role",
     "path": "/api/v1/projects/{project_id}/members/{user_id}",
@@ -879,9 +881,10 @@
     "response": "Member",
     "status": 200,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "users"
+      "project_members"
     ],
     "task": "BE-023",
     "tests": [
@@ -896,7 +899,7 @@
     "effect": "Owner может удалить участника; editor/viewer только себя; owner выйти не может; повторный вызов после потери ACL 404.",
     "group": "access",
     "id": "API-037",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "DELETE",
     "operation_id": "remove_member",
     "path": "/api/v1/projects/{project_id}/members/{user_id}",
@@ -904,9 +907,10 @@
     "response": null,
     "status": 204,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "users"
+      "project_members"
     ],
     "task": "BE-023",
     "tests": [

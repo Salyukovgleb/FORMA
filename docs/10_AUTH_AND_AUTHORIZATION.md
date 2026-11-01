@@ -134,3 +134,6 @@ owner или отвечать503 вместо404/403 на denied operation. За
 sorted, actor session lock/recheck, project lock/populate_existing; membership/context заново
 читаются и policy проверяется повторно. Revoked session401, lost membership404. Guarded RC,
 SQL timeouts BE-019 сохраняются. Cross-owned edits не меняют глобальный lock order.
+
+
+BE-023: readers list owner plus members. Only owner grants/changes; owner-or-self removes. Owner derived/immutable409; foreign/deleted404, visible forbidden403. Early policy before foreign user locks; locked fresh ACL/session recheck. Project row serializes member mutations and metadata CRUD. Max50 includes owner; duplicate409 MEMBER_EXISTS, unknown/inactive user404 USER_NOT_FOUND, cap429 MEMBER_LIMIT_EXCEEDED. No email/hash/session fields in responses. No project revision increment for membership changes.

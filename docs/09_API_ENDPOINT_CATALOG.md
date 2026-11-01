@@ -2,7 +2,7 @@
 
 Владелец: backend architect. Статус: draft. Обновлено: 2026-10-30. Состояние реализации указано для каждого метода.
 
-Всего **46** методов: 18 implemented (health/identity/projects), 28 planned. Базовый префикс /api/v1, health без него.
+Всего **46** методов: 22 implemented (health/identity/projects/access), 24 planned. Базовый префикс /api/v1, health без него.
 
 | ID | Метод | DTO | ACL | Задача |
 |---|---|---|---|---|

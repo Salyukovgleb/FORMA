@@ -26,6 +26,9 @@ from forma_backend.infrastructure.identity.session_store import SqlSessionStore
 from forma_backend.infrastructure.identity.access_tokens import JwtAccessTokens
 from forma_backend.core.errors import ApiError
 from forma_backend.core.body_limit import JsonBodyLimit
+from forma_backend.modules.projects.member_router import member_router
+from forma_backend.modules.projects.member_application import ProjectMembers
+from forma_backend.infrastructure.projects.members import SqlMemberStore
 from forma_backend.modules.projects.router import project_router
 from forma_backend.modules.projects.application import CreateProject, ProjectFailure
 from forma_backend.modules.projects.crud import ProjectCrud
@@ -164,6 +167,10 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
         )
     )
 
+    app.include_router(
+        member_router(ProjectMembers(lambda: SqlMemberStore(database)), principal_dependency(auth))
+    )
+
     @app.exception_handler(ProjectFailure)
     async def project_error(request: Request, exc: ProjectFailure) -> JSONResponse:
         response = error_response(
@@ -173,7 +180,7 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
             request.state.request_id,
             ErrorDetail(current_revision=exc.current_revision),
         )
-        if exc.status == 429:
+        if exc.status == 429 and exc.code == "QUOTA_EXCEEDED":
             response.headers["Retry-After"] = "86400"
         return response
 

@@ -1,5 +1,12 @@
 """Canonical API contracts; implemented DTOs are imported from runtime modules."""
 
+from forma_backend.modules.projects.member_schemas import (
+    MemberAdd as MemberAdd,
+    MemberPatch as MemberPatch,
+    Member as Member,
+    Members as Members,
+)
+
 from forma_backend.modules.projects.schemas import (
     ProjectPatch as ProjectPatch,
     DeleteProject as DeleteProject,
@@ -21,6 +28,7 @@ from forma_backend.modules.identity.profile_schemas import (
     ProfilePatch as ProfilePatch,
     PasswordChange as PasswordChange,
 )
+
 from forma_backend.modules.projects.schemas import (
     Project as Project,
     ProjectCreate as ProjectCreate,
@@ -123,22 +131,6 @@ class FileRevision(DTO):
     created_at: datetime
 
 
-class MemberAdd(DTO):
-    email: Email
-    role: Literal["editor", "viewer"]
-
-
-class MemberPatch(DTO):
-    role: Literal["editor", "viewer"]
-
-
-class Member(DTO):
-    user_id: UUID
-    display_name: str
-    role: Role
-    created_at: datetime
-
-
 class Compile(DTO):
     expected_project_revision: Revision
 
@@ -200,10 +192,6 @@ class Template(DTO):
     main_file: str
     files: list[str]
     version: str
-
-
-class Members(DTO):
-    items: list[Member]
 
 
 class Templates(DTO):

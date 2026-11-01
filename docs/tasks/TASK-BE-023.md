@@ -3,7 +3,7 @@ id: "BE-023"
 title: "Участники, роли, запрет потери owner, permission tests"
 epic: "EPIC-03"
 priority: "P0"
-status: "planned"
+status: "in_review"
 depends_on: ["BE-019", "BE-017"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,8 +81,18 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+[Evidence](../evidence/BE-023.md); local/CI verification pending; not done before merge.
 
 ## Risks
 
 Owner self-remove, editor grant. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan — 2026-11-01
+User explicitly promotes planned→ready; BE-019/017 done; ready→in_progress.
+Read ACL policy, API-034..037 DTO/registry, runtime0003 ER, threat model.
+Tests first: reader listing, owner grant/change/remove, self-leave, owner immutable,
+foreign404/visible403, deleted404, duplicate race,50 cap and rollback.
+Files: projects/member_{schemas,application,router}.py, infrastructure/projects/members.py,
+tests/integration/test_members.py; reuse guarded RC UoW and sorted actor/owner locks,
+project lock then fresh ACL. No migration; membership does not change project revision.
+Sync canonical DTO/registry/docs/status/evidence and security target.

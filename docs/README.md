@@ -148,3 +148,5 @@ BE-024: storage/barrier adapter implemented; project/file routes и DB reference
 BE-019: CreateProject implemented, runtime13 methods/6tables; остальные33 methods planned.
 
 BE-020: metadata CRUD/ACL/search implemented; runtime18 methods,28 planned.
+
+BE-023: membership list/grant/change/remove/self-leave implemented;22 runtime methods,24 planned.

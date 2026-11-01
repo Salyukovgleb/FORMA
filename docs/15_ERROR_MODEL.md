@@ -32,3 +32,5 @@ FastAPI validation exception переводится в envelope, стандар�
 BE-012: error envelope реализован на HTTP boundary; значения input, HTTPException.detail и exception text не сериализуются. details.field может быть null; runtime не отражает произвольные ключи запроса.
 
 BE-014: hash capacity saturation →503 RESOURCE_LIMIT (Retry-After1), registration quota →429 RATE_LIMITED (Retry-After900), duplicate normalized email →409 EMAIL_TAKEN.
+
+BE-023: unknown/inactive email404 USER_NOT_FOUND; duplicate409 MEMBER_EXISTS; owner target409 OWNER_IMMUTABLE; max50(total including owner)429 MEMBER_LIMIT_EXCEEDED without timed Retry-After. Missing membership/project404 NOT_FOUND; visible forbidden403 FORBIDDEN.

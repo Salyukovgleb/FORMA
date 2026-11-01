@@ -130,3 +130,5 @@ Alembic head0003_projects_access добавляет projects/members:6 runtime t
 BE-020: list/search/read/update/soft-delete/restore проектов с owner/editor/viewer ACL,
 keyset cursor, revision conflict и7-day restore.18 implemented /28 planned methods.
 Schema head0003 unchanged; physical purge/backup scheduler —BE-047, jobs cancellation —BE-033/037.
+
+BE-023: membership list/grant/change/remove/self-leave implemented;22 runtime methods,24 planned.

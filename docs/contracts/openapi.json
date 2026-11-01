@@ -6463,10 +6463,10 @@
         ],
         "x-acl": "reader",
         "x-endpoint-id": "API-034",
-        "x-status": "planned"
+        "x-status": "implemented"
       },
       "post": {
-        "description": "Lock project; найти active user по normalized email; неизвестный 404 USER_NOT_FOUND; owner/duplicate 409.",
+        "description": "Lock project; active normalized email; unknown404 USER_NOT_FOUND, owner409 OWNER_IMMUTABLE, duplicate409 MEMBER_EXISTS,50 total cap429 MEMBER_LIMIT_EXCEEDED.",
         "operationId": "grant_project_access",
         "parameters": [
           {
@@ -6648,7 +6648,7 @@
         ],
         "x-acl": "owner",
         "x-endpoint-id": "API-035",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/projects/{project_id}/members/{user_id}": {
@@ -6797,7 +6797,7 @@
         ],
         "x-acl": "owner_or_self",
         "x-endpoint-id": "API-037",
-        "x-status": "planned"
+        "x-status": "implemented"
       },
       "patch": {
         "description": "Lock project; role editor/viewer; owner неизменяем, попытка 409 OWNER_IMMUTABLE.",
@@ -6990,7 +6990,7 @@
         ],
         "x-acl": "owner",
         "x-endpoint-id": "API-036",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/projects/{project_id}/nodes/{node_id}": {
