@@ -3,7 +3,7 @@ id: "BE-039"
 title: "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures"
 epic: "EPIC-06"
 priority: "P0"
-status: "ready"
+status: "in_progress"
 depends_on: ["BE-007"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -86,3 +86,31 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Risks
 
 Custom macros с warning. Изменение Outcome требует пересмотра зависимых карточек.
+
+## Mini-plan / dependency review — 2026-11-01
+
+После BE-020 выбран первый фактически ready task BE-039; BE-007 done, остальные
+project tasks BE-023/025 пока planned. Это начало задачи, не evidence готового exporter.
+Изучены docs/13_DOCX_EXPORT.md, requirements FR-DOC-002/003, ADR-0004/0005,
+module boundaries и threat/test strategy. API/DB/migration changes не нужны.
+
+Outcome ограничен versioned source fixtures и supported/unsupported expectations.
+Не запускать TeX/Pandoc/OOXML parsers на host: exporter/normalizer/sandbox — BE-040/041/042/034.
+Ни fixtures, ни static manifest validation не доказывают editable DOCX или sandbox security.
+
+Предполагаемые файлы: tests/fixtures/docx/manifest.json, отдельные case directories с .tex
+и минимальными локальными assets, docs/13_DOCX_EXPORT.md (stable case IDs),
+tests/contracts/test_docx_fixtures.py. Runtime conversion module создавать только при реальном
+application Outcome, без пустого skeleton. Новых dependencies/services не добавлять.
+
+Tests first: matrix coverage, уникальные case IDs, существующие UTF-8 sources и assets,
+relative manifest paths/no traversal/symlinks, корректные support levels/warning codes,
+expected OOXML structural assertions для всех поддержанных строк. Unsupported custom macro
+обязан иметь location + DOCX_UNSUPPORTED_CONSTRUCT expectation, а не обещание conversion.
+Отдельно покрыть multicolumn/multirow/longtable, TikZ/PSTricks/custom macros и Heading1–3.
+PNG/JPEG/PDF assets с лицензированным/собственным минимальным содержимым; никакого network fetch.
+Golden assertions проверятся реальным isolated exporter в BE-040/042; сейчас только corpus
+integrity и полнота matrix. После реализации: tests→commit→push→PR→green SHA CI→merge.
+
+Следующий шаг: сначала meaningful manifest/matrix tests, затем corpus. Fixtures и новые
+тесты пока отсутствуют; BE-039 не done. M2 и M5 остаются открытыми.

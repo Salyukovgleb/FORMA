@@ -3,7 +3,7 @@ id: "BE-020"
 title: "Список, поиск, детали, редактирование, удаление"
 epic: "EPIC-03"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-019"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -77,11 +77,11 @@ DB dictionary при schema impact, [STATUS](STATUS.md) и CHANGELOG для зн
 
 Feature branch → meaningful tests → scoped implementation → lint/types/relevant suites →
 diff/secret review → Conventional Commit → push → PR → green SHA checks → required review/merge.
-До merge статус не done. Никаких force push, skip checks или удаления volumes.
+Только после merge статус done. Никаких force push, skip checks или удаления volumes.
 
 ## Evidence/results
 
-Реализация и локальные проверки: [evidence](../evidence/BE-020.md). До merge — in_review; PR/head/CI будут записаны после фактической проверки.
+Реализация и локальные проверки: [evidence](../evidence/BE-020.md). PR #23 merged `fb1ad22` после8 green checks head `c3eb8fd`.
 
 ## Risks
 
@@ -122,3 +122,7 @@ M2 остаётся открытым. После реализации — tests�
 Typed service crud.py/cursor.py, SqlProjectCrudStore, runtime DTO/router и shared error handlers.
 Policy проверяется до user locks и повторно после project lock; concurrency/rollback/retention
 проверены. Runtime Alembic0003 без новых schema objects. Job cancellation/purge/audit не заявлены.
+
+## Completion — 2026-11-01
+
+PR #23 merged `fb1ad22737cab742bfb6696f2a439d2aa8155158`; exact head `c3eb8fd65c46240bb893406145774e50c1bfa739`,8 SUCCESS checks, run41257627358.

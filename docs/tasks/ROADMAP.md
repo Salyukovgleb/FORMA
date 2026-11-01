@@ -57,3 +57,11 @@ M2 остаётся открытым, project endpoints/schema ещё planned. B
 BE-019 done PR #21: POST CreateProject, retained quota с guarded RC transaction,0003 projects/
 members (6 runtime tables).13 API methods implemented,33 planned. BE-020 следующая по
 критическому пути; начат mini-plan, list/search/CRUD ещё не реализованы. M2 не закрыт.
+
+## Project metadata CRUD — 2026-11-01
+
+BE-020 done PR #23 merge `fb1ad22` после8 exact-head green checks: list/search/CRUD,
+ACL/revision, owner-only soft-delete/restore до7 дней.18 implemented/28 planned API methods;
+Alembic0003/6tables без schema change. M2 остаётся открытым.
+Следующая по правилу «первая ready» — BE-039 (BE-007 done): начат corpus/matrix mini-plan.
+BE-023/025 имеют закрытые dependencies, но пока planned; автоматического продвижения нет.
