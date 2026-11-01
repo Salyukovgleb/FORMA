@@ -104,6 +104,8 @@
         "additionalProperties": false,
         "properties": {
           "confirm_title": {
+            "maxLength": 200,
+            "minLength": 1,
             "title": "Confirm Title",
             "type": "string"
           },
@@ -2840,7 +2842,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-013",
-        "x-status": "planned"
+        "x-status": "implemented"
       },
       "post": {
         "description": "Maintenance shared guard; lock user/session; quota retained projects; INSERT own empty project. template_id не null пока404 (BE-021). Audit — BE-046.",
@@ -3027,7 +3029,7 @@
     },
     "/api/v1/projects/{project_id}": {
       "delete": {
-        "description": "Сверить confirm_title и expected_revision; soft delete; запросить отмену jobs; retention 7 суток.",
+        "description": "Сверить confirm_title/expected_revision; guarded soft delete, revision+1; restore до7 суток. Jobs cancellation integration — BE-033/037.",
         "operationId": "delete_project",
         "parameters": [
           {
@@ -3196,7 +3198,7 @@
         ],
         "x-acl": "owner",
         "x-endpoint-id": "API-017",
-        "x-status": "planned"
+        "x-status": "implemented"
       },
       "get": {
         "description": "SELECT проекта и вычисленной роли; deleted доступен только owner.",
@@ -3343,7 +3345,7 @@
         ],
         "x-acl": "reader",
         "x-endpoint-id": "API-015",
-        "x-status": "planned"
+        "x-status": "implemented"
       },
       "patch": {
         "description": "Lock project; expected_revision; title/description; увеличить revision.",
@@ -3535,7 +3537,7 @@
         ],
         "x-acl": "writer",
         "x-endpoint-id": "API-016",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/projects/{project_id}/artifacts/{artifact_id}/download": {
@@ -7522,7 +7524,7 @@
     },
     "/api/v1/projects/{project_id}/restore": {
       "post": {
-        "description": "До 7 суток восстановить deleted проект с проверкой revision; далее 410; активный 409.",
+        "description": "Owner-only restore до7 суток включительно, revision+1; stale409, expired410, active409.",
         "operationId": "restore_project",
         "parameters": [
           {
@@ -7719,7 +7721,7 @@
         ],
         "x-acl": "owner",
         "x-endpoint-id": "API-018",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/projects/{project_id}/settings": {

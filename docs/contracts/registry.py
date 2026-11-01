@@ -189,7 +189,7 @@ ROWS = [
         "owner",
         20,
         "DeleteProject",
-        "Сверить confirm_title и expected_revision; soft delete; запросить отмену jobs; retention 7 суток.",
+        "Сверить confirm_title/expected_revision; guarded soft delete, revision+1; restore до7 суток. Jobs cancellation integration — BE-033/037.",
     ),
     (
         "POST",
@@ -200,7 +200,7 @@ ROWS = [
         "owner",
         20,
         "RestoreProject",
-        "До 7 суток восстановить deleted проект с проверкой revision; далее 410; активный 409.",
+        "Owner-only restore до7 суток включительно, revision+1; stale409, expired410, active409.",
     ),
     (
         "GET",
@@ -557,3 +557,12 @@ for _operation in ["read_profile", "update_profile", "change_password"]:
     OPERATION_STATUS[_operation] = "implemented"
 
 OPERATION_STATUS["create_project"] = "implemented"
+
+for _operation in [
+    "list_projects",
+    "read_project",
+    "update_project",
+    "delete_project",
+    "restore_project",
+]:
+    OPERATION_STATUS[_operation] = "implemented"

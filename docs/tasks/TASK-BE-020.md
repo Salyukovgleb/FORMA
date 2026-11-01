@@ -3,15 +3,15 @@ id: "BE-020"
 title: "Список, поиск, детали, редактирование, удаление"
 epic: "EPIC-03"
 priority: "P0"
-status: "in_progress"
+status: "in_review"
 depends_on: ["BE-019"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
 requirements: ["FR-PRJ-001", "FR-PRJ-002", "FR-ACL-001"]
 api: ["GET /api/v1/projects", "GET /api/v1/projects/{project_id}", "PATCH /api/v1/projects/{project_id}", "DELETE /api/v1/projects/{project_id}", "POST /api/v1/projects/{project_id}/restore"]
-database: ["project_members", "project_nodes", "projects"]
+database: ["auth_sessions", "project_members", "projects", "users"]
 tests: ["BE-020-POS", "BE-020-NEG", "UNIT-API-013", "API-013", "INT-API-013", "SEC-API-013", "UNIT-API-015", "API-015", "INT-API-015", "SEC-API-015", "UNIT-API-016", "API-016", "INT-API-016", "SEC-API-016", "UNIT-API-017", "API-017", "INT-API-017", "SEC-API-017", "UNIT-API-018", "API-018", "INT-API-018", "SEC-API-018"]
-adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
+adr: ["0001-modular-monolith", "0002-local-filesystem-storage", "0009-storage-publication-fencing"]
 ---
 
 # BE-020 — Список, поиск, детали, редактирование, удаление
@@ -41,7 +41,7 @@ List/search/update/delete/restore следуют revision, ACL и 7-day retentio
 ## API/DB impacts
 
 Методы: GET /api/v1/projects, GET /api/v1/projects/{project_id}, PATCH /api/v1/projects/{project_id}, DELETE /api/v1/projects/{project_id}, POST /api/v1/projects/{project_id}/restore
-Таблицы API: project_members, project_nodes, projects
+Таблицы runtime: auth_sessions, project_members, projects, users; project_nodes до BE-025 отсутствует.
 Breaking wire changes запрещены без обновления OpenAPI/ADR. Новые DB объекты — Alembic revision.
 
 ## Implementation checklist
@@ -55,7 +55,7 @@ Breaking wire changes запрещены без обновления OpenAPI/ADR
 
 `BE-020-POS`: List/search/update/delete/restore следуют revision, ACL и 7-day retention.
 Endpoint tests: UNIT-API-013, API-013, INT-API-013, SEC-API-013, UNIT-API-015, API-015, INT-API-015, SEC-API-015, UNIT-API-016, API-016, INT-API-016, SEC-API-016, UNIT-API-017, API-017, INT-API-017, SEC-API-017, UNIT-API-018, API-018, INT-API-018, SEC-API-018
-Тесты реализации planned; не заменять assertions пустыми тестами.
+Реальные API/PostgreSQL и unit assertions реализованы; перечень результатов в evidence.
 
 ## Negative tests
 
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+Реализация и локальные проверки: [evidence](../evidence/BE-020.md). До merge — in_review; PR/head/CI будут записаны после фактической проверки.
 
 ## Risks
 
@@ -90,7 +90,7 @@ Restore после retention; stale delete. Изменение Outcome треб�
 ## Mini-plan / dependency review — 2026-11-01
 
 BE-019 merged PR #21 с8 green SHA checks. BE-020 planned → ready → in_progress;
-изучены contracts/ACL/revision/retention. Код CRUD ещё не реализован.
+изучены contracts/ACL/revision/retention. Код CRUD на момент mini-plan ещё не был реализован.
 Source: modules/projects/{application,schemas,router}.py, infrastructure/projects/persistence.py;
 вынести общий read/view port при необходимости, tests/integration/test_project_crud.py.
 Runtime0003 уже имеет projects/members; nodes/revisions не нужны для metadata CRUD доBE-025.
@@ -107,7 +107,7 @@ DELETE confirm_title + revision, soft status/deleted_at и revision increment; r
 
 Mutations используют guarded RC UoW. Для editor на чужом owned project все нужные User UUID
 (actor + owner) lock в сортированном порядке, затем actor session и project: не вводить
-cross-user deadlock. Предварительно читать только owner_id scalar; locked Project entity
+cross-user deadlock. Предварительно читать scalar ACL context и отказывать без foreign user lock; locked Project entity
 перечитать/populate_existing, не использовать cached stale revision/membership после ожидания.
 Authoritative access context строится adapter внутри UoW; policy BE-017 проверяет scope/rights.
 updated_at/deleted_at/retention используют текущий DB clock, не старый transaction timestamp.
@@ -116,3 +116,9 @@ JSON bounds расширить на реальные PATCH/DELETE/restore paths;
 OpenAPI, auth/ACL evidence и Docker smoke. Jobs ещё отсутствуют: не заявлять fake cancellation
 или audit; jobs-delete integration добавить при jobs tasks BE-033/037, durable audit BE-046.
 M2 остаётся открытым. После реализации — tests→commit→push→PR→green CI→merge.
+
+## Implementation review — 2026-11-01
+
+Typed service crud.py/cursor.py, SqlProjectCrudStore, runtime DTO/router и shared error handlers.
+Policy проверяется до user locks и повторно после project lock; concurrency/rollback/retention
+проверены. Runtime Alembic0003 без новых schema objects. Job cancellation/purge/audit не заявлены.

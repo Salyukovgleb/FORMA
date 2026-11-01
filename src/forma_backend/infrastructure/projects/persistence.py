@@ -16,6 +16,20 @@ from forma_backend.modules.projects.application import ProjectRecord
 from forma_backend.modules.project_files.storage import StorageUnavailable
 
 
+def project_record(project: ProjectRow) -> ProjectRecord:
+    return ProjectRecord(
+        project.id,
+        project.owner_id,
+        project.title,
+        project.description,
+        project.revision,
+        project.status,
+        project.created_at,
+        project.updated_at,
+        project.deleted_at,
+    )
+
+
 class SqlProjectUnitOfWork:
     def __init__(self, engine: Engine) -> None:
         # Count after a waited row lock must see the preceding commit, not an old RR snapshot.
@@ -75,17 +89,7 @@ class SqlProjectUnitOfWork:
         self.db.add(project)
         self.db.flush()
         self.db.refresh(project)
-        return ProjectRecord(
-            project.id,
-            project.owner_id,
-            project.title,
-            project.description,
-            project.revision,
-            "active",
-            project.created_at,
-            project.updated_at,
-            project.deleted_at,
-        )
+        return project_record(project)
 
     def commit(self) -> None:
         self.db.commit()  # Flush only: rollback_only forbids a commit of the outer connection.

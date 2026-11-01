@@ -27,7 +27,10 @@ from forma_backend.infrastructure.identity.access_tokens import JwtAccessTokens
 from forma_backend.core.errors import ApiError
 from forma_backend.core.body_limit import JsonBodyLimit
 from forma_backend.modules.projects.router import project_router
-from forma_backend.modules.projects.application import CreateProject
+from forma_backend.modules.projects.application import CreateProject, ProjectFailure
+from forma_backend.modules.projects.crud import ProjectCrud
+from forma_backend.infrastructure.projects.crud_store import SqlProjectCrudStore
+from forma_backend.modules.access.policy import AccessDenied
 from forma_backend.infrastructure.projects.persistence import SqlProjectUnitOfWork
 from forma_backend.modules.project_files.storage import StorageUnavailable
 from forma_backend.modules.identity.router import registration_router
@@ -45,9 +48,13 @@ from forma_backend.infrastructure.health import database_ready, storage_ready
 READINESS_TIMEOUT_SECONDS = 2.0
 
 
-def error_response(status: int, code: str, message: str, request_id: UUID) -> JSONResponse:
+def error_response(
+    status: int, code: str, message: str, request_id: UUID, details: ErrorDetail | None = None
+) -> JSONResponse:
     envelope = ErrorEnvelope(
-        error=Error(code=code, message=message, details=ErrorDetail(), request_id=request_id)
+        error=Error(
+            code=code, message=message, details=details or ErrorDetail(), request_id=request_id
+        )
     )
     return JSONResponse(status_code=status, content=envelope.model_dump(mode="json"))
 
@@ -153,8 +160,28 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
         project_router(
             CreateProject(lambda: SqlProjectUnitOfWork(database), settings.max_projects_per_user),
             principal_dependency(auth),
+            ProjectCrud(lambda: SqlProjectCrudStore(database)),
         )
     )
+
+    @app.exception_handler(ProjectFailure)
+    async def project_error(request: Request, exc: ProjectFailure) -> JSONResponse:
+        response = error_response(
+            exc.status,
+            exc.code,
+            "Project request failed",
+            request.state.request_id,
+            ErrorDetail(current_revision=exc.current_revision),
+        )
+        if exc.status == 429:
+            response.headers["Retry-After"] = "86400"
+        return response
+
+    @app.exception_handler(AccessDenied)
+    async def project_access_error(request: Request, exc: AccessDenied) -> JSONResponse:
+        return error_response(
+            exc.status, exc.code, "Project access denied", request.state.request_id
+        )
 
     @app.exception_handler(StorageUnavailable)
     async def storage_error(request: Request, exc: StorageUnavailable) -> JSONResponse:

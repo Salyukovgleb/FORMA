@@ -291,7 +291,7 @@
     "effect": "Доступные active проекты; status=deleted показывает только собственные удалённые.",
     "group": "projects",
     "id": "API-013",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "GET",
     "operation_id": "list_projects",
     "path": "/api/v1/projects",
@@ -299,9 +299,10 @@
     "response": "Page_Project_",
     "status": 200,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "project_nodes"
+      "project_members"
     ],
     "task": "BE-020",
     "tests": [
@@ -341,7 +342,7 @@
     "effect": "SELECT проекта и вычисленной роли; deleted доступен только owner.",
     "group": "projects",
     "id": "API-015",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "GET",
     "operation_id": "read_project",
     "path": "/api/v1/projects/{project_id}",
@@ -349,9 +350,10 @@
     "response": "Project",
     "status": 200,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "project_nodes"
+      "project_members"
     ],
     "task": "BE-020",
     "tests": [
@@ -366,7 +368,7 @@
     "effect": "Lock project; expected_revision; title/description; увеличить revision.",
     "group": "projects",
     "id": "API-016",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "PATCH",
     "operation_id": "update_project",
     "path": "/api/v1/projects/{project_id}",
@@ -374,9 +376,10 @@
     "response": "Project",
     "status": 200,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "project_nodes"
+      "project_members"
     ],
     "task": "BE-020",
     "tests": [
@@ -388,10 +391,10 @@
   },
   {
     "acl": "owner",
-    "effect": "Сверить confirm_title и expected_revision; soft delete; запросить отмену jobs; retention 7 суток.",
+    "effect": "Сверить confirm_title/expected_revision; guarded soft delete, revision+1; restore до7 суток. Jobs cancellation integration — BE-033/037.",
     "group": "projects",
     "id": "API-017",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "DELETE",
     "operation_id": "delete_project",
     "path": "/api/v1/projects/{project_id}",
@@ -399,9 +402,10 @@
     "response": null,
     "status": 204,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "project_nodes"
+      "project_members"
     ],
     "task": "BE-020",
     "tests": [
@@ -413,10 +417,10 @@
   },
   {
     "acl": "owner",
-    "effect": "До 7 суток восстановить deleted проект с проверкой revision; далее 410; активный 409.",
+    "effect": "Owner-only restore до7 суток включительно, revision+1; stale409, expired410, active409.",
     "group": "projects",
     "id": "API-018",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "restore_project",
     "path": "/api/v1/projects/{project_id}/restore",
@@ -424,9 +428,10 @@
     "response": "Project",
     "status": 200,
     "tables": [
+      "users",
+      "auth_sessions",
       "projects",
-      "project_members",
-      "project_nodes"
+      "project_members"
     ],
     "task": "BE-020",
     "tests": [

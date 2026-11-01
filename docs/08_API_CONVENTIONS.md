@@ -29,3 +29,8 @@ Upload multipart file + optional parent_id; filename берётся из part, �
 Download потоковый, no-store, nosniff, Content-Disposition RFC5987 filename* и ASCII fallback;
 inline разрешён только PDF, остальное attachment. Range в MVP не поддерживается, полный 200.
 При ошибке после начала потока соединение закрывается; JSON envelope уже отправлять нельзя.
+
+BE-020 project listing: order created_at DESC,id DESC; keyset cursor v1 bound к actor/q/status.
+q — literal case-insensitive substring title OR description, max200; %/_ и escape char не wildcards.
+limit1..100 default50; status active default или deleted(owner-only). Cursor opaque, max2048;
+malformed/changed filter/user →400 INVALID_CURSOR, actual SQL всегда enforces ACL.

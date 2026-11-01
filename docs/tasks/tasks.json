@@ -595,7 +595,7 @@
     "title": "Список, поиск, детали, редактирование, удаление",
     "epic": "EPIC-03",
     "priority": "P0",
-    "status": "in_progress",
+    "status": "in_review",
     "depends_on": [
       "BE-019"
     ],
@@ -614,9 +614,10 @@
       "POST /api/v1/projects/{project_id}/restore"
     ],
     "database": [
+      "auth_sessions",
       "project_members",
-      "project_nodes",
-      "projects"
+      "projects",
+      "users"
     ],
     "tests": [
       "BE-020-POS",
@@ -644,7 +645,8 @@
     ],
     "adr": [
       "0001-modular-monolith",
-      "0002-local-filesystem-storage"
+      "0002-local-filesystem-storage",
+      "0009-storage-publication-fencing"
     ]
   },
   {

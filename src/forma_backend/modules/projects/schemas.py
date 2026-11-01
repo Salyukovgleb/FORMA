@@ -38,3 +38,33 @@ class Project(DTO):
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime | None
+
+
+class ProjectPatch(DTO):
+    title: Annotated[str, Field(min_length=1, max_length=200)]
+    description: Annotated[str, Field(max_length=2000)]
+    expected_revision: Annotated[int, Field(ge=1)]
+
+    @field_validator("title")
+    @classmethod
+    def title_text(cls, value: str) -> str:
+        return ProjectCreate.meaningful_title(valid_text(value))
+
+    @field_validator("description")
+    @classmethod
+    def description_text(cls, value: str) -> str:
+        return valid_text(value)
+
+
+class DeleteProject(DTO):
+    confirm_title: Annotated[str, Field(min_length=1, max_length=200)]
+    expected_revision: Annotated[int, Field(ge=1)]
+
+    @field_validator("confirm_title")
+    @classmethod
+    def title_text(cls, value: str) -> str:
+        return valid_text(value)
+
+
+class RestoreProject(DTO):
+    expected_revision: Annotated[int, Field(ge=1)]

@@ -164,6 +164,8 @@ def main() -> None:
             "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me',method='PATCH',data=json.dumps({'display_name':'Updated'}).encode(),headers=bearer)); assert json.load(r)['display_name']=='Updated'; "
             "r=urllib.request.urlopen(urllib.request.Request(url+'/api/v1/users/me/change-password',data=json.dumps({'current_password':register['password'],'new_password':'another strong smoke password'}).encode(),headers=bearer)); assert r.status==204",
         )
+        project_smoke = (ROOT / "scripts/project_smoke.py").read_text()
+        run("exec", "-T", "api", "python", "-c", project_smoke)
         cleaned = run(
             "exec",
             "-T",

@@ -399,3 +399,9 @@ Session row тоже locked и перепроверяется после user lo
 CreateProject UoW явно использует READ COMMITTED независимо от server/engine default:
 после ожидания user lock count видит предыдущий commit. Regression проверяет concurrent
 different-session quota при исходных READ COMMITTED и REPEATABLE READ defaults.
+
+BE-020 schema не меняет: head0003 остаётся6 runtime tables. Read ACL — joined projection;
+mutation locked re-read не использует cached stale project/member. Revision CAS дополнительно
+проверяется UPDATE ... WHERE revision=previous RETURNING id. updated_at/deleted_at/retention
+берутся из clock_timestamp после locks. Successful no-op PATCH тоже увеличивает revision.
+Soft-delete сохраняет rows; restore снимает deleted_at; mainNULL CHECK остаётся до0004.

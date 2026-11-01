@@ -126,3 +126,7 @@ BE-019: POST /api/v1/projects implemented (Bearer,201). Owner из текуще�
 пустое дерево, retained-project quota100/user (MAX_PROJECTS_PER_USER), unknown template404 доBE-021.
 Alembic head0003_projects_access добавляет projects/members:6 runtime tables; mainNULL до0004.
 13 implemented /33 planned methods. Listing/read/update — BE-020, audit —BE-046.
+
+BE-020: list/search/read/update/soft-delete/restore проектов с owner/editor/viewer ACL,
+keyset cursor, revision conflict и7-day restore.18 implemented /28 planned methods.
+Schema head0003 unchanged; physical purge/backup scheduler —BE-047, jobs cancellation —BE-033/037.

@@ -11,8 +11,9 @@ from forma_backend.modules.identity.sessions import Principal, AuthenticationFai
 
 
 class ProjectFailure(Exception):
-    def __init__(self, status: int, code: str) -> None:
+    def __init__(self, status: int, code: str, current_revision: int | None = None) -> None:
         super().__init__(code)
+        self.current_revision = current_revision
         self.status = status
         self.code = code
 
