@@ -65,3 +65,9 @@ ACL/revision, owner-only soft-delete/restore до7 дней.18 implemented/28 pl
 Alembic0003/6tables без schema change. M2 остаётся открытым.
 Следующая по правилу «первая ready» — BE-039 (BE-007 done): начат corpus/matrix mini-plan.
 BE-023/025 имеют закрытые dependencies, но пока planned; автоматического продвижения нет.
+
+## Compatibility corpus — 2026-11-01
+
+BE-039 done PR #25:18 source cases/13 matrix rows, expected structures и located warnings.
+Static corpus integrity CI green; isolated exporter/fidelity ещё planned.
+Следующих ready задач в реестре нет; planned не продвигаются автоматически.

@@ -38,7 +38,7 @@ BE-001…007 done. BE-008 выполняется первой; затем BE-010
 
 ## Текущее состояние — 2026-11-01
 
-M1 foundation (BE-008…013) merged и проверен; BE-014…018 также merged; BE-024 также merged; BE-019 и BE-020 также merged; первая фактически ready BE-039 начата с mini-plan.
+M1 foundation (BE-008…013) merged и проверен; BE-014…018 также merged; BE-024 также merged; BE-019 и BE-020 также merged; BE-039 source corpus также merged после8 green checks.
 Доступны make migrate, migration-check, test-integration, test-migrations, test-security,
 dependency-check, dev-up/dev-down и test-compose. CI имеет восемь обязательных checks;
 каждый новый PR требует фактического green head SHA перед merge. Runtime реализует18 health/identity/projects методов; остальные28 planned. Head Alembic0003,6 runtime tables. Worker — BE-032.
@@ -46,4 +46,5 @@ dependency-check, dev-up/dev-down и test-compose. CI имеет восемь о
 BE-017 policy интегрирована в project metadata adapters BE-020; auth regression/cleanup CLI BE-018 verified.
 BE-024 storage/barrier adapter implemented, ADR-0009 уточняет fencing/uncertain commit.
 BE-019 CreateProject/guarded quota/project ORM и BE-020 ACL/revision/7-day metadata CRUD реализованы.
-BE-039 — fixtures/matrix mini-plan; converter/sandbox не реализованы. BE-023/025 остаются planned.
+BE-039 —18 source fixtures/matrix и static integrity tests done; converter/sandbox не реализованы.
+В реестре нет ready задач. BE-023/025 остаются planned; planned не выбирать автоматически.

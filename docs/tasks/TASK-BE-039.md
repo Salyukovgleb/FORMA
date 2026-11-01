@@ -3,7 +3,7 @@ id: "BE-039"
 title: "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures"
 epic: "EPIC-06"
 priority: "P0"
-status: "in_review"
+status: "done"
 depends_on: ["BE-007"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-18 source cases и manifest реализованы; [evidence](../evidence/BE-039.md). До merge — in_review.
+18 source cases и manifest реализованы; [evidence](../evidence/BE-039.md). Merged PR #25 after8 exact-head green CI checks.
 
 ## Risks
 
@@ -114,3 +114,8 @@ integrity и полнота matrix. После реализации: tests→com
 
 Следующий шаг: сначала meaningful manifest/matrix tests, затем corpus. Fixtures и новые
 тесты пока отсутствуют; BE-039 не done. M2 и M5 остаются открытыми.
+
+## Completion — 2026-11-01
+
+PR [#25](https://github.com/Salyukovgleb/FORMA/pull/25) merged `5d3d9fd73787e73b4ae048339469b056a7cc2e73`. Head `c6140f40155bcb239446acb2ae35eda324a5658f`: [8 SUCCESS checks](https://github.com/Salyukovgleb/FORMA/actions/runs/41310383777), exact SHA verified before merge.
+Corpus integrity complete; actual isolated conversion remains BE-040/042.
