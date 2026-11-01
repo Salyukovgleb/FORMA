@@ -26,7 +26,7 @@
 | [BE-020](TASK-BE-020.md) | done | BE-019 | feat/BE-020-project-crud | fb1ad22 merge PR #23 | [8 checks SUCCESS c3eb8fd](https://github.com/Salyukovgleb/FORMA/actions/runs/41257627358) | [Evidence](../evidence/BE-020.md) |
 | [BE-021](TASK-BE-021.md) | planned | BE-019, BE-025, BE-027 | — | — | не заявлен | planned |
 | [BE-022](TASK-BE-022.md) | planned | BE-020, BE-025 | — | — | не заявлен | planned |
-| [BE-023](TASK-BE-023.md) | in_review | BE-019, BE-017 | feat/BE-023-project-members | pending | ожидается | [Evidence](../evidence/BE-023.md) |
+| [BE-023](TASK-BE-023.md) | done | BE-019, BE-017 | feat/BE-023-project-members | 9b7fe14 merge PR #27 | [8 SUCCESS 9b0a350](https://github.com/Salyukovgleb/FORMA/actions/runs/41312833808) | [Evidence](../evidence/BE-023.md) |
 | [BE-024](TASK-BE-024.md) | done | BE-008, BE-010, BE-013 | feat/BE-024-local-storage | 658b0f3 merge PR #19 | [8 checks SUCCESS 4eb80bd](https://github.com/Salyukovgleb/FORMA/actions/runs/41233735870) | [Evidence](../evidence/BE-024.md) |
 | [BE-025](TASK-BE-025.md) | planned | BE-019, BE-024 | — | — | не заявлен | planned |
 | [BE-026](TASK-BE-026.md) | planned | BE-025 | — | — | не заявлен | planned |

@@ -741,7 +741,7 @@
     "title": "Участники, роли, запрет потери owner, permission tests",
     "epic": "EPIC-03",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-019",
       "BE-017"

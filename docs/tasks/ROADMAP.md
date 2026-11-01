@@ -71,3 +71,8 @@ BE-023/025 имеют закрытые dependencies, но пока planned; ав
 BE-039 done PR #25:18 source cases/13 matrix rows, expected structures и located warnings.
 Static corpus integrity CI green; isolated exporter/fidelity ещё planned.
 Следующих ready задач в реестре нет; planned не продвигаются автоматически.
+
+## Membership ACL — 2026-11-01
+
+BE-023 done PR #27 after8 exact-head green checks;22 implemented/24 planned API methods.
+Owner immutable,50-total member quota, guarded mutation/self-leave. M2 remains open: BE-021/022 await file dependencies.
