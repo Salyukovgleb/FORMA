@@ -67,7 +67,7 @@ def test_create_project_uses_current_owner_and_database_defaults(database_url, t
                 row = db.execute(text("SELECT main_file_id,engine,description FROM projects")).one()
                 assert tuple(row) == (None, "xelatex", "Описание")
                 assert db.scalar(text("SELECT count(*) FROM project_members")) == 0
-            assert client.get(PATH + "/" + project["id"], headers=headers).status_code == 404
+            assert client.get(PATH + "/" + project["id"], headers=headers).status_code == 200
     finally:
         engine.dispose()
 

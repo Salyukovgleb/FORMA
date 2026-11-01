@@ -4,7 +4,7 @@
 
 ## API-013 — ListProjects
 
-`GET /api/v1/projects` · planned · operationId `list_projects` · tag `projects`.
+`GET /api/v1/projects` · implemented · operationId `list_projects` · tag `projects`.
 
 Назначение и транзакция: Доступные active проекты; status=deleted показывает только собственные удалённые.
 
@@ -85,7 +85,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, project_nodes; planned BE-046 audit будет добавлять event `list_projects`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `list_projects`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -186,7 +186,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-015 — ReadProject
 
-`GET /api/v1/projects/{project_id}` · planned · operationId `read_project` · tag `projects`.
+`GET /api/v1/projects/{project_id}` · implemented · operationId `read_project` · tag `projects`.
 
 Назначение и транзакция: SELECT проекта и вычисленной роли; deleted доступен только owner.
 
@@ -254,7 +254,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, project_nodes; planned BE-046 audit будет добавлять event `read_project`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `read_project`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -269,7 +269,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-016 — UpdateProject
 
-`PATCH /api/v1/projects/{project_id}` · planned · operationId `update_project` · tag `projects`.
+`PATCH /api/v1/projects/{project_id}` · implemented · operationId `update_project` · tag `projects`.
 
 Назначение и транзакция: Lock project; expected_revision; title/description; увеличить revision.
 
@@ -350,7 +350,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, project_nodes; planned BE-046 audit будет добавлять event `update_project`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `update_project`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -365,9 +365,9 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-017 — DeleteProject
 
-`DELETE /api/v1/projects/{project_id}` · planned · operationId `delete_project` · tag `projects`.
+`DELETE /api/v1/projects/{project_id}` · implemented · operationId `delete_project` · tag `projects`.
 
-Назначение и транзакция: Сверить confirm_title и expected_revision; soft delete; запросить отмену jobs; retention 7 суток.
+Назначение и транзакция: Сверить confirm_title/expected_revision; guarded soft delete, revision+1; restore до7 суток. Jobs cancellation integration — BE-033/037.
 
 Авторизация: `owner`; точная матрица в [auth](../10_AUTH_AND_AUTHORIZATION.md).
 Заголовки: Bearer для authenticated/ролей; refresh cookie + X-CSRF-Token для refresh;
@@ -393,7 +393,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 
 | Поле | JSON schema | Обязательное |
 |---|---|---|
-| `confirm_title` | `{"title": "Confirm Title", "type": "string"}` | True |
+| `confirm_title` | `{"maxLength": 200, "minLength": 1, "title": "Confirm Title", "type": "string"}` | True |
 | `expected_revision` | `{"minimum": 1, "title": "Expected Revision", "type": "integer"}` | True |
 
 Пример:
@@ -417,7 +417,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, project_nodes; planned BE-046 audit будет добавлять event `delete_project`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `delete_project`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -432,9 +432,9 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-018 — RestoreProject
 
-`POST /api/v1/projects/{project_id}/restore` · planned · operationId `restore_project` · tag `projects`.
+`POST /api/v1/projects/{project_id}/restore` · implemented · operationId `restore_project` · tag `projects`.
 
-Назначение и транзакция: До 7 суток восстановить deleted проект с проверкой revision; далее 410; активный 409.
+Назначение и транзакция: Owner-only restore до7 суток включительно, revision+1; stale409, expired410, active409.
 
 Авторизация: `owner`; точная матрица в [auth](../10_AUTH_AND_AUTHORIZATION.md).
 Заголовки: Bearer для authenticated/ролей; refresh cookie + X-CSRF-Token для refresh;
@@ -509,7 +509,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, project_nodes; planned BE-046 audit будет добавлять event `restore_project`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `restore_project`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

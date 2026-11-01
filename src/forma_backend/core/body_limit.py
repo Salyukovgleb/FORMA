@@ -1,6 +1,7 @@
 """Bound implemented JSON bodies before JSON parsing, including chunked requests."""
 
 from uuid import UUID
+import re
 
 from starlette.datastructures import Headers
 from starlette.responses import JSONResponse
@@ -14,7 +15,17 @@ class JsonBodyLimit:
         self.app = app
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
-        if scope["type"] != "http" or (scope["method"], scope["path"]) not in {
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+        dynamic_project = (
+            scope["method"] in {"PATCH", "DELETE"}
+            and re.fullmatch(r"/api/v1/projects/[^/]+", scope["path"]) is not None
+        ) or (
+            scope["method"] == "POST"
+            and re.fullmatch(r"/api/v1/projects/[^/]+/restore", scope["path"]) is not None
+        )
+        if not dynamic_project and (scope["method"], scope["path"]) not in {
             ("POST", "/api/v1/projects"),
             ("POST", "/api/v1/auth/register"),
             ("POST", "/api/v1/auth/login"),

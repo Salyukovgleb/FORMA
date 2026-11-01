@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from uuid import UUID
+from typing import Literal
 
 from sqlalchemy import (
     CHAR,
@@ -96,7 +97,9 @@ class ProjectRow(Base):
     description: Mapped[str] = mapped_column(String(2000), server_default=text("''"))
     main_file_id: Mapped[UUID | None] = mapped_column()
     engine: Mapped[str] = mapped_column(Text, server_default=text("'xelatex'"))
-    status: Mapped[str] = mapped_column(Text, server_default=text("'active'"))
+    status: Mapped[Literal["active", "deleted"]] = mapped_column(
+        Text, server_default=text("'active'")
+    )
     revision: Mapped[int] = mapped_column(BigInteger, server_default=text("1"))
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")

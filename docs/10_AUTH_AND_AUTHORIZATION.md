@@ -121,3 +121,16 @@ statement timeout2s / lock timeout1s; результат removed=N. Никаки
 Автоматического scheduler пока нет; запуск очистки — операционная обязанность до BE-032/047.
 Auth session/history retention и общие anonymous/authenticated API quotas не объявляются
 реализованными этим auth-specific review; внедряются при расширении runtime и BE-047/049.
+
+## BE-020 existing-project ACL integrated
+
+Project metadata endpoints используют policy BE-017 с context из actual projects/member rows.
+Owner derived, editor/viewer только membership с совпадающими project/user IDs. List query
+фильтрует owner OR current member в SQL; deleted только owner. Foreign/missing404 одинаковы,
+visible forbidden403. Metadata GET join возвращает project + membership в одном SQL.
+
+Перед mutation scalar ACL projection даёт deny ДО User locks: нельзя блокировать чужого
+owner или отвечать503 вместо404/403 на denied operation. Затем user UUIDs(actor+owner) lock
+sorted, actor session lock/recheck, project lock/populate_existing; membership/context заново
+читаются и policy проверяется повторно. Revoked session401, lost membership404. Guarded RC,
+SQL timeouts BE-019 сохраняются. Cross-owned edits не меняют глобальный lock order.

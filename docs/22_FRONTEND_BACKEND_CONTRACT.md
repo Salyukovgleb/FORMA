@@ -45,3 +45,12 @@ Owner берётся из Principal, Cookie/owner_id/role не дают ownershi
 
 BE-019 transient DB/row-lock contention →503 STORAGE_UNAVAILABLE, Retry-After1;
 SQL lock timeout2s / statement timeout5s. Это не общий wall-clock deadline сетевого сбоя.
+
+BE-020: GET list/search/detail, PATCH metadata, DELETE soft и POST restore implemented.
+PATCH требует title, description и expected_revision; это контракт полного metadata update.
+Readonly owner/role/status/main fields →422. PATCH revision+1; stale409 REVISION_CONFLICT
+с details.current_revision. DELETE JSON confirm_title exact + expected_revision, success204;
+wrong confirm409 INVALID_STATE, stale409, повтор DELETE deleted404 согласно visibility.
+Restore owner-only: до7d включительно200/revision+1, active409, stale409, expired410 RETENTION_EXPIRED.
+Deleted metadata/list виден только owner; PATCH deleted404. Soft-delete не освобождает retained
+quota; physical purge/retention scheduler —BE-047. Cursor не переиспользовать с другими filters.

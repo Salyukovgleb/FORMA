@@ -51,3 +51,7 @@ CreateProject SQL work ограничен lock_timeout2s и statement_timeout5s;
 CreateProject UoW явно использует READ COMMITTED независимо от server/engine default:
 после ожидания user lock count видит предыдущий commit. Regression проверяет concurrent
 different-session quota при исходных READ COMMITTED и REPEATABLE READ defaults.
+
+BE-020: один project/membership SQL на страницу, без per-project lookup, page size≤100.
+Это проверка query count, не benchmark p95. Cross-user UUID locks sorted, SQL deadlines
+и8 guard slots сохраняются. Search/ACL EXPLAIN/performance —BE-048.

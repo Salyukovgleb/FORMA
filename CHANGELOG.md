@@ -34,3 +34,5 @@
 - BE-024: private immutable UUID blobs, capacity/stream bounds, reserved rename+fsync, reference-aware GC and detached bounded PostgreSQL maintenance guards with explicit driver cleanup; ADR-0009 documents connection-loss/uncertain-commit semantics.
 
 - BE-019: authenticated own empty-project creation, retained-owner quota under user/session locks, guarded ORM metadata commit and staged projects/members migration0003; shared JSON/text boundary and canonical DTO updates.
+
+- BE-020: project list/search/keyset, actual owner/member ACL, guarded revision updates and soft-delete/7-day restore; early deny before owner locks, locked authorization recheck, explicit project Docker smoke and correction of BE-019 smoke evidence.

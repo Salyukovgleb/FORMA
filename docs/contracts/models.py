@@ -1,4 +1,10 @@
-"""Phase A wire contracts only. No application handlers or database adapters."""
+"""Canonical API contracts; implemented DTOs are imported from runtime modules."""
+
+from forma_backend.modules.projects.schemas import (
+    ProjectPatch as ProjectPatch,
+    DeleteProject as DeleteProject,
+    RestoreProject as RestoreProject,
+)
 
 from forma_backend.modules.identity.schemas import (
     Register as Register,
@@ -40,12 +46,6 @@ Role = Literal["owner", "editor", "viewer"]
 State = Literal["queued", "running", "retry_wait", "succeeded", "failed", "cancelled"]
 
 
-class ProjectPatch(DTO):
-    title: Annotated[str, Field(min_length=1, max_length=200)]
-    description: Annotated[str, Field(max_length=2000)]
-    expected_revision: Revision
-
-
 class Settings(DTO):
     main_file_id: UUID | None
     engine: Engine
@@ -55,15 +55,6 @@ class Settings(DTO):
 class SettingsPatch(DTO):
     main_file_id: UUID | None
     engine: Engine
-    expected_revision: Revision
-
-
-class DeleteProject(DTO):
-    confirm_title: str
-    expected_revision: Revision
-
-
-class RestoreProject(DTO):
     expected_revision: Revision
 
 
