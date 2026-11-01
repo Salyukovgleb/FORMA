@@ -7,6 +7,7 @@ from forma_backend.main import create_app
 @pytest.mark.parametrize(
     "method,path",
     [
+        ("POST", "/api/v1/projects"),
         ("POST", "/api/v1/auth/register"),
         ("POST", "/api/v1/auth/login"),
         ("PATCH", "/api/v1/users/me"),

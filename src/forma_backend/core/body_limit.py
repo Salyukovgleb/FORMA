@@ -1,4 +1,4 @@
-"""Bound identity bodies before JSON parsing, including chunked requests."""
+"""Bound implemented JSON bodies before JSON parsing, including chunked requests."""
 
 from uuid import UUID
 
@@ -9,12 +9,13 @@ from starlette.types import ASGIApp, Message, Receive, Scope, Send
 from forma_backend.core.contracts import Error, ErrorDetail, ErrorEnvelope
 
 
-class AuthBodyLimit:
+class JsonBodyLimit:
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http" or (scope["method"], scope["path"]) not in {
+            ("POST", "/api/v1/projects"),
             ("POST", "/api/v1/auth/register"),
             ("POST", "/api/v1/auth/login"),
             ("PATCH", "/api/v1/users/me"),

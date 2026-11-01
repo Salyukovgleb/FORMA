@@ -554,7 +554,7 @@
     "title": "Таблица projects, репозиторий, создание проекта",
     "epic": "EPIC-03",
     "priority": "P0",
-    "status": "in_progress",
+    "status": "in_review",
     "depends_on": [
       "BE-017",
       "BE-018",
@@ -571,9 +571,10 @@
       "POST /api/v1/projects"
     ],
     "database": [
-      "project_members",
-      "project_nodes",
-      "projects"
+      "users",
+      "auth_sessions",
+      "projects",
+      "project_members"
     ],
     "tests": [
       "BE-019-POS",
@@ -585,7 +586,8 @@
     ],
     "adr": [
       "0001-modular-monolith",
-      "0002-local-filesystem-storage"
+      "0002-local-filesystem-storage",
+      "0009-storage-publication-fencing"
     ]
   },
   {

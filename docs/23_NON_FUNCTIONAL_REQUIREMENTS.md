@@ -38,3 +38,16 @@ DB clock для bucket — statement_timestamp(), включая transaction, н
 Очистка >24h реализована operator CLI, bounded rows + timeouts; автоматический запуск ещё planned.
 Общие anonymous120/min и authenticated300/min, upload/compile quotas остаются planned;
 не считать эту таблицу доказательством реализации всего NFR в текущем identity runtime.
+
+BE-019: Projects/user quota100 default на retained active+deleted rows. Startup validation
+MAX_PROJECTS_PER_USER1..10000, серверная настройка; не request parameter. User lock сериализует
+две different-session creations у границы99/100; soft-delete не освобождает слот до purge.
+Member quota50 и общие user/API limits ещё planned. Error quota429 не является fixed-window reset.
+
+CreateProject SQL work ограничен lock_timeout2s и statement_timeout5s; operational DB errors
+переводятся в503 после rollback/guard teardown, programming/integrity errors не маскируются
+этой классификацией (ошибка на guarded commit остаётся safe503 с возможным uncertain outcome).
+
+CreateProject UoW явно использует READ COMMITTED независимо от server/engine default:
+после ожидания user lock count видит предыдущий commit. Regression проверяет concurrent
+different-session quota при исходных READ COMMITTED и REPEATABLE READ defaults.

@@ -103,3 +103,17 @@ def test_key_rotation_configuration_requires_valid_pair():
 def test_empty_previous_key_environment_disables_graceful_rotation():
     env = {**environment(), "JWT_PREVIOUS_KEY_ID": "", "JWT_PREVIOUS_SECRET": ""}
     assert load_settings(env).jwt_previous_secret is None
+
+
+def test_project_count_quota_startup_validation():
+    from forma_backend.core.config import Settings
+    from pydantic import ValidationError
+
+    values = {
+        "database_url": "postgresql+psycopg://test:sentinel@localhost/forma",
+        "jwt_secret": "a" * 64,
+    }
+    assert Settings(**values).max_projects_per_user == 100
+    for quota in [0, -1, 10001]:
+        with pytest.raises(ValidationError):
+            Settings(**values, max_projects_per_user=quota)

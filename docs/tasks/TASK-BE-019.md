@@ -3,15 +3,15 @@ id: "BE-019"
 title: "Таблица projects, репозиторий, создание проекта"
 epic: "EPIC-03"
 priority: "P0"
-status: "in_progress"
+status: "in_review"
 depends_on: ["BE-017", "BE-018", "BE-024"]
 owner: "backend-developer"
 estimate: "0.5–2 developer days"
 requirements: ["FR-PRJ-001", "FR-PRJ-002", "FR-ACL-001"]
 api: ["POST /api/v1/projects"]
-database: ["project_members", "project_nodes", "projects"]
+database: ["users", "auth_sessions", "projects", "project_members"]
 tests: ["BE-019-POS", "BE-019-NEG", "UNIT-API-014", "API-014", "INT-API-014", "SEC-API-014"]
-adr: ["0001-modular-monolith", "0002-local-filesystem-storage"]
+adr: ["0001-modular-monolith", "0002-local-filesystem-storage", "0009-storage-publication-fencing"]
 ---
 
 # BE-019 — Таблица projects, репозиторий, создание проекта
@@ -41,7 +41,7 @@ CreateProject атомарно создаёт owner project и учитывае�
 ## API/DB impacts
 
 Методы: POST /api/v1/projects
-Таблицы API: project_members, project_nodes, projects
+Таблицы: users/auth_sessions (auth), projects/project_members (migration); nodes planned BE-025.
 Breaking wire changes запрещены без обновления OpenAPI/ADR. Новые DB объекты — Alembic revision.
 
 ## Implementation checklist
@@ -81,7 +81,7 @@ diff/secret review → Conventional Commit → push → PR → green SHA checks 
 
 ## Evidence/results
 
-planned; code/tests/commit/PR/CI отсутствуют, поведение не проверено.
+Локальные checks passed; [evidence](../evidence/BE-019.md). Remote CI/merge ожидаются.
 
 ## Risks
 
@@ -90,7 +90,7 @@ planned; code/tests/commit/PR/CI отсутствуют, поведение не
 ## Mini-plan / dependency review — 2026-10-31
 
 BE-017/018/024 done, BE-019 planned → ready → in_progress. Выполнен разбор API/DDL,
-migration plan, role policy и ADR-0009. Код CreateProject пока не реализован.
+migration plan, role policy и ADR-0009. CreateProject реализован; evidence после локальных/remote checks.
 
 Source: modules/projects/application.py, schemas.py, router.py; infrastructure/projects/
 persistence.py; typed ORM project/member models и Alembic0003_projects_access. SQLAlchemy
@@ -101,7 +101,7 @@ Storage adapter не делает metadata commits. Durable audit остаётс
 Согласно утверждённому migration plan0003 создаёт projects/members без main FK;
 project_nodes/file_revisions и composite main FK/triggers —0004/BE-025. Не создавать ранние
 пустые nodes таблицы ради DTO. До0004 main_file_id должен оставатьсяNULL (проверить временную
-DB constraint при migration review); wire Project уже допускаетNULL. FK/DDL/model drift и
+DB constraint при migration review); main/engine принадлежат Settings DTO BE-022, Project DTO не расширяется. FK/DDL/model drift и
 миграции с seeded identity data должны проверяться отдельно от target schema14tables.
 
 Tests first: unauthenticated401, extra owner_id/role422, whitespace/NUL/invalid Unicode title,
@@ -116,3 +116,13 @@ unsupported/unknown template response документируется до BE-021
 Обновить runtime/canonical DTO, registry/OpenAPI, migration dictionary/runbook и Docker heads/smoke;
 проверить fresh/seeded/idempotent upgrade, FK/checks, downgrade только disposable test DB.
 Затем lint/types/relevant/security/migrations/compose → commit → push → PR → green SHA CI → merge.
+
+## Implementation verification — 2026-11-01
+
+POST CreateProject и0003 projects/members реализованы. Квота429 QUOTA_EXCEEDED на retained
+active+deleted, Retry-After86400 без обещания reset. Defaults и runtime DTO проверены;
+main/engine — DB/Settings, не новые поля Project response. template_id non-null404 доBE-021.
+Shared JSON2MiB/MIME и Unicode validation переиспользуются из core. Guarded ORM rollback_only
+flush/commit проверены реальными constraints и different-session quota race. User/session
+revalidation после ожидания lock; operational SQL failures →503, lock2s/statement5s.
+Все локальные результаты в evidence; durable audit/project read/update ещё planned.

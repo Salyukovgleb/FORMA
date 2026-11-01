@@ -35,3 +35,8 @@ BE-024: project_files/storage.py содержит typed ports/value types без
 infrastructure/storage реализует POSIX local storage и PostgreSQL maintenance lease.
 Metadata UoW будущих callers привязан к dedicated guard connection (ADR-0009); explicit
 commit остаётся у caller. GC получает authoritative reference port, а не transport boolean.
+
+BE-019: modules/projects содержит CreateProject/typed UoW port и wire DTO/router;
+infrastructure/projects/persistence.py реализует shared maintenance guard + external ORM Session
+rollback_only. SQL только в adapter; use case делает explicit commit. JsonBodyLimit и UTF-8/NUL
+text validator перенесены в core для общего применения identity/projects, без cross-module DTO imports.

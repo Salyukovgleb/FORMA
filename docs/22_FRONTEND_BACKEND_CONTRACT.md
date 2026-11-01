@@ -32,3 +32,16 @@ BE-016: профиль GET/PATCH `/api/v1/users/me` (Bearer). PATCH только
 POST `/api/v1/users/me/change-password`: current_password/new_password, Bearer. Успех204
 очищает refresh cookie и отзывает все сессии; удалить access/CSRF из памяти и показать login.
 Неверный current401 не изменяет пароль/сессии, но клиент может показать общий auth error.
+
+BE-019: POST /api/v1/projects (Bearer),201 Project DTO. Request title1..200 non-whitespace,
+description≤2000 default empty, template_id null/omitted. Unicode/NUL validation, unknown fields422.
+До BE-021 любой non-null template_id →404 NOT_FOUND (не игнорируется). Создаётся пустое дерево;
+engine/main хранятся в DB с defaults и пока не входят в Project DTO (они в Settings BE-022).
+Owner берётся из Principal, Cookie/owner_id/role не дают ownership. Квота retained active+deleted
+100/user default, configurable MAX_PROJECTS_PER_USER;429 QUOTA_EXCEEDED, Retry-After86400 —
+рекомендация повторить после cleanup, не обещание автоматического daily reset. Listing/read —BE-020.
+503/потерянный ответ COMMIT может иметь uncertain outcome; не делать blind retry mutation,
+проверить состояние после появления read/list или через оператора. Durable audit —BE-046.
+
+BE-019 transient DB/row-lock contention →503 STORAGE_UNAVAILABLE, Retry-After1;
+SQL lock timeout2s / statement timeout5s. Это не общий wall-clock deadline сетевого сбоя.

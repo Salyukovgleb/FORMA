@@ -1185,6 +1185,8 @@
           "template_id": {
             "anyOf": [
               {
+                "maxLength": 128,
+                "minLength": 1,
                 "type": "string"
               },
               {
@@ -2841,7 +2843,7 @@
         "x-status": "planned"
       },
       "post": {
-        "description": "Lock user для квоты; project + snapshot шаблона/пустое дерево; audit в одной транзакции.",
+        "description": "Maintenance shared guard; lock user/session; quota retained projects; INSERT own empty project. template_id не null пока404 (BE-021). Audit — BE-046.",
         "operationId": "create_project",
         "parameters": [],
         "requestBody": {
@@ -3020,7 +3022,7 @@
         ],
         "x-acl": "authenticated",
         "x-endpoint-id": "API-014",
-        "x-status": "planned"
+        "x-status": "implemented"
       }
     },
     "/api/v1/projects/{project_id}": {

@@ -144,3 +144,5 @@ BE-016: runtime содержит12 health/identity методов; осталь�
 
 [ADR-0009: publication fencing](adr/0009-storage-publication-fencing.md).
 BE-024: storage/barrier adapter implemented; project/file routes и DB references ещё planned.
+
+BE-019: CreateProject implemented, runtime13 methods/6tables; остальные33 methods planned.

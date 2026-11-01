@@ -30,6 +30,8 @@ def test_fresh_upgrade_and_schema_drift(database_url):
                 "auth_sessions",
                 "used_refresh_tokens",
                 "rate_limit_buckets",
+                "projects",
+                "project_members",
                 "alembic_version",
             }
             command.check(cfg)

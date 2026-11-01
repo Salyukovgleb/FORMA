@@ -156,7 +156,7 @@ ROWS = [
         "authenticated",
         19,
         "CreateProject",
-        "Lock user для квоты; project + snapshot шаблона/пустое дерево; audit в одной транзакции.",
+        "Maintenance shared guard; lock user/session; quota retained projects; INSERT own empty project. template_id не null пока404 (BE-021). Audit — BE-046.",
     ),
     (
         "GET",
@@ -555,3 +555,5 @@ for _operation in [
 
 for _operation in ["read_profile", "update_profile", "change_password"]:
     OPERATION_STATUS[_operation] = "implemented"
+
+OPERATION_STATUS["create_project"] = "implemented"

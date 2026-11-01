@@ -100,9 +100,9 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-014 — CreateProject
 
-`POST /api/v1/projects` · planned · operationId `create_project` · tag `projects`.
+`POST /api/v1/projects` · implemented · operationId `create_project` · tag `projects`.
 
-Назначение и транзакция: Lock user для квоты; project + snapshot шаблона/пустое дерево; audit в одной транзакции.
+Назначение и транзакция: Maintenance shared guard; lock user/session; quota retained projects; INSERT own empty project. template_id не null пока404 (BE-021). Audit — BE-046.
 
 Авторизация: `authenticated`; точная матрица в [auth](../10_AUTH_AND_AUTHORIZATION.md).
 Заголовки: Bearer для authenticated/ролей; refresh cookie + X-CSRF-Token для refresh;
@@ -120,7 +120,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 |---|---|---|
 | `title` | `{"maxLength": 200, "minLength": 1, "title": "Title", "type": "string"}` | True |
 | `description` | `{"default": "", "maxLength": 2000, "title": "Description", "type": "string"}` | False |
-| `template_id` | `{"anyOf": [{"type": "string"}, {"type": "null"}], "default": null, "title": "Template Id"}` | False |
+| `template_id` | `{"anyOf": [{"maxLength": 128, "minLength": 1, "type": "string"}, {"type": "null"}], "default": null, "title": "Template Id"}` | False |
 
 Пример:
 ```json
@@ -171,7 +171,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, project_nodes; planned BE-046 audit будет добавлять event `create_project`
+Таблицы: users, auth_sessions, projects; planned BE-046 audit будет добавлять event `create_project`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

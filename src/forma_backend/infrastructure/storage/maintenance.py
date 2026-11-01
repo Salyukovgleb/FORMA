@@ -1,7 +1,7 @@
 """Dedicated session advisory lock; metadata must use this guarded connection (ADR-0009)."""
 
 from types import TracebackType
-from typing import Self
+from typing import Self, Literal
 from threading import BoundedSemaphore
 
 from sqlalchemy import Connection, Engine, text
@@ -16,8 +16,15 @@ _CONNECTION_SLOTS = BoundedSemaphore(8)
 
 
 class MaintenanceGuard:
-    def __init__(self, engine: Engine, *, exclusive: bool = False) -> None:
+    def __init__(
+        self,
+        engine: Engine,
+        *,
+        exclusive: bool = False,
+        isolation: Literal["READ COMMITTED"] | None = None,
+    ) -> None:
         self._engine = engine
+        self._isolation = isolation
         self._exclusive = exclusive
         self._connection: Connection | None = None
         self._pid: int | None = None
@@ -35,6 +42,8 @@ class MaintenanceGuard:
             raise MaintenanceBusy()
         try:
             self._connection = self._engine.connect()
+            if self._isolation is not None:
+                self._connection.execution_options(isolation_level=self._isolation)
             # A caller closing this dedicated connection must physically release its session lock.
             self._connection.detach()
             self._driver = self._connection.connection.dbapi_connection

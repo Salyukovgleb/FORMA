@@ -25,7 +25,11 @@ from forma_backend.modules.identity.application import PasswordCapacityExceeded
 from forma_backend.infrastructure.identity.session_store import SqlSessionStore
 from forma_backend.infrastructure.identity.access_tokens import JwtAccessTokens
 from forma_backend.core.errors import ApiError
-from forma_backend.modules.identity.body_limit import AuthBodyLimit
+from forma_backend.core.body_limit import JsonBodyLimit
+from forma_backend.modules.projects.router import project_router
+from forma_backend.modules.projects.application import CreateProject
+from forma_backend.infrastructure.projects.persistence import SqlProjectUnitOfWork
+from forma_backend.modules.project_files.storage import StorageUnavailable
 from forma_backend.modules.identity.router import registration_router
 from forma_backend.modules.identity.application import RegisterUser
 from forma_backend.infrastructure.identity.persistence import SqlIdentityUnitOfWork
@@ -74,7 +78,7 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
         redoc_url=None,
         openapi_url="/openapi.json" if docs else None,
     )
-    app.add_middleware(AuthBodyLimit)
+    app.add_middleware(JsonBodyLimit)
 
     @app.middleware("http")
     async def correlate(
@@ -144,6 +148,24 @@ def create_app(settings: Settings | None = None, *, engine: Engine | None = None
             AuthRateLimit(database, settings.jwt_secret.get_secret_value(), "password-change"),
         )
     )
+
+    app.include_router(
+        project_router(
+            CreateProject(lambda: SqlProjectUnitOfWork(database), settings.max_projects_per_user),
+            principal_dependency(auth),
+        )
+    )
+
+    @app.exception_handler(StorageUnavailable)
+    async def storage_error(request: Request, exc: StorageUnavailable) -> JSONResponse:
+        response = error_response(
+            503,
+            "STORAGE_UNAVAILABLE",
+            "Storage or maintenance unavailable",
+            request.state.request_id,
+        )
+        response.headers["Retry-After"] = "1"
+        return response
 
     @app.exception_handler(PasswordCapacityExceeded)
     async def password_capacity_error(

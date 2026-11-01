@@ -6,6 +6,7 @@ from uuid import UUID
 
 from pydantic import BeforeValidator, Field, field_validator
 from forma_backend.core.contracts import DTO
+from forma_backend.core.text import valid_text
 
 
 def normalize_email(value: object) -> object:
@@ -28,13 +29,7 @@ class Register(DTO):
     @field_validator("email", "password", "display_name")
     @classmethod
     def valid_text(cls, value: str) -> str:
-        if "\x00" in value:
-            raise ValueError("NUL is not allowed")
-        try:
-            value.encode("utf-8")
-        except UnicodeEncodeError:
-            raise ValueError("Invalid Unicode") from None
-        return value
+        return valid_text(value)
 
 
 class Profile(DTO):

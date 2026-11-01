@@ -121,3 +121,8 @@ CLI доступен в packaged image; автоматический scheduler �
 BE-024: typed UUID FileStorage + POSIX local adapter и PostgreSQL shared/exclusive barrier.
 Проверяются private single-link files, capacity floors, atomic reserved rename, guarded metadata
 commit и безопасный GC. API/DB integration — BE-019/025, backup/retention scheduler — BE-047.
+
+BE-019: POST /api/v1/projects implemented (Bearer,201). Owner из текущей active session,
+пустое дерево, retained-project quota100/user (MAX_PROJECTS_PER_USER), unknown template404 доBE-021.
+Alembic head0003_projects_access добавляет projects/members:6 runtime tables; mainNULL до0004.
+13 implemented /33 planned methods. Listing/read/update — BE-020, audit —BE-046.

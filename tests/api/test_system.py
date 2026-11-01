@@ -96,6 +96,7 @@ def test_errors_and_runtime_openapi(tmp_path):
             "/api/v1/auth/logout-all",
             "/api/v1/auth/sessions",
             "/api/v1/auth/sessions/{session_id}",
+            "/api/v1/projects",
             "/api/v1/users/me",
             "/api/v1/users/me/change-password",
         }
@@ -116,6 +117,8 @@ def test_errors_and_runtime_openapi(tmp_path):
             "Session",
             "ProfilePatch",
             "PasswordChange",
+            "Project",
+            "ProjectCreate",
         ]:
             assert schema_without_null_defaults(
                 spec["components"]["schemas"][name]

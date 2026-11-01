@@ -49,6 +49,7 @@ services:
       JWT_PREVIOUS_SECRET: ${JWT_PREVIOUS_SECRET:-}
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?Set ALLOWED_ORIGINS}
       COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      MAX_PROJECTS_PER_USER: ${MAX_PROJECTS_PER_USER:-100}
       STORAGE_ROOT: /var/lib/forma
     depends_on:
       postgres:

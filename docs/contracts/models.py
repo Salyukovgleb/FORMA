@@ -15,6 +15,10 @@ from forma_backend.modules.identity.profile_schemas import (
     ProfilePatch as ProfilePatch,
     PasswordChange as PasswordChange,
 )
+from forma_backend.modules.projects.schemas import (
+    Project as Project,
+    ProjectCreate as ProjectCreate,
+)
 from forma_backend.core.contracts import Page as Page
 from datetime import datetime
 from typing import Annotated, Literal
@@ -36,29 +40,10 @@ Role = Literal["owner", "editor", "viewer"]
 State = Literal["queued", "running", "retry_wait", "succeeded", "failed", "cancelled"]
 
 
-class ProjectCreate(DTO):
-    title: Annotated[str, Field(min_length=1, max_length=200)]
-    description: Annotated[str, Field(max_length=2000)] = ""
-    template_id: str | None = None
-
-
 class ProjectPatch(DTO):
     title: Annotated[str, Field(min_length=1, max_length=200)]
     description: Annotated[str, Field(max_length=2000)]
     expected_revision: Revision
-
-
-class Project(DTO):
-    id: UUID
-    owner_id: UUID
-    title: str
-    description: str
-    role: Role
-    status: Literal["active", "deleted"]
-    revision: Revision
-    created_at: datetime
-    updated_at: datetime
-    deleted_at: datetime | None
 
 
 class Settings(DTO):

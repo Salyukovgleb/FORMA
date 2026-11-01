@@ -18,3 +18,7 @@ localhost PostgreSQL из compose.dev.yaml; внутри Docker сеть вид�
 В образе миграции находятся /opt/forma/alembic.ini; вызвать python -m alembic
 -c /opt/forma/alembic.ini upgrade head с переданным DATABASE_URL.
 make test-integration сам создаёт disposable DB и не мигрирует пользовательскую БД.
+
+BE-019 head0003_projects_access:6 domain tables. CHECK main_file_id IS NULL временный до0004;
+не снимать его вручную и не устанавливать main по прямому SQL до nodes FK/trigger migration.
+Новые endpoints требуют upgrade head до запуска версии. Downgrade запрещён вне disposable test DB.
