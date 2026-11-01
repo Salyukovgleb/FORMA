@@ -8,6 +8,11 @@ from forma_backend.main import create_app
     "method,path",
     [
         ("POST", "/api/v1/projects"),
+        ("POST", "/api/v1/projects/00000000-0000-4000-8000-000000000001/members"),
+        (
+            "PATCH",
+            "/api/v1/projects/00000000-0000-4000-8000-000000000001/members/00000000-0000-4000-8000-000000000002",
+        ),
         ("PATCH", "/api/v1/projects/00000000-0000-4000-8000-000000000001"),
         ("DELETE", "/api/v1/projects/00000000-0000-4000-8000-000000000001"),
         ("POST", "/api/v1/projects/00000000-0000-4000-8000-000000000001/restore"),

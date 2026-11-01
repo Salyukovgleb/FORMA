@@ -19,11 +19,22 @@ class JsonBodyLimit:
             await self.app(scope, receive, send)
             return
         dynamic_project = (
-            scope["method"] in {"PATCH", "DELETE"}
-            and re.fullmatch(r"/api/v1/projects/[^/]+", scope["path"]) is not None
-        ) or (
-            scope["method"] == "POST"
-            and re.fullmatch(r"/api/v1/projects/[^/]+/restore", scope["path"]) is not None
+            (
+                scope["method"] == "POST"
+                and re.fullmatch(r"/api/v1/projects/[^/]+/members", scope["path"]) is not None
+            )
+            or (
+                scope["method"] == "PATCH"
+                and re.fullmatch(r"/api/v1/projects/[^/]+/members/[^/]+", scope["path"]) is not None
+            )
+            or (
+                scope["method"] in {"PATCH", "DELETE"}
+                and re.fullmatch(r"/api/v1/projects/[^/]+", scope["path"]) is not None
+            )
+            or (
+                scope["method"] == "POST"
+                and re.fullmatch(r"/api/v1/projects/[^/]+/restore", scope["path"]) is not None
+            )
         )
         if not dynamic_project and (scope["method"], scope["path"]) not in {
             ("POST", "/api/v1/projects"),

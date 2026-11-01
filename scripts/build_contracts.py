@@ -281,6 +281,10 @@ for i, (method, path, req, res, status, role, task, uc, effect) in enumerate(ROW
                     "UpdateProject",
                     "DeleteProject",
                     "RestoreProject",
+                    "ListMembers",
+                    "GrantProjectAccess",
+                    "ChangeMemberRole",
+                    "RemoveMember",
                 ]
             },
             "RegisterUser": ["users", "rate_limit_buckets"],
@@ -374,7 +378,7 @@ for tag, body in docs.items():
 (ROOT / "docs/09_API_ENDPOINT_CATALOG.md").write_text(
     "# Каталог API\n\n"
     + META
-    + f"\nВсего **{len(ROWS)}** методов: 18 implemented (health/identity/projects), 28 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
+    + f"\nВсего **{len(ROWS)}** методов: 22 implemented (health/identity/projects/access), 24 planned. Базовый префикс /api/v1, health без него.\n\n| ID | Метод | DTO | ACL | Задача |\n|---|---|---|---|---|\n"
     + "\n".join(catalog)
     + "\n\nПолные спецификации: "
     + ", ".join(f"[{t}](api/{t}.md)" for t in docs)

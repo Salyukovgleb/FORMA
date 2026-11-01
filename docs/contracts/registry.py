@@ -387,7 +387,7 @@ ROWS = [
         "owner",
         23,
         "GrantProjectAccess",
-        "Lock project; найти active user по normalized email; неизвестный 404 USER_NOT_FOUND; owner/duplicate 409.",
+        "Lock project; active normalized email; unknown404 USER_NOT_FOUND, owner409 OWNER_IMMUTABLE, duplicate409 MEMBER_EXISTS,50 total cap429 MEMBER_LIMIT_EXCEEDED.",
     ),
     (
         "PATCH",
@@ -565,4 +565,7 @@ for _operation in [
     "delete_project",
     "restore_project",
 ]:
+    OPERATION_STATUS[_operation] = "implemented"
+
+for _operation in ["list_members", "grant_project_access", "change_member_role", "remove_member"]:
     OPERATION_STATUS[_operation] = "implemented"

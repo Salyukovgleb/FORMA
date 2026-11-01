@@ -48,6 +48,28 @@ def main() -> None:
     assert code == 204 and empty is None
     code, restored = call("POST", path + "/restore", {"expected_revision": 3}, token)
     assert code == 200 and restored["revision"] == 4 and restored["status"] == "active"
+    members = path + "/members"
+    code, listed = call("GET", members, token=token)
+    assert code == 200 and listed["items"][0]["role"] == "owner"
+    code, _ = call(
+        "POST",
+        "/api/v1/auth/register",
+        {
+            "email": "member-smoke@example.org",
+            "password": "strong member smoke password",
+            "display_name": "Member",
+        },
+    )
+    assert code == 201
+    code, member = call(
+        "POST", members, {"email": "member-smoke@example.org", "role": "editor"}, token
+    )
+    assert code == 201 and member["role"] == "editor"
+    member_path = members + "/" + member["user_id"]
+    code, member = call("PATCH", member_path, {"role": "viewer"}, token)
+    assert code == 200 and member["role"] == "viewer"
+    code, _ = call("DELETE", member_path, token=token)
+    assert code == 204
 
 
 if __name__ == "__main__":

@@ -405,3 +405,6 @@ mutation locked re-read не использует cached stale project/member. R
 проверяется UPDATE ... WHERE revision=previous RETURNING id. updated_at/deleted_at/retention
 берутся из clock_timestamp после locks. Successful no-op PATCH тоже увеличивает revision.
 Soft-delete сохраняет rows; restore снимает deleted_at; mainNULL CHECK остаётся до0004.
+
+
+BE-023 reuses runtime0003 projects/project_members/users/auth_sessions; no migration. Owner row is projected from projects.created_at and users.display_name, not inserted into project_members. Membership joined list is ordered by created_at,user_id after owner; guarded RC transaction locks actor/owner users in UUID order, actor session, then project. Writes use current membership after lock and explicit outer commit.

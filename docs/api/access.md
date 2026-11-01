@@ -4,7 +4,7 @@
 
 ## API-034 — ListMembers
 
-`GET /api/v1/projects/{project_id}/members` · planned · operationId `list_members` · tag `access`.
+`GET /api/v1/projects/{project_id}/members` · implemented · operationId `list_members` · tag `access`.
 
 Назначение и транзакция: Owner из projects плюс editor/viewer из project_members; максимум 50.
 
@@ -54,7 +54,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, users; planned BE-046 audit будет добавлять event `list_members`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `list_members`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -69,9 +69,9 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-035 — GrantProjectAccess
 
-`POST /api/v1/projects/{project_id}/members` · planned · operationId `grant_project_access` · tag `access`.
+`POST /api/v1/projects/{project_id}/members` · implemented · operationId `grant_project_access` · tag `access`.
 
-Назначение и транзакция: Lock project; найти active user по normalized email; неизвестный 404 USER_NOT_FOUND; owner/duplicate 409.
+Назначение и транзакция: Lock project; active normalized email; unknown404 USER_NOT_FOUND, owner409 OWNER_IMMUTABLE, duplicate409 MEMBER_EXISTS,50 total cap429 MEMBER_LIMIT_EXCEEDED.
 
 Авторизация: `owner`; точная матрица в [auth](../10_AUTH_AND_AUTHORIZATION.md).
 Заголовки: Bearer для authenticated/ролей; refresh cookie + X-CSRF-Token для refresh;
@@ -136,7 +136,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, users; planned BE-046 audit будет добавлять event `grant_project_access`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `grant_project_access`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -151,7 +151,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-036 — ChangeMemberRole
 
-`PATCH /api/v1/projects/{project_id}/members/{user_id}` · planned · operationId `change_member_role` · tag `access`.
+`PATCH /api/v1/projects/{project_id}/members/{user_id}` · implemented · operationId `change_member_role` · tag `access`.
 
 Назначение и транзакция: Lock project; role editor/viewer; owner неизменяем, попытка 409 OWNER_IMMUTABLE.
 
@@ -225,7 +225,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, users; planned BE-046 audit будет добавлять event `change_member_role`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `change_member_role`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.
@@ -240,7 +240,7 @@ Storage: файловые операции — immutable revision blobs, jobs �
 
 ## API-037 — RemoveMember
 
-`DELETE /api/v1/projects/{project_id}/members/{user_id}` · planned · operationId `remove_member` · tag `access`.
+`DELETE /api/v1/projects/{project_id}/members/{user_id}` · implemented · operationId `remove_member` · tag `access`.
 
 Назначение и транзакция: Owner может удалить участника; editor/viewer только себя; owner выйти не может; повторный вызов после потери ACL 404.
 
@@ -290,7 +290,7 @@ Login/refresh устанавливают HttpOnly refresh cookie. Для cookie-
 `expected_revision` сравнивается под блокировкой; не заменять If-Match.
 Особые повторные вызовы и эффекты указаны в назначении метода выше.
 
-Таблицы: projects, project_members, users; planned BE-046 audit будет добавлять event `remove_member`
+Таблицы: users, auth_sessions, projects, project_members; planned BE-046 audit будет добавлять event `remove_member`
 (кроме health и чтения); session/password/token никогда не попадают в metadata.
 Storage: файловые операции — immutable revision blobs, jobs — pinned snapshots/artifacts;
 прочие методы не пишут пользовательские blobs.

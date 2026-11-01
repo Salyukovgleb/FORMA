@@ -99,6 +99,8 @@ def test_errors_and_runtime_openapi(tmp_path):
             "/api/v1/projects",
             "/api/v1/projects/{project_id}",
             "/api/v1/projects/{project_id}/restore",
+            "/api/v1/projects/{project_id}/members",
+            "/api/v1/projects/{project_id}/members/{user_id}",
             "/api/v1/users/me",
             "/api/v1/users/me/change-password",
         }
@@ -124,6 +126,10 @@ def test_errors_and_runtime_openapi(tmp_path):
             "ProjectPatch",
             "DeleteProject",
             "RestoreProject",
+            "MemberAdd",
+            "MemberPatch",
+            "Member",
+            "Members",
         ]:
             assert schema_without_null_defaults(
                 spec["components"]["schemas"][name]

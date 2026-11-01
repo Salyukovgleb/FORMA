@@ -55,3 +55,5 @@ different-session quota при исходных READ COMMITTED и REPEATABLE REA
 BE-020: один project/membership SQL на страницу, без per-project lookup, page size≤100.
 Это проверка query count, не benchmark p95. Cross-user UUID locks sorted, SQL deadlines
 и8 guard slots сохраняются. Search/ACL EXPLAIN/performance —BE-048.
+
+BE-023 supersedes prior planned member quota:50 total including owner enforced under project lock, concurrent grants serialized. General user/API quotas remain planned. Member cap has no fixed-window reset.

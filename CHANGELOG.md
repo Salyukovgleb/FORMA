@@ -38,3 +38,5 @@
 - BE-020: project list/search/keyset, actual owner/member ACL, guarded revision updates and soft-delete/7-day restore; early deny before owner locks, locked authorization recheck, explicit project Docker smoke and correction of BE-019 smoke evidence.
 
 BE-039: versioned18-case LaTeX/DOCX source corpus, local synthetic media, expected structural assertions and located warnings. Static integrity tested; conversion remains planned.
+
+BE-023: guarded project membership list/grant/change/remove, owner immutable, self-leave,50-total limit; no schema/dependency change.

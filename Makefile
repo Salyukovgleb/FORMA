@@ -40,7 +40,7 @@ test-integration:
 test-migrations:
 	$(PYTHON) -m pytest -q tests/integration/test_migrations.py
 test-security:
-	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/unit/test_passwords.py tests/unit/test_access_tokens.py tests/unit/test_project_policy.py tests/unit/test_project_cursor.py tests/unit/test_project_retention.py tests/api/test_system.py tests/security tests/integration/test_sessions.py tests/integration/test_profiles.py tests/integration/test_auth_limits.py tests/integration/test_file_storage.py tests/integration/test_projects.py tests/integration/test_project_crud.py
+	$(PYTHON) -m pytest -q tests/unit/test_config_logging.py tests/unit/test_passwords.py tests/unit/test_access_tokens.py tests/unit/test_project_policy.py tests/unit/test_project_cursor.py tests/unit/test_project_retention.py tests/api/test_system.py tests/security tests/integration/test_sessions.py tests/integration/test_profiles.py tests/integration/test_auth_limits.py tests/integration/test_file_storage.py tests/integration/test_projects.py tests/integration/test_project_crud.py tests/integration/test_members.py
 dependency-check:
 	$(PYTHON) -m pip check
 

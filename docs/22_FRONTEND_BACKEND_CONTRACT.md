@@ -54,3 +54,6 @@ wrong confirm409 INVALID_STATE, stale409, повтор DELETE deleted404 сог�
 Restore owner-only: до7d включительно200/revision+1, active409, stale409, expired410 RETENTION_EXPIRED.
 Deleted metadata/list виден только owner; PATCH deleted404. Soft-delete не освобождает retained
 quota; physical purge/retention scheduler —BE-047. Cursor не переиспользовать с другими filters.
+
+
+BE-023 API-034..037 implemented. POST normalized email+editor/viewer,201; PATCH role only,200; DELETE no body,204. Self-leave immediately removes visibility; repeating self-leave404. Owner grant/change/remove allowed except owner target409 OWNER_IMMUTABLE. Disabled/unknown email404 USER_NOT_FOUND.50 total cap429; no invitation email sent. Membership changes do not increment project revision. Jobs cancellation on revoke remains BE-037; durable audit BE-046.
