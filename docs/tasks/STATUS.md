@@ -22,7 +22,7 @@
 | [BE-016](TASK-BE-016.md) | done | BE-015 | feat/BE-016-profile-password | 8000af2 merge PR #14 | [8 checks SUCCESS 4e0bf89](https://github.com/Salyukovgleb/FORMA/actions/runs/41227433444) | [Evidence](../evidence/BE-016.md) |
 | [BE-017](TASK-BE-017.md) | done | BE-015 | feat/BE-017-project-policy | 3251252 merge PR #16 | [8 checks SUCCESS 82a63a9](https://github.com/Salyukovgleb/FORMA/actions/runs/41230995450) | [Evidence](../evidence/BE-017.md) |
 | [BE-018](TASK-BE-018.md) | done | BE-016, BE-017 | feat/BE-018-auth-limits | bf37ba2 merge PR #17 | [8 checks SUCCESS c8a2b4c](https://github.com/Salyukovgleb/FORMA/actions/runs/41231547832) | [Evidence](../evidence/BE-018.md) |
-| [BE-019](TASK-BE-019.md) | in_progress | BE-017, BE-018, BE-024 | — | — | не заявлен | mini-plan; implementation pending |
+| [BE-019](TASK-BE-019.md) | in_review | BE-017, BE-018, BE-024 | — | — | не заявлен | 13 project scenarios; local checks passed |
 | [BE-020](TASK-BE-020.md) | planned | BE-019 | — | — | не заявлен | planned |
 | [BE-021](TASK-BE-021.md) | planned | BE-019, BE-025, BE-027 | — | — | не заявлен | planned |
 | [BE-022](TASK-BE-022.md) | planned | BE-020, BE-025 | — | — | не заявлен | planned |

@@ -27,6 +27,7 @@ def main() -> None:
             "JWT_PREVIOUS_SECRET": "",
             "ALLOWED_ORIGINS": "https://forma.example.org",
             "COOKIE_SECURE": "true",
+            "MAX_PROJECTS_PER_USER": "100",
         }
     )
     base = [
@@ -106,7 +107,7 @@ def main() -> None:
             "/opt/forma/alembic.ini",
             "heads",
         )
-        assert "0002_sessions_limits (head)" in heads
+        assert "0003_projects_access (head)" in heads
         run("up", "-d", "--wait", "--wait-timeout", "90", "api")
         run(
             "exec",

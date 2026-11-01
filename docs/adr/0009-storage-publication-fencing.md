@@ -59,3 +59,10 @@ reference/age GC и malicious filesystem entries. Linux CI проверяет ta
 
 [SQLAlchemy connection lifecycle/detach](https://docs.sqlalchemy.org/en/20/core/connections.html),
 [pool reset](https://docs.sqlalchemy.org/en/20/core/pooling.html): rollback alone не очищает session state.
+
+## BE-019 refinement — 2026-11-01
+
+Project UoW pin READ COMMITTED на самой dedicated Connection до первого SQL (параметр
+MaintenanceGuard isolation). Inherited Engine execution-options недостаточно считать гарантией;
+test проверяет SHOW transaction_isolation и quota race при исходном RR default. Остальные
+storage guards сохраняют default isolation; API/public DB schema не меняются этим уточнением.

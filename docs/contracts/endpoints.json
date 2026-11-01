@@ -313,10 +313,10 @@
   },
   {
     "acl": "authenticated",
-    "effect": "Lock user для квоты; project + snapshot шаблона/пустое дерево; audit в одной транзакции.",
+    "effect": "Maintenance shared guard; lock user/session; quota retained projects; INSERT own empty project. template_id не null пока404 (BE-021). Audit — BE-046.",
     "group": "projects",
     "id": "API-014",
-    "implementation_status": "planned",
+    "implementation_status": "implemented",
     "method": "POST",
     "operation_id": "create_project",
     "path": "/api/v1/projects",
@@ -324,9 +324,9 @@
     "response": "Project",
     "status": 201,
     "tables": [
-      "projects",
-      "project_members",
-      "project_nodes"
+      "users",
+      "auth_sessions",
+      "projects"
     ],
     "task": "BE-019",
     "tests": [

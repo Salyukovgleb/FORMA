@@ -387,3 +387,15 @@ BE-024: DB schema не меняется. Maintenance advisory namespace/key11796
 все users этой storage root используют одну DB authority. Reference probe для final blobs —
 будущие revision/artifact/snapshot repositories (BE-025/035/047), не фиктивная runtime таблица.
 Metadata writes привязываются к dedicated guard connection и explicit lease.commit() (ADR-0009).
+
+BE-019 runtime: projects/project_members typed ORM и Alembic0003. Project defaults active,
+revision1, engine xelatex, main_file_idNULL, DB timestamps; title btrim nonempty, engine/status/
+revision/deleted timestamp CHECKs. Временный mainNULL CHECK до0004 закрывает отсутствие nodes FK.
+Owner FK RESTRICT; members project CASCADE, user/inviter RESTRICT и role editor/viewer only.
+Owner не создаётся membership row. Projects owner index включает created_at/id DESC.
+Квота count всех retained projects текущего owner, включая deleted, под user row lock;
+Session row тоже locked и перепроверяется после user lock. Metadata commit — только guard connection.
+
+CreateProject UoW явно использует READ COMMITTED независимо от server/engine default:
+после ожидания user lock count видит предыдущий commit. Regression проверяет concurrent
+different-session quota при исходных READ COMMITTED и REPEATABLE READ defaults.

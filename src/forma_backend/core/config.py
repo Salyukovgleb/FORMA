@@ -29,6 +29,7 @@ class Settings(BaseModel):
     worker_slots: int = Field(default=1, ge=1, le=16)
     job_lease_seconds: int = Field(default=30, ge=3, le=300)
     job_heartbeat_seconds: int = Field(default=10, ge=1, le=100)
+    max_projects_per_user: int = Field(default=100, ge=1, le=10000)
     project_quota_bytes: int = Field(default=524288000, ge=1)
     owner_quota_bytes: int = Field(default=2147483648, ge=1)
 
