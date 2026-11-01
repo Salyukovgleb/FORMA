@@ -1336,7 +1336,7 @@
     "title": "Поддерживаемое LaTeX subset, DOCX compatibility matrix, набор fixtures",
     "epic": "EPIC-06",
     "priority": "P0",
-    "status": "in_review",
+    "status": "done",
     "depends_on": [
       "BE-007"
     ],
