@@ -55,7 +55,8 @@ Breaking wire changes запрещены без обновления OpenAPI/ADR
 
 `BE-023-POS`: Grant/change/remove и self-leave не допускают owner loss или privilege escalation.
 Endpoint tests: UNIT-API-034, API-034, INT-API-034, SEC-API-034, UNIT-API-035, API-035, INT-API-035, SEC-API-035, UNIT-API-036, API-036, INT-API-036, SEC-API-036, UNIT-API-037, API-037, INT-API-037, SEC-API-037
-Тесты реализации planned; не заменять assertions пустыми тестами.
+Тесты реализации находятся в tests/integration/test_members.py;
+ACL, self-leave, owner protection, rollback и concurrency проверяются реальными PostgreSQL assertions.
 
 ## Negative tests
 
@@ -100,3 +101,11 @@ Sync canonical DTO/registry/docs/status/evidence and security target.
 ## Completion — 2026-11-01
 
 PR [#27](https://github.com/Salyukovgleb/FORMA/pull/27) merged `9b7fe1453e2f02915df848498b16c3161074f993`; head `9b0a350887394d19572ae216ca51f3ccd422c181`: [8 SUCCESS checks](https://github.com/Salyukovgleb/FORMA/actions/runs/41312833808), verified exact SHA before merge.
+
+## Follow-up mini-plan — 2026-11-01
+
+User authorized BE-023 audit corrections. Tests first: seed49 total members, two distinct
+unassigned active users, Barrier before ordered locks; expect201/429, exactly50 total,
+unchanged previous memberships, only winner persisted and unchanged project revision.
+Files: tests/integration/test_members.py and this card; evidence records local verification.
+Correct stale planned text. No runtime/DTO/API/schema/ADR change. Fix follows tests→commit→push→PR→green exact-head CI→merge.

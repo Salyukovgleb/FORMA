@@ -265,3 +265,89 @@ def test_revoked_session_cannot_commit_membership(world, monkeypatch):
             )
             == 2
         )
+
+
+def test_two_distinct_grants_compete_for_last_member_slot(world, monkeypatch):
+    from threading import Barrier
+    from sqlalchemy import text
+    from forma_backend.infrastructure.projects.members import SqlMemberStore
+
+    client, engine, actors, project = world
+    path = "/api/v1/projects/" + project["id"] + "/members"
+    # Existing owner/editor/viewer +46 memberships =49; candidate47 stays unassigned.
+    with engine.begin() as db:
+        db.execute(
+            text(
+                "INSERT INTO users(id,email,password_hash,display_name) "
+                "SELECT gen_random_uuid(),'race'||n||'@example.org','not-a-login-hash','Race fixture' "
+                "FROM generate_series(1,47) n"
+            )
+        )
+        db.execute(
+            text(
+                "INSERT INTO project_members(project_id,user_id,role,invited_by) "
+                "SELECT :p,id,'viewer',:o FROM users "
+                "WHERE email LIKE 'race%@example.org' AND email!='race47@example.org'"
+            ),
+            {"p": project["id"], "o": project["owner_id"]},
+        )
+        candidates = dict(
+            db.execute(
+                text(
+                    "SELECT email,id FROM users WHERE email IN ('stranger@example.org','race47@example.org')"
+                )
+            ).all()
+        )
+    before = client.get(path, headers=actors["owner"]).json()["items"]
+    assert len(before) == 49
+    previous_ids = {m["user_id"] for m in before}
+    assert not previous_ids.intersection(str(uid) for uid in candidates.values())
+
+    arrived = Barrier(2)
+    original = SqlMemberStore.access_context
+
+    def synchronized(self, identifier, actor_id):
+        context = original(self, identifier, actor_id)
+        arrived.wait(timeout=10)
+        return context
+
+    emails = list(candidates)
+    with monkeypatch.context() as patch:
+        patch.setattr(SqlMemberStore, "access_context", synchronized)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            responses = list(
+                pool.map(
+                    lambda email: client.post(
+                        path, headers=actors["owner"], json={"email": email, "role": "viewer"}
+                    ),
+                    emails,
+                )
+            )
+    assert sorted(r.status_code for r in responses) == [201, 429]
+    winner = next(
+        email for email, response in zip(emails, responses) if response.status_code == 201
+    )
+    loser = next(email for email, response in zip(emails, responses) if response.status_code == 429)
+    rejected = next(r for r in responses if r.status_code == 429)
+    assert rejected.json()["error"]["code"] == "MEMBER_LIMIT_EXCEEDED"
+    after_response = client.get(path, headers=actors["owner"])
+    assert after_response.status_code == 200
+    after = after_response.json()["items"]
+    assert len(after) == 50
+    assert {m["user_id"] for m in after} == previous_ids | {str(candidates[winner])}
+    assert sum(m["role"] == "owner" for m in after) == 1
+    with engine.connect() as db:
+        rows = (
+            db.execute(
+                text("SELECT user_id FROM project_members WHERE project_id=:p"),
+                {"p": project["id"]},
+            )
+            .scalars()
+            .all()
+        )
+    assert len(rows) == 49  # Owner is derived, not a project_members row.
+    assert candidates[winner] in rows and candidates[loser] not in rows
+    assert (
+        client.get("/api/v1/projects/" + project["id"], headers=actors["owner"]).json()["revision"]
+        == 1
+    )
